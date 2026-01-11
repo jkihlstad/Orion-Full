@@ -1,0 +1,48 @@
+name = "orion-edge-gateway"
+main = "src/index.ts"
+compatibility_date = "2025-12-01"
+node_compat = false
+
+[vars]
+ENV = "prod"
+
+# Backend fanout targets (set via secrets for prod)
+CONVEX_INGEST_URL = "https://YOUR-CONVEX-DOMAIN.convex.site/internal/ingest"
+BRAIN_QUERY_URL = "https://YOUR-BRAIN-PLATFORM.convex.site/brain/query"
+SOCIAL_SIGNAL_URL = "https://YOUR-SOCIAL-BACKEND.convex.site/internal/social/signal"
+CALENDAR_API_URL = "https://YOUR-CONVEX-DOMAIN.convex.site/internal/calendar"
+
+# Clerk auth
+CLERK_ISSUER = "https://clerk.com"
+CLERK_JWKS_URL = "https://YOUR-CLERK-DOMAIN/.well-known/jwks.json"
+
+# Secrets (set via wrangler secret put):
+# - ADMIN_API_KEY
+# - REQUEST_HMAC_SECRET (optional)
+# - GATEWAY_INTERNAL_KEY (for backend-to-gateway calls)
+
+[[d1_databases]]
+binding = "DB"
+database_name = "orion_gateway"
+database_id = "REPLACE_WITH_D1_ID"
+
+[[r2_buckets]]
+binding = "BLOBS"
+bucket_name = "orion-blobs"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_KV_ID"
+
+[[queues.producers]]
+queue = "ORION_EVENTS_FANOUT"
+binding = "FANOUT_QUEUE"
+
+[[queues.consumers]]
+queue = "ORION_EVENTS_FANOUT"
+max_batch_size = 25
+max_batch_timeout = 10
+
+# Local development overrides
+[env.dev]
+vars = { ENV = "dev" }

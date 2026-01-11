@@ -1,0 +1,26 @@
+{
+  "name": "orion-edge-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Orion Edge Gateway - Single entrypoint for all iOS apps and dashboard",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "tail": "wrangler tail",
+    "d1:migrate": "wrangler d1 migrations apply orion_gateway",
+    "d1:migrate:local": "wrangler d1 migrations apply orion_gateway --local",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0",
+    "wrangler": "^3.22.1"
+  }
+}
