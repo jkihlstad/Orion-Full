@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/sleep.quality_rated.schema.json",
+  "title": "Sleep Quality Rated Event Payload",
+  "description": "Schema for the payload of sleep.quality_rated events",
+  "type": "object",
+  "required": ["sessionId", "qualityRating"],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the sleep session"
+    },
+    "qualityRating": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "User's quality rating (1-5 stars)"
+    },
+    "feelingRating": {
+      "type": "string",
+      "enum": ["terrible", "poor", "okay", "good", "great"],
+      "description": "How the user feels after waking"
+    },
+    "sleepDurationHours": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total sleep duration in hours"
+    },
+    "timeToFallAsleepMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated time to fall asleep in minutes"
+    },
+    "wakeUpCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of times woken during the night"
+    },
+    "dreamRecalled": {
+      "type": "boolean",
+      "description": "Whether the user recalled dreams"
+    },
+    "factors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "stress",
+          "caffeine",
+          "alcohol",
+          "exercise",
+          "screen_time",
+          "room_temp",
+          "noise",
+          "partner",
+          "pet",
+          "illness",
+          "pain",
+          "medication",
+          "travel",
+          "other"
+        ]
+      },
+      "description": "Factors that affected sleep quality"
+    },
+    "positiveFactors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Factors that positively affected sleep"
+    },
+    "negativeFactors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Factors that negatively affected sleep"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional user notes about sleep quality"
+    },
+    "ratingTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the rating was submitted"
+    },
+    "minutesSinceWake": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minutes since waking when rating was submitted"
+    },
+    "deviceMeasuredQuality": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "deepSleepPercent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "remSleepPercent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "lightSleepPercent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "awakePercent": { "type": "number", "minimum": 0, "maximum": 100 }
+      },
+      "description": "Device-measured sleep quality metrics"
+    },
+    "correlationWithDevice": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1,
+      "description": "Correlation between user rating and device score"
+    }
+  },
+  "additionalProperties": true
+}

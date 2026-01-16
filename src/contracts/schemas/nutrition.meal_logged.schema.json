@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/nutrition.meal_logged.schema.json",
+  "title": "Nutrition Meal Logged Event Payload",
+  "description": "Schema for the payload of nutrition.meal_logged events",
+  "type": "object",
+  "required": ["mealLogId", "mealType"],
+  "properties": {
+    "mealLogId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the meal log entry"
+    },
+    "mealType": {
+      "type": "string",
+      "enum": ["breakfast", "lunch", "dinner", "snack", "other"],
+      "description": "Type of meal"
+    },
+    "mealDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the meal"
+    },
+    "mealTime": {
+      "type": "string",
+      "format": "time",
+      "description": "Time of the meal"
+    },
+    "itemCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of food items in the meal"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "calories": { "type": "number", "minimum": 0 },
+          "protein": { "type": "number", "minimum": 0 },
+          "carbs": { "type": "number", "minimum": 0 },
+          "fat": { "type": "number", "minimum": 0 },
+          "servings": { "type": "number", "minimum": 0 },
+          "source": { "type": "string", "enum": ["barcode", "photo", "search", "recent", "manual"] }
+        }
+      },
+      "description": "Individual food items in the meal"
+    },
+    "totalCalories": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total calories for the meal"
+    },
+    "totalProtein": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total protein in grams"
+    },
+    "totalCarbohydrates": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total carbohydrates in grams"
+    },
+    "totalFat": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total fat in grams"
+    },
+    "totalFiber": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total fiber in grams"
+    },
+    "totalSugar": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total sugar in grams"
+    },
+    "totalSodium": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total sodium in milligrams"
+    },
+    "logMethod": {
+      "type": "string",
+      "enum": ["manual", "photo", "barcode", "voice", "quick_add", "recipe"],
+      "description": "Method used to log the meal"
+    },
+    "photoRef": {
+      "type": "string",
+      "description": "Reference to meal photo if captured"
+    },
+    "estimationId": {
+      "type": "string",
+      "description": "Reference to macro estimation if used"
+    },
+    "location": {
+      "type": "string",
+      "enum": ["home", "work", "restaurant", "other"],
+      "description": "Where the meal was consumed"
+    },
+    "restaurantName": {
+      "type": "string",
+      "description": "Restaurant name if applicable"
+    },
+    "waterIntakeMl": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Water intake with meal in milliliters"
+    },
+    "logDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to log the meal in milliseconds"
+    },
+    "dailyTotals": {
+      "type": "object",
+      "properties": {
+        "calories": { "type": "number" },
+        "protein": { "type": "number" },
+        "carbs": { "type": "number" },
+        "fat": { "type": "number" },
+        "mealsLogged": { "type": "integer" }
+      },
+      "description": "Running daily totals after this meal"
+    },
+    "goalProgress": {
+      "type": "object",
+      "properties": {
+        "caloriesPercent": { "type": "number", "minimum": 0 },
+        "proteinPercent": { "type": "number", "minimum": 0 },
+        "carbsPercent": { "type": "number", "minimum": 0 },
+        "fatPercent": { "type": "number", "minimum": 0 }
+      },
+      "description": "Progress toward daily goals"
+    }
+  },
+  "additionalProperties": true
+}

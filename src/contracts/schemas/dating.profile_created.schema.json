@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/dating.profile_created.schema.json",
+  "title": "Dating Profile Created Event Payload",
+  "description": "Schema for the payload of dating.profile_created events",
+  "type": "object",
+  "required": ["profileId"],
+  "properties": {
+    "profileId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the dating profile"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Display name on the profile"
+    },
+    "ageRange": {
+      "type": "string",
+      "enum": ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60+"],
+      "description": "Age range bucket (not exact age)"
+    },
+    "gender": {
+      "type": "string",
+      "description": "Gender identity"
+    },
+    "interestedIn": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Gender preferences for matching"
+    },
+    "relationshipGoal": {
+      "type": "string",
+      "enum": ["casual", "dating", "relationship", "marriage", "friends", "unsure"],
+      "description": "Relationship goal"
+    },
+    "photoCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of photos uploaded"
+    },
+    "hasVerifiedPhoto": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether photo verification is complete"
+    },
+    "bioLength": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of bio in characters"
+    },
+    "promptsAnswered": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of profile prompts answered"
+    },
+    "locationCity": {
+      "type": "string",
+      "description": "City for location preferences"
+    },
+    "locationRegion": {
+      "type": "string",
+      "description": "State/region for location"
+    },
+    "searchRadiusKm": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Search radius in kilometers"
+    },
+    "agePreferenceMin": {
+      "type": "integer",
+      "minimum": 18,
+      "description": "Minimum age preference"
+    },
+    "agePreferenceMax": {
+      "type": "integer",
+      "minimum": 18,
+      "description": "Maximum age preference"
+    },
+    "heightProvided": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether height was provided"
+    },
+    "educationProvided": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether education was provided"
+    },
+    "occupationProvided": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether occupation was provided"
+    },
+    "interestsCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of interests selected"
+    },
+    "dealbreakersSet": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of dealbreakers configured"
+    },
+    "profileCompleteness": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Profile completeness percentage"
+    },
+    "creationDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to create profile in milliseconds"
+    },
+    "creationSource": {
+      "type": "string",
+      "enum": ["onboarding", "import", "api"],
+      "description": "How the profile was created"
+    },
+    "connectedApps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Connected apps (Spotify, Instagram, etc.)"
+    }
+  },
+  "additionalProperties": true
+}

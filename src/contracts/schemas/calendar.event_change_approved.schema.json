@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/calendar.event_change_approved.schema.json",
+  "title": "Calendar Event Change Approved Payload",
+  "description": "Schema for the payload of calendar.event_change_approved events",
+  "type": "object",
+  "required": ["eventId", "changeRequestId", "changeType"],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the calendar event"
+    },
+    "changeRequestId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the change request being approved"
+    },
+    "changeType": {
+      "type": "string",
+      "enum": ["reschedule", "cancel", "update_details", "add_attendees", "remove_attendees", "change_location", "change_duration"],
+      "description": "Type of change that was approved"
+    },
+    "requestedBy": {
+      "type": "string",
+      "enum": ["system", "attendee", "organizer", "ai_assistant"],
+      "description": "Who requested the change"
+    },
+    "originalStartTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Original event start time before the change"
+    },
+    "newStartTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "New event start time after the change"
+    },
+    "originalEndTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Original event end time before the change"
+    },
+    "newEndTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "New event end time after the change"
+    },
+    "originalLocation": {
+      "type": "string",
+      "description": "Original event location"
+    },
+    "newLocation": {
+      "type": "string",
+      "description": "New event location"
+    },
+    "approvalMethod": {
+      "type": "string",
+      "enum": ["manual", "auto_approved", "one_click", "voice"],
+      "description": "How the change was approved"
+    },
+    "responseTimeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time taken to approve the change in milliseconds"
+    },
+    "conflictsResolved": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of calendar conflicts resolved by this change"
+    },
+    "attendeeCountAffected": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attendees affected by the change"
+    },
+    "calendarId": {
+      "type": "string",
+      "description": "Identifier for the calendar containing this event"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["google", "outlook", "apple", "other"],
+      "description": "Calendar provider source"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.subscription_detected.schema.json",
+  "title": "Finance Subscription Detected Event Payload",
+  "description": "Schema for the payload of finance.subscription_detected events",
+  "type": "object",
+  "required": ["subscriptionId", "serviceName"],
+  "properties": {
+    "subscriptionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the detected subscription"
+    },
+    "serviceName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the subscription service"
+    },
+    "serviceCategory": {
+      "type": "string",
+      "enum": ["streaming", "software", "news", "fitness", "food", "storage", "gaming", "productivity", "other"],
+      "description": "Category of the subscription"
+    },
+    "merchantNormalized": {
+      "type": "string",
+      "description": "Normalized merchant name"
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Subscription amount"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "billingFrequency": {
+      "type": "string",
+      "enum": ["weekly", "monthly", "quarterly", "yearly"],
+      "description": "Detected billing frequency"
+    },
+    "monthlyEquivalent": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Monthly equivalent amount"
+    },
+    "detectionConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score for detection"
+    },
+    "firstTransactionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of first detected transaction"
+    },
+    "lastTransactionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of most recent transaction"
+    },
+    "nextExpectedDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Expected date of next charge"
+    },
+    "transactionCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of transactions detected"
+    },
+    "relatedTransactionIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of transactions that formed the pattern"
+    },
+    "accountRef": {
+      "type": "string",
+      "description": "Reference to the financial account"
+    },
+    "priceVariance": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Variance in prices across transactions"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the subscription appears active"
+    },
+    "logoUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to service logo"
+    },
+    "websiteUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to service website"
+    },
+    "cancellationDifficulty": {
+      "type": "string",
+      "enum": ["easy", "medium", "hard"],
+      "description": "Difficulty to cancel the subscription"
+    },
+    "cancellationUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to cancel the subscription"
+    },
+    "isUserConfirmed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user confirmed this subscription"
+    }
+  },
+  "additionalProperties": true
+}

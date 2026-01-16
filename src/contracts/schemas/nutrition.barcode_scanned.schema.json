@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/nutrition.barcode_scanned.schema.json",
+  "title": "Nutrition Barcode Scanned Event Payload",
+  "description": "Schema for the payload of nutrition.barcode_scanned events",
+  "type": "object",
+  "required": ["scanId", "barcode"],
+  "properties": {
+    "scanId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this scan"
+    },
+    "barcode": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Scanned barcode value"
+    },
+    "barcodeFormat": {
+      "type": "string",
+      "enum": ["upc_a", "upc_e", "ean_8", "ean_13", "qr_code", "code_128", "other"],
+      "description": "Format of the barcode"
+    },
+    "productFound": {
+      "type": "boolean",
+      "description": "Whether a product was found in the database"
+    },
+    "productName": {
+      "type": "string",
+      "description": "Name of the product if found"
+    },
+    "brandName": {
+      "type": "string",
+      "description": "Brand name if found"
+    },
+    "servingSize": {
+      "type": "string",
+      "description": "Serving size description"
+    },
+    "servingSizeGrams": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Serving size in grams"
+    },
+    "calories": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Calories per serving"
+    },
+    "protein": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Protein in grams per serving"
+    },
+    "carbohydrates": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Carbohydrates in grams per serving"
+    },
+    "fat": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Fat in grams per serving"
+    },
+    "fiber": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Fiber in grams per serving"
+    },
+    "sugar": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Sugar in grams per serving"
+    },
+    "sodium": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Sodium in milligrams per serving"
+    },
+    "productCategory": {
+      "type": "string",
+      "description": "Product category"
+    },
+    "dataSource": {
+      "type": "string",
+      "enum": ["usda", "open_food_facts", "manufacturer", "user_submitted", "other"],
+      "description": "Source of nutritional data"
+    },
+    "scanDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to complete scan in milliseconds"
+    },
+    "scanAttempts": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of scan attempts"
+    },
+    "addedToLog": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the item was added to meal log"
+    },
+    "mealLogId": {
+      "type": "string",
+      "description": "Meal log ID if added"
+    }
+  },
+  "additionalProperties": true
+}

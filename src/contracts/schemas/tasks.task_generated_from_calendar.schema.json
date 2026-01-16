@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/tasks.task_generated_from_calendar.schema.json",
+  "title": "Task Generated from Calendar Event Payload",
+  "description": "Schema for the payload of tasks.task_generated_from_calendar events",
+  "type": "object",
+  "required": ["taskId", "sourceEventId"],
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the generated task"
+    },
+    "sourceEventId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ID of the calendar event that triggered task generation"
+    },
+    "sourceCalendarId": {
+      "type": "string",
+      "description": "ID of the calendar containing the source event"
+    },
+    "title": {
+      "type": "string",
+      "description": "Generated task title"
+    },
+    "eventTitle": {
+      "type": "string",
+      "description": "Original calendar event title"
+    },
+    "eventStartTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start time of the source calendar event"
+    },
+    "eventEndTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End time of the source calendar event"
+    },
+    "taskDueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Due date assigned to the task"
+    },
+    "taskDueTime": {
+      "type": "string",
+      "format": "time",
+      "description": "Due time assigned to the task"
+    },
+    "generationType": {
+      "type": "string",
+      "enum": ["prep_task", "follow_up", "reminder", "action_item", "meeting_notes", "review"],
+      "description": "Type of task generated"
+    },
+    "generationTrigger": {
+      "type": "string",
+      "enum": ["automatic", "ai_suggestion", "user_template", "rule_based"],
+      "description": "What triggered the task generation"
+    },
+    "leadTimeMins": {
+      "type": "integer",
+      "description": "Minutes before event the task is due (for prep tasks)"
+    },
+    "followUpDelayMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minutes after event the task is due (for follow-ups)"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "urgent"],
+      "description": "Assigned task priority"
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated time to complete"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags applied to the task"
+    },
+    "project": {
+      "type": "string",
+      "description": "Project assigned to the task"
+    },
+    "calendarSource": {
+      "type": "string",
+      "enum": ["google", "outlook", "apple", "other"],
+      "description": "Calendar provider"
+    },
+    "attendeeCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attendees in the source event"
+    },
+    "isRecurringEvent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the source event is recurring"
+    },
+    "userAccepted": {
+      "type": "boolean",
+      "description": "Whether user accepted the generated task"
+    },
+    "userModified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user modified the generated task"
+    },
+    "modifiedFields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fields modified by user"
+    },
+    "generationModel": {
+      "type": "string",
+      "description": "AI model used for generation if applicable"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score of the generation"
+    }
+  },
+  "additionalProperties": true
+}

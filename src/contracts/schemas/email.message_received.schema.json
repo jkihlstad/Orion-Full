@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/email.message_received.schema.json",
+  "title": "Email Message Received Event Payload",
+  "description": "Schema for the payload of email.message_received events",
+  "type": "object",
+  "required": ["messageId"],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the email message"
+    },
+    "threadId": {
+      "type": "string",
+      "description": "Identifier for the email thread/conversation"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Email subject line (may be redacted based on consent)"
+    },
+    "subjectHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the subject for privacy-preserving tracking"
+    },
+    "fromDomain": {
+      "type": "string",
+      "description": "Domain of the sender's email address"
+    },
+    "fromRef": {
+      "type": "string",
+      "description": "Reference to the sender (hashed/anonymized)"
+    },
+    "recipientCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of recipients"
+    },
+    "hasAttachments": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email has attachments"
+    },
+    "attachmentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attachments"
+    },
+    "totalAttachmentSizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Combined size of all attachments in bytes"
+    },
+    "attachmentTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "MIME types of attachments"
+    },
+    "bodyLength": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of the email body in characters"
+    },
+    "bodyWordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Word count of the email body"
+    },
+    "isReply": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a reply"
+    },
+    "isForward": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a forwarded email"
+    },
+    "inReplyToId": {
+      "type": "string",
+      "description": "Message ID of the email being replied to"
+    },
+    "threadDepth": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Position in the email thread"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "normal", "high"],
+      "default": "normal",
+      "description": "Email priority level"
+    },
+    "isEncrypted": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email is encrypted"
+    },
+    "isSigned": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email is digitally signed"
+    },
+    "isNewsletter": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email appears to be a newsletter"
+    },
+    "isAutomated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email appears to be automated"
+    },
+    "isSpam": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email was flagged as spam"
+    },
+    "spamScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Spam likelihood score"
+    },
+    "receivedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the email was received"
+    },
+    "accountId": {
+      "type": "string",
+      "description": "Identifier for the email account"
+    },
+    "provider": {
+      "type": "string",
+      "enum": ["gmail", "outlook", "apple", "yahoo", "other"],
+      "description": "Email provider"
+    },
+    "folder": {
+      "type": "string",
+      "description": "Folder/label the email was received in"
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Email labels applied"
+    }
+  },
+  "additionalProperties": true
+}

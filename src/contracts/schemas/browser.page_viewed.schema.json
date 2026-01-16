@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/browser.page_viewed.schema.json",
+  "title": "Browser Page Viewed Event Payload",
+  "description": "Schema for the payload of browser.page_viewed events",
+  "type": "object",
+  "required": ["host"],
+  "properties": {
+    "host": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The hostname of the visited page (e.g., www.example.com)"
+    },
+    "pathHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the URL path for privacy-preserving tracking"
+    },
+    "titleHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the page title for privacy-preserving tracking"
+    },
+    "title": {
+      "type": "string",
+      "description": "Page title (only included if user has opted into detailed tracking)"
+    },
+    "referrerHost": {
+      "type": "string",
+      "description": "Hostname of the referring page"
+    },
+    "referrerPathHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the referrer path"
+    },
+    "viewDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time spent viewing the page in milliseconds"
+    },
+    "tabId": {
+      "type": "string",
+      "description": "Identifier for the browser tab"
+    },
+    "windowId": {
+      "type": "string",
+      "description": "Identifier for the browser window"
+    },
+    "isNewTab": {
+      "type": "boolean",
+      "description": "Whether this page was opened in a new tab"
+    },
+    "transitionType": {
+      "type": "string",
+      "enum": ["link", "typed", "auto_bookmark", "auto_subframe", "manual_subframe", "generated", "start_page", "form_submit", "reload", "keyword", "keyword_generated"],
+      "description": "How the user navigated to this page"
+    },
+    "transitionQualifiers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["client_redirect", "server_redirect", "forward_back", "from_address_bar"]
+      },
+      "description": "Additional qualifiers for the navigation transition"
+    },
+    "contentType": {
+      "type": "string",
+      "description": "MIME type of the page content"
+    },
+    "loadTimeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Page load time in milliseconds"
+    },
+    "documentReadyMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time until DOMContentLoaded in milliseconds"
+    },
+    "isSecure": {
+      "type": "boolean",
+      "description": "Whether the page was loaded over HTTPS"
+    },
+    "incognito": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the page was viewed in incognito/private mode"
+    }
+  },
+  "additionalProperties": true
+}

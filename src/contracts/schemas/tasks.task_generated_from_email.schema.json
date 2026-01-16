@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/tasks.task_generated_from_email.schema.json",
+  "title": "Task Generated from Email Event Payload",
+  "description": "Schema for the payload of tasks.task_generated_from_email events",
+  "type": "object",
+  "required": ["taskId", "sourceMessageId"],
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the generated task"
+    },
+    "sourceMessageId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ID of the email message that triggered task generation"
+    },
+    "sourceThreadId": {
+      "type": "string",
+      "description": "Thread ID of the source email"
+    },
+    "title": {
+      "type": "string",
+      "description": "Generated task title"
+    },
+    "emailSubjectHash": {
+      "type": "string",
+      "description": "Hash of the email subject"
+    },
+    "senderDomain": {
+      "type": "string",
+      "description": "Domain of the email sender"
+    },
+    "emailReceivedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the source email was received"
+    },
+    "taskDueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Due date assigned to the task"
+    },
+    "taskDueTime": {
+      "type": "string",
+      "format": "time",
+      "description": "Due time assigned to the task"
+    },
+    "generationType": {
+      "type": "string",
+      "enum": ["action_item", "follow_up", "reply_needed", "review", "meeting_request", "deadline", "other"],
+      "description": "Type of task generated"
+    },
+    "generationTrigger": {
+      "type": "string",
+      "enum": ["automatic", "ai_suggestion", "keyword_match", "sender_rule", "user_action"],
+      "description": "What triggered the task generation"
+    },
+    "detectedDeadline": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Deadline detected in the email if any"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "urgent"],
+      "description": "Assigned task priority"
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated time to complete"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags applied to the task"
+    },
+    "project": {
+      "type": "string",
+      "description": "Project assigned to the task"
+    },
+    "emailProvider": {
+      "type": "string",
+      "enum": ["gmail", "outlook", "apple", "yahoo", "other"],
+      "description": "Email provider"
+    },
+    "emailPriority": {
+      "type": "string",
+      "enum": ["low", "normal", "high"],
+      "description": "Priority level of the source email"
+    },
+    "threadDepth": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Position in the email thread"
+    },
+    "hasAttachments": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the source email has attachments"
+    },
+    "attachmentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attachments in source email"
+    },
+    "extractedActionItems": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of action items extracted"
+    },
+    "actionItemIndex": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Which action item this task represents"
+    },
+    "userAccepted": {
+      "type": "boolean",
+      "description": "Whether user accepted the generated task"
+    },
+    "userModified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user modified the generated task"
+    },
+    "modifiedFields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fields modified by user"
+    },
+    "generationModel": {
+      "type": "string",
+      "description": "AI model used for generation"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score of the generation"
+    }
+  },
+  "additionalProperties": true
+}

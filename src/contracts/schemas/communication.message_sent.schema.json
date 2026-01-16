@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/communication.message_sent.schema.json",
+  "title": "Communication Message Sent Event Payload",
+  "description": "Schema for the payload of communication.message_sent events",
+  "type": "object",
+  "required": ["messageId", "threadId"],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the message"
+    },
+    "threadId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Thread/conversation ID"
+    },
+    "recipientRef": {
+      "type": "string",
+      "description": "Reference to the recipient (hashed/anonymized)"
+    },
+    "recipientLast4": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Last 4 digits of recipient's phone number"
+    },
+    "textHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the message text"
+    },
+    "textLength": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of the message text in characters"
+    },
+    "wordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of words in the message"
+    },
+    "segmentCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of SMS segments for the message"
+    },
+    "hasMedia": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the message contains media attachments"
+    },
+    "mediaCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of media attachments"
+    },
+    "mediaTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "MIME types of attachments"
+    },
+    "totalMediaSizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total size of media attachments"
+    },
+    "hasLinks": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the message contains links"
+    },
+    "linkCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of links in the message"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["sms", "mms", "imessage", "rcs", "whatsapp", "telegram", "other"],
+      "description": "Communication channel"
+    },
+    "isGroupMessage": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a group message"
+    },
+    "groupSize": {
+      "type": "integer",
+      "minimum": 2,
+      "description": "Number of participants if group message"
+    },
+    "isReply": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a reply to another message"
+    },
+    "replyToMessageId": {
+      "type": "string",
+      "description": "ID of the message being replied to"
+    },
+    "composeDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time spent composing the message"
+    },
+    "scheduledSendTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled send time if message was scheduled"
+    },
+    "numberRef": {
+      "type": "string",
+      "description": "Reference to the Orion number used to send"
+    },
+    "provider": {
+      "type": "string",
+      "description": "Messaging provider used"
+    },
+    "costUnits": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Cost units for the message"
+    }
+  },
+  "additionalProperties": true
+}

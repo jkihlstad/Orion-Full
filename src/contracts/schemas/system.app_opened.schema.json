@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/system.app_opened.schema.json",
+  "title": "System App Opened Event Payload",
+  "description": "Schema for the payload of system.app_opened events",
+  "type": "object",
+  "required": ["sessionId"],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this app session"
+    },
+    "appVersion": {
+      "type": "string",
+      "description": "Version of the application"
+    },
+    "buildNumber": {
+      "type": "string",
+      "description": "Build number of the application"
+    },
+    "openSource": {
+      "type": "string",
+      "enum": ["direct", "notification", "deep_link", "shortcut", "widget", "spotlight", "siri", "background_refresh", "handoff", "other"],
+      "description": "How the app was opened"
+    },
+    "notificationType": {
+      "type": "string",
+      "description": "Type of notification if opened via notification"
+    },
+    "deepLinkPath": {
+      "type": "string",
+      "description": "Deep link path if applicable"
+    },
+    "launchDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to launch in milliseconds"
+    },
+    "coldStart": {
+      "type": "boolean",
+      "description": "Whether this was a cold start"
+    },
+    "previousSessionId": {
+      "type": "string",
+      "description": "Previous session ID if resuming"
+    },
+    "timeSinceLastOpenMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time since last app open in milliseconds"
+    },
+    "deviceType": {
+      "type": "string",
+      "enum": ["phone", "tablet", "watch", "desktop", "tv", "other"],
+      "description": "Type of device"
+    },
+    "deviceModel": {
+      "type": "string",
+      "description": "Device model identifier"
+    },
+    "osVersion": {
+      "type": "string",
+      "description": "Operating system version"
+    },
+    "locale": {
+      "type": "string",
+      "description": "Device locale (e.g., en-US)"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone identifier"
+    },
+    "networkType": {
+      "type": "string",
+      "enum": ["wifi", "cellular_5g", "cellular_4g", "cellular_3g", "ethernet", "offline", "unknown"],
+      "description": "Network type at launch"
+    },
+    "batteryLevel": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Battery level percentage"
+    },
+    "batteryState": {
+      "type": "string",
+      "enum": ["charging", "full", "unplugged", "unknown"],
+      "description": "Battery charging state"
+    },
+    "lowPowerMode": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether low power mode is enabled"
+    },
+    "storageAvailableMb": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Available storage in megabytes"
+    },
+    "memoryAvailableMb": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Available memory in megabytes"
+    },
+    "isFirstLaunch": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is the first launch after install"
+    },
+    "isFirstLaunchAfterUpdate": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is the first launch after an update"
+    },
+    "previousVersion": {
+      "type": "string",
+      "description": "Previous version if updated"
+    }
+  },
+  "additionalProperties": true
+}

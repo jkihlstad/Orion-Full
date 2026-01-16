@@ -20,18 +20,51 @@ import { verifyRequestSignature } from "./security/signature";
 import { rateLimitKV } from "./security/rateLimit";
 import { checkIdempotencyKV, storeIdempotencyKV } from "./security/idempotency";
 import { redactPayload } from "./utils/redact";
-import { d1InsertEvent, d1UpsertIdempotency, d1CountUserEvents7d, d1GetConsent } from "./storage/d1";
-import { getRedactKeys, getConsentScope } from "./registry/loader";
+import { d1InsertEvent, d1InsertEventWithTrace, d1UpsertIdempotency, d1CountUserEvents7d, d1GetConsent } from "./storage/d1";
 import { EventEnvelope, BatchIngestRequest, BrainQueryRequest } from "./types";
+import { createLogger } from "./utils/logger";
+
+const logger = createLogger({ module: "index" });
+
+// Validation (suite-contracts integration)
+import {
+  validateEventSync,
+  formatValidationErrors,
+  ValidationErrorCodes,
+} from "./validation/validateEvent";
+
+// Registry-driven enforcement (Window 26)
+// The registry is the SINGLE SOURCE OF TRUTH for all policy decisions
+import {
+  getPolicy,
+  getRedactKeys,
+} from "./validation/registry";
+
+// Consent enforcement (Window 25 + 26)
+// Note: getRequiredScopes is now also available from registry.ts
+// but we keep using consent/scopes.ts for backwards compatibility
+import { getRequiredScopes } from "./consent/scopes";
 
 // Endpoints
 import { handleEventsList } from "./admin/eventsList";
 import { handleDeliveryStatus, handleDeliveryRecent, handleDeliveryRequeue } from "./admin/delivery";
-import { handleConsentGet, handleConsentSet } from "./endpoints/consent";
+import {
+  handleEventsListByTrace,
+  handleDeliveryStatusByTrace,
+  handleDeliveryReplayByTrace,
+} from "./admin/provability";
+import { handleConsentGet, handleConsentSet, handleConsentUpdate, handleConsentScopes } from "./endpoints/consent";
 import { handleEventsMine } from "./endpoints/eventsMine";
-import { handleSignedUpload, handleBlobUpload } from "./blobs/signedUpload";
+import { handleEventsRecent } from "./endpoints/eventsRecent";
+import { handleDashboardSearch } from "./endpoints/dashboardSearch";
+import { handleWhoami } from "./endpoints/whoami";
+import { handleProfileGet, handleProfileUpdate } from "./endpoints/profile";
+import { handleProfileSnapshotGet, handleAvatarSnapshotGet } from "./endpoints/profileSnapshot";
+import { handleSignedUpload, handleBlobUpload, handleBlobGet, handleBlobDelete } from "./blobs/signedUpload";
 import { queryBrain } from "./fanout/brain";
 import { handleFanoutBatch } from "./queues/consumer";
+import { handleInternalEventsList } from "./endpoints/internalEventsList";
+import { handleBrainAnswer } from "./endpoints/brainAnswer";
 
 // Proxies
 import {
@@ -49,6 +82,11 @@ import {
   handleCalendarSettingsGet,
   handleCalendarLocksGet,
 } from "./proxy/calendar";
+import {
+  handleOpsConvexHasEvent,
+  handleOpsBrainStatus,
+  handleOpsNeo4jHasNode,
+} from "./routes/ops";
 import { handleA2PStatus } from "./twilio/a2p";
 import { handleNumbersList, handleNumberSetDefault } from "./twilio/numbers";
 import { handleTwilioToken } from "./twilio/token";
@@ -101,11 +139,21 @@ export default {
     // Admin endpoints (X-Admin-Key auth)
     // ========================================================================
     if (pathname === "/v1/events/list" && method === "GET") {
+      // Check if traceId param is present - use provability endpoint
+      const url = new URL(req.url);
+      if (url.searchParams.has("traceId")) {
+        return handleEventsListByTrace(req, env);
+      }
       return handleEventsList(req, env);
     }
 
     // --- Admin Delivery Status ---
     if (pathname === "/v1/admin/delivery/status" && method === "GET") {
+      // Check if traceId param is present - use provability endpoint
+      const url = new URL(req.url);
+      if (url.searchParams.has("traceId")) {
+        return handleDeliveryStatusByTrace(req, env);
+      }
       return handleDeliveryStatus(req, env);
     }
 
@@ -117,22 +165,93 @@ export default {
       return handleDeliveryRequeue(req, env);
     }
 
+    // --- Provability Replay (traceId-based) ---
+    if (pathname === "/v1/admin/delivery/replay" && method === "GET") {
+      return handleDeliveryReplayByTrace(req, env);
+    }
+
+    // --- Ops Proxy Routes (Window 111) ---
+    if (pathname === "/v1/ops/convex/hasEvent" && method === "GET") {
+      return handleOpsConvexHasEvent(req, env);
+    }
+
+    if (pathname === "/v1/ops/brain/status" && method === "GET") {
+      return handleOpsBrainStatus(req, env);
+    }
+
+    if (pathname === "/v1/ops/neo4j/hasNode" && method === "GET") {
+      return handleOpsNeo4jHasNode(req, env);
+    }
+
+    // --- Internal Events List (service-only, for brain-platform - Window G) ---
+    if (pathname === "/v1/internal/events/list" && method === "GET") {
+      return handleInternalEventsList(req, env);
+    }
+
     // ========================================================================
     // Public endpoints (Clerk JWT auth)
     // ========================================================================
     try {
       // --- Events ---
       if (pathname === "/v1/events/ingest" && method === "POST") {
-        return handleEventsIngest(req, env);
+        return await handleEventsIngest(req, env);
       }
 
       if (pathname === "/v1/events/ingestBatch" && method === "POST") {
-        return handleEventsIngestBatch(req, env);
+        return await handleEventsIngestBatch(req, env);
+      }
+
+      // Window H.9: Emit/insertBatch route aliases for compatibility
+      if (pathname === "/v1/events/emit" && method === "POST") {
+        return await handleEventsIngest(req, env);
+      }
+
+      if (pathname === "/v1/events/insertBatch" && method === "POST") {
+        return await handleEventsIngestBatch(req, env);
       }
 
       if (pathname === "/v1/events/mine" && method === "GET") {
         const userId = await verifyClerkJWT(req, env);
         return handleEventsMine(req, env, userId);
+      }
+
+      if (pathname === "/v1/events/recent" && method === "GET") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleEventsRecent(req, env, userId);
+      }
+
+      // --- Profile Snapshots (Window B) ---
+      if (pathname === "/v1/me/profile-snapshot" && method === "GET") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleProfileSnapshotGet(req, env, userId);
+      }
+
+      if (pathname === "/v1/me/profile-snapshot/avatar" && method === "GET") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleAvatarSnapshotGet(req, env, userId);
+      }
+
+      // --- Dashboard Search ---
+      if (pathname === "/v1/dashboard/search" && method === "GET") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleDashboardSearch(req, env, userId);
+      }
+
+      // --- Auth / Identity ---
+      if (pathname === "/v1/auth/whoami" && method === "GET") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleWhoami(req, env, userId);
+      }
+
+      // --- Profile ---
+      if (pathname === "/v1/profile/get" && method === "GET") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleProfileGet(req, env, userId);
+      }
+
+      if (pathname === "/v1/profile/update" && method === "POST") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleProfileUpdate(req, env, userId);
       }
 
       // --- Consent ---
@@ -146,9 +265,26 @@ export default {
         return handleConsentSet(req, env, userId);
       }
 
+      // --- Consent Update (Window 25 - bulk update) ---
+      if (pathname === "/v1/consent/update" && method === "POST") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleConsentUpdate(req, env, userId);
+      }
+
+      // --- Consent Scopes (Window 25 - list available scopes) ---
+      if (pathname === "/v1/consent/scopes" && method === "GET") {
+        return await handleConsentScopes(req, env);
+      }
+
       // --- Brain Query ---
       if (pathname === "/v1/brain/query" && method === "POST") {
-        return handleBrainQuery(req, env);
+        return await handleBrainQuery(req, env);
+      }
+
+      // --- Brain Answer (Window G) ---
+      if (pathname === "/v1/brain/answer" && method === "POST") {
+        const userId = await verifyClerkJWT(req, env);
+        return handleBrainAnswer(req, env, userId);
       }
 
       // --- Twilio Token ---
@@ -167,6 +303,20 @@ export default {
         const userId = await verifyClerkJWT(req, env);
         const r2Key = pathname.replace("/v1/blobs/upload/", "");
         return handleBlobUpload(req, env, userId, r2Key);
+      }
+
+      // Blob retrieval (GET)
+      if (pathname.startsWith("/v1/blobs/") && method === "GET") {
+        const userId = await verifyClerkJWT(req, env);
+        const r2Key = pathname.replace("/v1/blobs/", "");
+        return handleBlobGet(req, env, userId, r2Key);
+      }
+
+      // Blob deletion (DELETE)
+      if (pathname.startsWith("/v1/blobs/") && method === "DELETE") {
+        const userId = await verifyClerkJWT(req, env);
+        const r2Key = pathname.replace("/v1/blobs/", "");
+        return handleBlobDelete(req, env, userId, r2Key);
       }
 
       // --- Social Proxy ---
@@ -249,8 +399,9 @@ export default {
     }
   },
 
-  async queue(batch: MessageBatch<any>, env: Env): Promise<void> {
-    await handleFanoutBatch(batch, env);
+  async queue(batch: MessageBatch<unknown>, env: Env): Promise<void> {
+    // Cast to the expected type - messages are QueueEventEnvelope
+    await handleFanoutBatch(batch as MessageBatch<import("./types/queue").QueueEventEnvelope>, env);
   },
 } satisfies ExportedHandler<Env>;
 
@@ -291,18 +442,91 @@ async function handleEventsIngest(req: Request, env: Env): Promise<Response> {
 
   const envelope = result.data;
 
+  // ========================================================================
+  // WINDOW 26: REGISTRY-DRIVEN ENFORCEMENT
+  // The registry is the SINGLE SOURCE OF TRUTH for all policy decisions
+  // ========================================================================
+
+  // Step 1: Get policy from registry
+  const policy = getPolicy(envelope.eventType);
+
+  // Check for unknown eventType (not in registry)
+  if (!policy) {
+    return json({
+      ok: false,
+      error: "unknown_event_type",
+      code: "UNKNOWN_EVENT_TYPE",
+      message: `Event type "${envelope.eventType}" is not registered`,
+    }, 400);
+  }
+
+  // Check for disabled eventType
+  if (!policy.enabled) {
+    return json({
+      ok: false,
+      error: "event_type_disabled",
+      code: "EVENT_TYPE_DISABLED",
+      message: `Event type "${envelope.eventType}" is currently disabled`,
+    }, 400);
+  }
+
+  // Additional validation (schema, etc.)
+  const validationResult = validateEventSync(envelope);
+  if (!validationResult.valid) {
+    const formatted = formatValidationErrors(validationResult);
+    const statusCode =
+      formatted.code === ValidationErrorCodes.UNKNOWN_EVENT_TYPE ? 400 :
+      formatted.code === ValidationErrorCodes.EVENT_TYPE_DISABLED ? 403 : 400;
+    return json({
+      ok: false,
+      error: formatted.error,
+      code: formatted.code,
+      details: formatted.details,
+    }, statusCode);
+  }
+
   // Enforce identity (don't allow spoofing userId)
   if (envelope.userId !== clerkUserId) {
     return json({ ok: false, error: "user_mismatch" }, 403);
   }
 
-  // Check consent for eventType
-  const consentScope = getConsentScope(envelope.eventType);
-  if (consentScope) {
-    const hasConsent = await d1GetConsent(env, clerkUserId, consentScope);
-    if (!hasConsent) {
-      return json({ ok: false, error: "consent_required", scope: consentScope }, 403);
+  // ========================================================================
+  // CONSENT ENFORCEMENT (Window 26 - Registry-Driven)
+  // Uses policy.requiredScopes from registry, falls back to consentScope
+  // ========================================================================
+
+  // Get required scopes from registry (primary) or fall back to legacy
+  const requiredScopes = policy.requiredScopes && policy.requiredScopes.length > 0
+    ? policy.requiredScopes
+    : policy.consentScope ? [policy.consentScope] : [];
+
+  // Check each required scope
+  if (requiredScopes.length > 0) {
+    for (const scope of requiredScopes) {
+      const hasConsent = await d1GetConsent(env, clerkUserId, scope);
+      if (!hasConsent) {
+        return json({
+          ok: false,
+          error: "consent_required",
+          scope,
+          message: `Missing consent for scope: ${scope}`,
+        }, 403);
+      }
     }
+  }
+
+  // ========================================================================
+  // BLOB REQUIREMENT CHECK (Window 26)
+  // If requiresBlob is true, envelope must have non-empty blobRefs
+  // ========================================================================
+
+  if (policy.requiresBlob && (!envelope.blobRefs || envelope.blobRefs.length === 0)) {
+    return json({
+      ok: false,
+      error: "missing_blob_refs",
+      code: "MISSING_BLOB_REFS",
+      message: `Event type "${envelope.eventType}" requires blob attachments`,
+    }, 400);
   }
 
   // KV idempotency fast path
@@ -318,17 +542,26 @@ async function handleEventsIngest(req: Request, env: Env): Promise<Response> {
     return json({ ok: true, deduped: true, eventId: existingEventId }, 200);
   }
 
-  // Redact payload before storage
+  // Redact payload before storage (using registry)
   const redactKeys = getRedactKeys(envelope.eventType);
   const redacted = redactPayload(envelope.payload, redactKeys);
   const payloadJson = JSON.stringify(redacted);
   const blobRefsJson = envelope.blobRefs ? JSON.stringify(envelope.blobRefs) : null;
 
-  await d1InsertEvent(env, { event: envelope, payloadJson, blobRefsJson });
+  // Extract traceId from headers for golden flow tests
+  const traceId = req.headers.get("X-Trace-Id") ?? undefined;
+
+  // Store event with optional traceId
+  if (traceId) {
+    await d1InsertEventWithTrace(env, { event: envelope, payloadJson, blobRefsJson, traceId });
+  } else {
+    await d1InsertEvent(env, { event: envelope, payloadJson, blobRefsJson });
+  }
   await storeIdempotencyKV(env, envelope.userId, envelope.idempotencyKey, envelope.eventId);
 
-  // Enqueue for fanout
-  await env.FANOUT_QUEUE.send(envelope);
+  // Enqueue for fanout (include traceId in envelope for downstream tracking)
+  const fanoutEnvelope = traceId ? { ...envelope, traceId } : envelope;
+  await env.FANOUT_QUEUE.send(fanoutEnvelope);
 
   return json({ ok: true, eventId: envelope.eventId }, 200);
 }
@@ -356,13 +589,90 @@ async function handleEventsIngestBatch(req: Request, env: Env): Promise<Response
   }
 
   const { events } = result.data;
-  const results: Array<{ eventId: string; ok: boolean; error?: string; deduped?: boolean }> = [];
+  const results: Array<{ eventId: string; ok: boolean; error?: string; code?: string; deduped?: boolean }> = [];
+
+  // Extract traceId from headers for golden flow tests
+  const traceId = req.headers.get("X-Trace-Id") ?? undefined;
 
   for (const envelope of events) {
     try {
+      // ========================================================================
+      // WINDOW 26: REGISTRY-DRIVEN ENFORCEMENT (per event in batch)
+      // ========================================================================
+
+      // Step 1: Get policy from registry
+      const policy = getPolicy(envelope.eventType);
+
+      // Check for unknown eventType
+      if (!policy) {
+        results.push({
+          eventId: envelope.eventId,
+          ok: false,
+          error: "unknown_event_type",
+          code: "UNKNOWN_EVENT_TYPE",
+        });
+        continue;
+      }
+
+      // Check for disabled eventType
+      if (!policy.enabled) {
+        results.push({
+          eventId: envelope.eventId,
+          ok: false,
+          error: "event_type_disabled",
+          code: "EVENT_TYPE_DISABLED",
+        });
+        continue;
+      }
+
+      // Additional validation (schema, etc.)
+      const validationResult = validateEventSync(envelope);
+      if (!validationResult.valid) {
+        const formatted = formatValidationErrors(validationResult);
+        results.push({
+          eventId: envelope.eventId,
+          ok: false,
+          error: formatted.error,
+          code: formatted.code,
+        });
+        continue;
+      }
+
       // Enforce identity
       if (envelope.userId !== clerkUserId) {
         results.push({ eventId: envelope.eventId, ok: false, error: "user_mismatch" });
+        continue;
+      }
+
+      // Consent enforcement (Window 26)
+      const requiredScopes = policy.requiredScopes && policy.requiredScopes.length > 0
+        ? policy.requiredScopes
+        : policy.consentScope ? [policy.consentScope] : [];
+
+      let consentMissing = false;
+      for (const scope of requiredScopes) {
+        const hasConsent = await d1GetConsent(env, clerkUserId, scope);
+        if (!hasConsent) {
+          results.push({
+            eventId: envelope.eventId,
+            ok: false,
+            error: "consent_required",
+            code: scope,
+          });
+          consentMissing = true;
+          break;
+        }
+      }
+      if (consentMissing) continue;
+
+      // Blob requirement check (Window 26)
+      if (policy.requiresBlob && (!envelope.blobRefs || envelope.blobRefs.length === 0)) {
+        results.push({
+          eventId: envelope.eventId,
+          ok: false,
+          error: "missing_blob_refs",
+          code: "MISSING_BLOB_REFS",
+        });
         continue;
       }
 
@@ -380,19 +690,28 @@ async function handleEventsIngestBatch(req: Request, env: Env): Promise<Response
         continue;
       }
 
-      // Redact and store
+      // Redact and store (using registry)
       const redactKeys = getRedactKeys(envelope.eventType);
       const redacted = redactPayload(envelope.payload, redactKeys);
       const payloadJson = JSON.stringify(redacted);
       const blobRefsJson = envelope.blobRefs ? JSON.stringify(envelope.blobRefs) : null;
 
-      await d1InsertEvent(env, { event: envelope, payloadJson, blobRefsJson });
+      // Store event with optional traceId
+      if (traceId) {
+        await d1InsertEventWithTrace(env, { event: envelope, payloadJson, blobRefsJson, traceId });
+      } else {
+        await d1InsertEvent(env, { event: envelope, payloadJson, blobRefsJson });
+      }
       await storeIdempotencyKV(env, envelope.userId, envelope.idempotencyKey, envelope.eventId);
-      await env.FANOUT_QUEUE.send(envelope);
+
+      // Enqueue for fanout (include traceId in envelope for downstream tracking)
+      const fanoutEnvelope = traceId ? { ...envelope, traceId } : envelope;
+      await env.FANOUT_QUEUE.send(fanoutEnvelope);
 
       results.push({ eventId: envelope.eventId, ok: true });
-    } catch (e: any) {
-      results.push({ eventId: envelope.eventId, ok: false, error: String(e?.message ?? e) });
+    } catch (e: unknown) {
+      const errorMsg = e instanceof Error ? e.message : String(e);
+      results.push({ eventId: envelope.eventId, ok: false, error: errorMsg });
     }
   }
 
@@ -431,6 +750,21 @@ async function handleBrainQuery(req: Request, env: Env): Promise<Response> {
     fallbackToWeb: personalizationLevel === "low",
   };
 
-  const brainResult = await queryBrain(env, brainReq);
-  return json({ ok: true, personalizationLevel, result: brainResult }, 200);
+  try {
+    const brainResult = await queryBrain(env, brainReq);
+    return json({ ok: true, personalizationLevel, result: brainResult }, 200);
+  } catch (e: unknown) {
+    // Graceful degradation when Brain service is unavailable
+    logger.error("Brain query failed", e instanceof Error ? e : null, { userId: clerkUserId });
+    return json({
+      ok: true,
+      personalizationLevel,
+      result: {
+        answer: "Brain service is currently unavailable. Please try again later.",
+        sources: [],
+        fallback: true,
+      },
+      warning: "brain_service_unavailable",
+    }, 200);
+  }
 }

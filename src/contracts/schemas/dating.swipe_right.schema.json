@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/dating.swipe_right.schema.json",
+  "title": "Dating Swipe Right Event Payload",
+  "description": "Schema for the payload of dating.swipe_right events (likes)",
+  "type": "object",
+  "required": ["swipeId", "targetProfileRef"],
+  "properties": {
+    "swipeId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this swipe action"
+    },
+    "targetProfileRef": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the profile that was liked (hashed)"
+    },
+    "swipeType": {
+      "type": "string",
+      "enum": ["like", "super_like", "rose", "boost_like"],
+      "default": "like",
+      "description": "Type of like action"
+    },
+    "viewDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time spent viewing profile before liking"
+    },
+    "photosViewed": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of photos viewed"
+    },
+    "bioRead": {
+      "type": "boolean",
+      "description": "Whether bio was expanded/read"
+    },
+    "promptsViewed": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of prompts viewed"
+    },
+    "sourceContext": {
+      "type": "string",
+      "enum": ["deck", "likes_you", "search", "mutual_friend", "spotlight", "recommendation"],
+      "description": "Where the profile was discovered"
+    },
+    "deckPosition": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Position in the card deck"
+    },
+    "sessionSwipeCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of swipes in current session"
+    },
+    "sessionLikeCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of likes in current session"
+    },
+    "sessionPassCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of passes in current session"
+    },
+    "likeRatioSession": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Like ratio for current session"
+    },
+    "dailyLikeCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total likes today"
+    },
+    "remainingLikes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Remaining likes (if limited)"
+    },
+    "commentAdded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a comment was added with the like"
+    },
+    "commentLength": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of comment if added"
+    },
+    "matchProbability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Predicted match probability"
+    },
+    "compatibilityScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Compatibility score shown"
+    },
+    "sharedInterestsCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of shared interests"
+    },
+    "distanceKm": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Distance to the profile"
+    },
+    "ageDifference": {
+      "type": "integer",
+      "description": "Age difference in years"
+    },
+    "wasRecommended": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether AI recommended this profile"
+    }
+  },
+  "additionalProperties": true
+}

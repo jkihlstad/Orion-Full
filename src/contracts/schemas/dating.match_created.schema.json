@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/dating.match_created.schema.json",
+  "title": "Dating Match Created Event Payload",
+  "description": "Schema for the payload of dating.match_created events",
+  "type": "object",
+  "required": ["matchId", "matchedProfileRef"],
+  "properties": {
+    "matchId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the match"
+    },
+    "matchedProfileRef": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the matched profile (hashed)"
+    },
+    "matchType": {
+      "type": "string",
+      "enum": ["mutual_like", "super_like", "rose", "instant"],
+      "description": "Type of match"
+    },
+    "userLikedFirst": {
+      "type": "boolean",
+      "description": "Whether the user liked first"
+    },
+    "timeBetweenLikesMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time between the two likes"
+    },
+    "userSwipeId": {
+      "type": "string",
+      "description": "ID of user's original swipe"
+    },
+    "compatibilityScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Compatibility score between profiles"
+    },
+    "sharedInterestsCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of shared interests"
+    },
+    "sharedInterests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of shared interests"
+    },
+    "distanceKm": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Distance between profiles"
+    },
+    "ageDifference": {
+      "type": "integer",
+      "description": "Age difference in years"
+    },
+    "totalMatches": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total matches for user"
+    },
+    "activeMatches": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Currently active matches"
+    },
+    "matchesThisWeek": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Matches created this week"
+    },
+    "matchRateThisWeek": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Match rate (matches/likes) this week"
+    },
+    "icebreakersAvailable": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Suggested conversation starters"
+    },
+    "hasOpeningComment": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether there was a comment with the like"
+    },
+    "notificationSent": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether match notification was sent"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the match expires if no message sent"
+    }
+  },
+  "additionalProperties": true
+}

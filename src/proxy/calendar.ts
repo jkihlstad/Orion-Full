@@ -11,7 +11,7 @@ async function proxyToCalendar(
   userId: string,
   path: string,
   method: string,
-  body?: any
+  body?: unknown
 ): Promise<Response> {
   if (!env.CALENDAR_API_URL) {
     return json({ ok: false, error: "calendar_backend_not_configured" }, 503);

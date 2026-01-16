@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/calendar.event_updated.schema.json",
+  "title": "Calendar Event Updated Payload",
+  "description": "Schema for the payload of calendar.event_updated events",
+  "type": "object",
+  "required": ["eventId", "updatedFields"],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the calendar event"
+    },
+    "calendarId": {
+      "type": "string",
+      "description": "Identifier for the calendar containing this event"
+    },
+    "calendarName": {
+      "type": "string",
+      "description": "Display name of the calendar"
+    },
+    "updatedFields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["title", "description", "startTime", "endTime", "location", "attendees", "reminders", "recurrence", "status", "visibility", "conferenceLink"]
+      },
+      "minItems": 1,
+      "description": "List of fields that were updated"
+    },
+    "title": {
+      "type": "string",
+      "description": "Updated event title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Updated event description"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Updated start time in ISO 8601 format"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Updated end time in ISO 8601 format"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone identifier"
+    },
+    "isAllDay": {
+      "type": "boolean",
+      "description": "Whether this is an all-day event"
+    },
+    "location": {
+      "type": "string",
+      "description": "Updated event location"
+    },
+    "conferenceLink": {
+      "type": "string",
+      "format": "uri",
+      "description": "Updated video conference link"
+    },
+    "conferenceProvider": {
+      "type": "string",
+      "enum": ["zoom", "google_meet", "teams", "webex", "other"],
+      "description": "Video conference provider"
+    },
+    "isRecurring": {
+      "type": "boolean",
+      "description": "Whether this event is recurring"
+    },
+    "recurrenceRule": {
+      "type": "string",
+      "description": "Updated iCalendar RRULE"
+    },
+    "recurrenceUpdateScope": {
+      "type": "string",
+      "enum": ["this_event", "this_and_following", "all_events"],
+      "description": "Scope of the update for recurring events"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["confirmed", "tentative", "cancelled"],
+      "description": "Updated event status"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["default", "public", "private", "confidential"],
+      "description": "Updated visibility setting"
+    },
+    "attendeeCountBefore": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attendees before update"
+    },
+    "attendeeCountAfter": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attendees after update"
+    },
+    "updateSource": {
+      "type": "string",
+      "enum": ["user", "sync", "ai_assistant", "api", "other"],
+      "description": "Source of the update"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["google", "outlook", "apple", "other"],
+      "description": "Calendar provider source"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,5 +1,6 @@
 import { must, Env } from "../env";
 import { json } from "../utils/respond";
+import { ParsedJwt, JwtHeader, JwtPayload } from "../types/queue";
 
 type Jwk = { kty: string; kid: string; use?: string; n?: string; e?: string; alg?: string };
 type Jwks = { keys: Jwk[] };
@@ -19,20 +20,21 @@ async function getJwks(env: Env): Promise<Jwks> {
   if (cachedJwks && now - cachedJwks.at < 5 * 60_000) return cachedJwks.jwks;
 
   const url = must(env.CLERK_JWKS_URL, "Missing CLERK_JWKS_URL");
-  const resp = await fetch(url, { cf: { cacheTtl: 300, cacheEverything: true } as any });
+  // Cloudflare-specific cache options - using type assertion for CF-specific RequestInit
+  const resp = await fetch(url, { cf: { cacheTtl: 300, cacheEverything: true } } as RequestInit);
   if (!resp.ok) throw new Error(`JWKS fetch failed: ${resp.status}`);
   const jwks = (await resp.json()) as Jwks;
   cachedJwks = { at: now, jwks };
   return jwks;
 }
 
-function parseJwt(token: string): { header: any; payload: any; signingInput: string; signature: Uint8Array } {
+function parseJwt(token: string): ParsedJwt {
   const parts = token.split(".");
   if (parts.length !== 3) throw new Error("Bad JWT");
   const [h, p, s] = parts;
 
-  const header = JSON.parse(new TextDecoder().decode(base64UrlToUint8Array(h)));
-  const payload = JSON.parse(new TextDecoder().decode(base64UrlToUint8Array(p)));
+  const header = JSON.parse(new TextDecoder().decode(base64UrlToUint8Array(h))) as JwtHeader;
+  const payload = JSON.parse(new TextDecoder().decode(base64UrlToUint8Array(p))) as JwtPayload;
   const signature = base64UrlToUint8Array(s);
 
   return { header, payload, signingInput: `${h}.${p}`, signature };
@@ -81,6 +83,7 @@ export async function verifyClerkJWT(req: Request, env: Env): Promise<string> {
   return sub;
 }
 
-export function authError(e: unknown) {
-  return json({ ok: false, error: String((e as any)?.message ?? e) }, 401);
+export function authError(e: unknown): Response {
+  const message = e instanceof Error ? e.message : String(e);
+  return json({ ok: false, error: message }, 401);
 }

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/nutrition.macro_estimated.schema.json",
+  "title": "Nutrition Macro Estimated Event Payload",
+  "description": "Schema for the payload of nutrition.macro_estimated events",
+  "type": "object",
+  "required": ["estimationId"],
+  "properties": {
+    "estimationId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this estimation"
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": ["photo", "description", "barcode", "recipe", "manual"],
+      "description": "Source of the estimation"
+    },
+    "photoRef": {
+      "type": "string",
+      "description": "Reference to source photo if applicable"
+    },
+    "foodDescription": {
+      "type": "string",
+      "description": "Text description of the food"
+    },
+    "portionSize": {
+      "type": "string",
+      "enum": ["small", "medium", "large", "custom"],
+      "description": "Estimated portion size"
+    },
+    "portionGrams": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated portion in grams"
+    },
+    "calories": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated calories"
+    },
+    "protein": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated protein in grams"
+    },
+    "carbohydrates": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated carbohydrates in grams"
+    },
+    "fat": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated fat in grams"
+    },
+    "fiber": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated fiber in grams"
+    },
+    "sugar": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated sugar in grams"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score for the estimation"
+    },
+    "confidenceBreakdown": {
+      "type": "object",
+      "properties": {
+        "foodIdentification": { "type": "number", "minimum": 0, "maximum": 1 },
+        "portionEstimation": { "type": "number", "minimum": 0, "maximum": 1 },
+        "macroCalculation": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "description": "Breakdown of confidence by component"
+    },
+    "identifiedFoods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "portionPercent": { "type": "number", "minimum": 0, "maximum": 100 }
+        }
+      },
+      "description": "Individual foods identified in the meal"
+    },
+    "estimationModel": {
+      "type": "string",
+      "description": "AI model used for estimation"
+    },
+    "processingTimeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to process estimation in milliseconds"
+    },
+    "userAdjusted": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user adjusted the estimates"
+    },
+    "adjustedFields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fields that were manually adjusted"
+    },
+    "mealLogId": {
+      "type": "string",
+      "description": "Associated meal log ID"
+    }
+  },
+  "additionalProperties": true
+}

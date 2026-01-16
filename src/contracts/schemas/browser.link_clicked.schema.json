@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/browser.link_clicked.schema.json",
+  "title": "Browser Link Clicked Event Payload",
+  "description": "Schema for the payload of browser.link_clicked events tracking link navigation",
+  "type": "object",
+  "required": ["sourceHost", "targetHost"],
+  "properties": {
+    "sourceHost": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hostname of the page where the link was clicked"
+    },
+    "sourcePathHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the source URL path"
+    },
+    "targetHost": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hostname of the link destination"
+    },
+    "targetPathHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the target URL path"
+    },
+    "cssSelectorHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the CSS selector for the clicked element"
+    },
+    "elementTag": {
+      "type": "string",
+      "description": "HTML tag of the clicked element (e.g., a, button)"
+    },
+    "elementId": {
+      "type": "string",
+      "description": "ID attribute of the clicked element if present"
+    },
+    "elementClassesHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the element's class list"
+    },
+    "isExternal": {
+      "type": "boolean",
+      "description": "Whether the link navigates to a different domain"
+    },
+    "isNewTab": {
+      "type": "boolean",
+      "description": "Whether the link opened in a new tab"
+    },
+    "linkType": {
+      "type": "string",
+      "enum": ["anchor", "button", "image", "other"],
+      "description": "Type of clickable element"
+    },
+    "linkPosition": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "description": "X coordinate of the click relative to viewport"
+        },
+        "y": {
+          "type": "number",
+          "description": "Y coordinate of the click relative to viewport"
+        },
+        "viewportWidth": {
+          "type": "integer",
+          "description": "Width of the viewport at click time"
+        },
+        "viewportHeight": {
+          "type": "integer",
+          "description": "Height of the viewport at click time"
+        }
+      },
+      "description": "Position data for the click event"
+    },
+    "tabId": {
+      "type": "string",
+      "description": "Identifier for the browser tab"
+    },
+    "windowId": {
+      "type": "string",
+      "description": "Identifier for the browser window"
+    },
+    "modifierKeys": {
+      "type": "object",
+      "properties": {
+        "ctrl": { "type": "boolean" },
+        "shift": { "type": "boolean" },
+        "alt": { "type": "boolean" },
+        "meta": { "type": "boolean" }
+      },
+      "description": "Modifier keys pressed during the click"
+    },
+    "dwellBeforeClickMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time on page before the click in milliseconds"
+    },
+    "incognito": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the page was viewed in incognito/private mode"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.insight_generated.schema.json",
+  "title": "Finance Insight Generated Event Payload",
+  "description": "Schema for the payload of finance.insight_generated events",
+  "type": "object",
+  "required": ["insightId", "insightType"],
+  "properties": {
+    "insightId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the insight"
+    },
+    "insightType": {
+      "type": "string",
+      "enum": [
+        "spending_trend",
+        "savings_opportunity",
+        "budget_recommendation",
+        "subscription_alert",
+        "bill_reminder",
+        "cashflow_forecast",
+        "investment_opportunity",
+        "debt_payoff",
+        "category_comparison",
+        "merchant_pattern",
+        "seasonal_trend",
+        "goal_progress",
+        "other"
+      ],
+      "description": "Type of financial insight"
+    },
+    "category": {
+      "type": "string",
+      "description": "Spending category the insight relates to"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short insight title"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score of the insight"
+    },
+    "impact": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Potential impact level"
+    },
+    "potentialSavings": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Potential savings amount if applicable"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "timeframe": {
+      "type": "string",
+      "enum": ["daily", "weekly", "monthly", "quarterly", "yearly"],
+      "description": "Timeframe the insight covers"
+    },
+    "dataPoints": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of data points analyzed"
+    },
+    "comparisonPeriod": {
+      "type": "object",
+      "properties": {
+        "current": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string", "format": "date" },
+            "end": { "type": "string", "format": "date" },
+            "value": { "type": "number" }
+          }
+        },
+        "previous": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string", "format": "date" },
+            "end": { "type": "string", "format": "date" },
+            "value": { "type": "number" }
+          }
+        },
+        "percentChange": { "type": "number" }
+      },
+      "description": "Period comparison data"
+    },
+    "relatedTransactionCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of transactions related to this insight"
+    },
+    "relatedMerchants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Merchants related to the insight"
+    },
+    "actionable": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the insight has actionable steps"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "actionType": { "type": "string" },
+          "label": { "type": "string" },
+          "deepLink": { "type": "string" }
+        }
+      },
+      "description": "Suggested actions"
+    },
+    "dismissed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user dismissed the insight"
+    },
+    "actedUpon": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user acted on the insight"
+    },
+    "generationModel": {
+      "type": "string",
+      "description": "Model/algorithm that generated the insight"
+    }
+  },
+  "additionalProperties": true
+}

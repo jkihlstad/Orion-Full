@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/calendar.event_change_requested.schema.json",
+  "title": "Calendar Event Change Requested Payload",
+  "description": "Schema for the payload of calendar.event_change_requested events",
+  "type": "object",
+  "required": ["eventId", "changeRequestId", "changeType"],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the calendar event"
+    },
+    "changeRequestId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this change request"
+    },
+    "changeType": {
+      "type": "string",
+      "enum": ["reschedule", "cancel", "update_details", "add_attendees", "remove_attendees", "change_location", "change_duration"],
+      "description": "Type of change being requested"
+    },
+    "requestedBy": {
+      "type": "string",
+      "enum": ["system", "attendee", "organizer", "ai_assistant"],
+      "description": "Who is requesting the change"
+    },
+    "requestReason": {
+      "type": "string",
+      "enum": ["conflict", "preference", "optimization", "external_request", "user_initiated", "other"],
+      "description": "Reason for the change request"
+    },
+    "currentStartTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Current event start time"
+    },
+    "proposedStartTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Proposed new start time"
+    },
+    "currentEndTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Current event end time"
+    },
+    "proposedEndTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Proposed new end time"
+    },
+    "currentLocation": {
+      "type": "string",
+      "description": "Current event location"
+    },
+    "proposedLocation": {
+      "type": "string",
+      "description": "Proposed new location"
+    },
+    "alternativeSlots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Suitability score for this slot"
+          }
+        }
+      },
+      "description": "Alternative time slots if rescheduling"
+    },
+    "conflictingEventCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of conflicting events prompting the request"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "urgent"],
+      "default": "normal",
+      "description": "Priority of the change request"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the change request expires"
+    },
+    "attendeeCountAffected": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attendees affected by the proposed change"
+    },
+    "calendarId": {
+      "type": "string",
+      "description": "Identifier for the calendar containing this event"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["google", "outlook", "apple", "other"],
+      "description": "Calendar provider source"
+    }
+  },
+  "additionalProperties": true
+}

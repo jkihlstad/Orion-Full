@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.transaction_updated.schema.json",
+  "title": "Finance Transaction Updated Event Payload",
+  "description": "Schema for the payload of finance.transaction_updated events",
+  "type": "object",
+  "required": ["transactionId", "updatedFields"],
+  "properties": {
+    "transactionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the transaction"
+    },
+    "updatedFields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["amount", "merchant", "category", "pending", "date", "notes", "tags", "receipt"]
+      },
+      "minItems": 1,
+      "description": "List of fields that were updated"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Updated transaction amount"
+    },
+    "previousAmount": {
+      "type": "number",
+      "description": "Previous transaction amount"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "merchant": {
+      "type": "string",
+      "description": "Updated merchant name"
+    },
+    "merchantNormalized": {
+      "type": "string",
+      "description": "Updated normalized merchant name"
+    },
+    "previousMerchant": {
+      "type": "string",
+      "description": "Previous merchant name"
+    },
+    "category": {
+      "type": "string",
+      "description": "Updated spending category"
+    },
+    "previousCategory": {
+      "type": "string",
+      "description": "Previous spending category"
+    },
+    "subcategory": {
+      "type": "string",
+      "description": "Updated subcategory"
+    },
+    "pending": {
+      "type": "boolean",
+      "description": "Updated pending status"
+    },
+    "previousPending": {
+      "type": "boolean",
+      "description": "Previous pending status"
+    },
+    "transactionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Updated transaction date"
+    },
+    "previousTransactionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Previous transaction date"
+    },
+    "updateSource": {
+      "type": "string",
+      "enum": ["user", "sync", "ai_categorization", "receipt_match", "system"],
+      "description": "Source of the update"
+    },
+    "updateReason": {
+      "type": "string",
+      "description": "Reason for the update"
+    },
+    "accountRef": {
+      "type": "string",
+      "description": "Reference to the financial account"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Updated tags"
+    },
+    "receiptId": {
+      "type": "string",
+      "description": "Linked receipt ID if updated"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Updated transaction notes"
+    },
+    "isSplitTransaction": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether transaction was split"
+    },
+    "splitParts": {
+      "type": "integer",
+      "minimum": 2,
+      "description": "Number of parts if split"
+    }
+  },
+  "additionalProperties": true
+}

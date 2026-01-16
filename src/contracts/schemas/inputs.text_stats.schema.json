@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/inputs.text_stats.schema.json",
+  "title": "Inputs Text Stats Event Payload",
+  "description": "Schema for the payload of inputs.text_stats events tracking typing statistics",
+  "type": "object",
+  "required": ["sessionId"],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the text input session"
+    },
+    "charCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total characters typed"
+    },
+    "wordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total words typed"
+    },
+    "backspaceCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of backspace key presses"
+    },
+    "deleteCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of delete key presses"
+    },
+    "correctionRate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Ratio of corrections to total characters"
+    },
+    "wpmEstimate": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated words per minute"
+    },
+    "cpmEstimate": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated characters per minute"
+    },
+    "sessionDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total session duration in milliseconds"
+    },
+    "activeTypingMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time actively typing in milliseconds"
+    },
+    "pauseCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of pauses (gaps > 2 seconds)"
+    },
+    "pauseDurations": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "description": "Duration of each pause in milliseconds"
+    },
+    "averagePauseMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Average pause duration in milliseconds"
+    },
+    "longestPauseMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Longest pause duration in milliseconds"
+    },
+    "enterCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of enter/return key presses"
+    },
+    "tabCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of tab key presses"
+    },
+    "shortcutCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of keyboard shortcuts used"
+    },
+    "copyCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of copy operations"
+    },
+    "pasteCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of paste operations"
+    },
+    "undoCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of undo operations"
+    },
+    "redoCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of redo operations"
+    },
+    "autocompleteAccepted": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of autocomplete suggestions accepted"
+    },
+    "autocompleteRejected": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of autocomplete suggestions rejected"
+    },
+    "inputType": {
+      "type": "string",
+      "enum": ["text", "search", "email", "url", "password", "textarea", "rich_text", "other"],
+      "description": "Type of input field"
+    },
+    "context": {
+      "type": "string",
+      "description": "Context where typing occurred (e.g., compose, search)"
+    }
+  },
+  "additionalProperties": true
+}

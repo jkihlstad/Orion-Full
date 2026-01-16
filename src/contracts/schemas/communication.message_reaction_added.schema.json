@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/communication.message_reaction_added.schema.json",
+  "title": "Communication Message Reaction Added Event Payload",
+  "description": "Schema for the payload of communication.message_reaction_added events",
+  "type": "object",
+  "required": ["messageId", "threadId", "reaction"],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the message being reacted to"
+    },
+    "threadId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Thread/conversation ID"
+    },
+    "reactionId": {
+      "type": "string",
+      "description": "Unique identifier for this reaction"
+    },
+    "reaction": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The emoji or reaction symbol"
+    },
+    "reactionType": {
+      "type": "string",
+      "enum": ["emoji", "like", "love", "laugh", "sad", "angry", "custom"],
+      "description": "Category of the reaction"
+    },
+    "reactorRef": {
+      "type": "string",
+      "description": "Reference to the user who reacted (hashed/anonymized)"
+    },
+    "isOwnMessage": {
+      "type": "boolean",
+      "description": "Whether the user reacted to their own message"
+    },
+    "messageAgeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Age of the message when reacted to in milliseconds"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["sms", "mms", "imessage", "rcs", "whatsapp", "telegram", "other"],
+      "description": "Communication channel"
+    },
+    "existingReactionCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of existing reactions on the message"
+    },
+    "isFirstReaction": {
+      "type": "boolean",
+      "description": "Whether this is the first reaction to the message"
+    },
+    "sentimentCategory": {
+      "type": "string",
+      "enum": ["positive", "negative", "neutral", "mixed"],
+      "description": "Sentiment category of the reaction"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,827 @@
+{
+  "_comment": "VENDORED FROM suite-contracts - Run scripts/sync_contracts.sh to update",
+  "version": "2026-01-11",
+  "notes": "Event type registry for Orion suite. Synced from suite-contracts.",
+  "eventTypes": {
+    "audit.event_accepted": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "audit.event_deduped": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "audit.event_fanout_failed": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "audit.event_fanout_succeeded": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "browser.dwell_time": {
+      "enabled": true,
+      "consentScope": "browser.activity_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": false
+    },
+    "browser.form_started": {
+      "enabled": true,
+      "consentScope": "browser.form_capture",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["formData", "inputValues"],
+      "brainEnabled": false
+    },
+    "browser.form_submitted": {
+      "enabled": true,
+      "consentScope": "browser.form_capture",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["formData", "inputValues", "password"],
+      "brainEnabled": false
+    },
+    "browser.link_clicked": {
+      "enabled": true,
+      "consentScope": "browser.activity_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "browser.page_viewed": {
+      "enabled": true,
+      "consentScope": "browser.activity_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": false
+    },
+    "browser.scroll_depth": {
+      "enabled": true,
+      "consentScope": "browser.activity_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "browser.search_performed": {
+      "enabled": true,
+      "consentScope": "browser.search_raw_query",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["rawQuery"],
+      "brainEnabled": true
+    },
+    "browser.tab_closed": {
+      "enabled": true,
+      "consentScope": "browser.activity_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "browser.tab_opened": {
+      "enabled": true,
+      "consentScope": "browser.activity_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "calendar.event_created": {
+      "enabled": true,
+      "consentScope": "calendar.events",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "calendar.event_updated": {
+      "enabled": true,
+      "consentScope": "calendar.events",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "calendar.event_deleted": {
+      "enabled": true,
+      "consentScope": "calendar.events",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "calendar.event_locked": {
+      "enabled": true,
+      "consentScope": "calendar.events",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "calendar.event_change_requested": {
+      "enabled": true,
+      "consentScope": "calendar.automation",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "calendar.event_change_approved": {
+      "enabled": true,
+      "consentScope": "calendar.automation",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "calendar.event_change_denied": {
+      "enabled": true,
+      "consentScope": "calendar.automation",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.call_started": {
+      "enabled": true,
+      "consentScope": "communication.calls",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "communication.call_ended": {
+      "enabled": true,
+      "consentScope": "communication.calls",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "communication.call_recording_available": {
+      "enabled": true,
+      "consentScope": "communication.call_recording",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "requiresBlob": true
+    },
+    "communication.call_recording_archived": {
+      "enabled": true,
+      "consentScope": "communication.call_recording",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.call_transcript_created": {
+      "enabled": true,
+      "consentScope": "communication.call_recording",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "communication.message_sent": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["body"],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "communication.message_received": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["body"],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "communication.message_status_changed": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.message_reaction_added": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.thread_created": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "communication.thread_joined": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.typing_indicator": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.attachment_uploaded": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false,
+      "requiresBlob": true
+    },
+    "communication.number_purchased": {
+      "enabled": true,
+      "consentScope": "communication.calls",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.number_default_set": {
+      "enabled": true,
+      "consentScope": "communication.calls",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.a2p_submitted": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "communication.a2p_status_changed": {
+      "enabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "consent.scope_enabled": {
+      "enabled": true,
+      "consentScope": "consent.management",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "consent.scope_disabled": {
+      "enabled": true,
+      "consentScope": "consent.management",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "consent.version_accepted": {
+      "enabled": true,
+      "consentScope": "consent.management",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "dashboard.query_submitted": {
+      "enabled": true,
+      "consentScope": "dashboard.usage",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["rawQuery"],
+      "brainEnabled": true
+    },
+    "email.account_connected": {
+      "enabled": true,
+      "consentScope": "email.metadata",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "email.message_received": {
+      "enabled": true,
+      "consentScope": "email.metadata",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["body", "htmlBody"],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "email.message_sent": {
+      "enabled": true,
+      "consentScope": "email.metadata",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["body", "htmlBody"],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "email.body_indexed": {
+      "enabled": true,
+      "consentScope": "email.content",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "email.attachment_added": {
+      "enabled": true,
+      "consentScope": "email.attachments",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "requiresBlob": true
+    },
+    "finance.plaid_link_started": {
+      "enabled": true,
+      "consentScope": "finance.transactions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "finance.plaid_item_linked": {
+      "enabled": true,
+      "consentScope": "finance.transactions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["accessToken"],
+      "brainEnabled": false
+    },
+    "finance.account_synced": {
+      "enabled": true,
+      "consentScope": "finance.transactions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.transaction_created": {
+      "enabled": true,
+      "consentScope": "finance.transactions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["accountNumber"],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "finance.transaction_updated": {
+      "enabled": true,
+      "consentScope": "finance.transactions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["accountNumber"],
+      "brainEnabled": true
+    },
+    "finance.transaction_deleted": {
+      "enabled": true,
+      "consentScope": "finance.transactions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "finance.subscription_detected": {
+      "enabled": true,
+      "consentScope": "finance.subscriptions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.subscription_updated": {
+      "enabled": true,
+      "consentScope": "finance.subscriptions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.subscription_canceled_confirmed": {
+      "enabled": true,
+      "consentScope": "finance.subscriptions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.budget_created": {
+      "enabled": true,
+      "consentScope": "finance.budgets",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.budget_threshold_crossed": {
+      "enabled": true,
+      "consentScope": "finance.budgets",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.spending_anomaly_detected": {
+      "enabled": true,
+      "consentScope": "finance.insights",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.insight_generated": {
+      "enabled": true,
+      "consentScope": "finance.insights",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.receipt_captured": {
+      "enabled": true,
+      "consentScope": "finance.receipts",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "requiresBlob": true
+    },
+    "finance.receipt_ocr_completed": {
+      "enabled": true,
+      "consentScope": "finance.receipts",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.receipt_line_items_extracted": {
+      "enabled": true,
+      "consentScope": "finance.receipts",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.receipt_matched_to_transaction": {
+      "enabled": true,
+      "consentScope": "finance.receipts",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "finance.credit_score_refreshed": {
+      "enabled": true,
+      "consentScope": "finance.credit",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["ssn"],
+      "brainEnabled": true
+    },
+    "finance.credit_report_refreshed": {
+      "enabled": true,
+      "consentScope": "finance.credit",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["ssn"],
+      "brainEnabled": true
+    },
+    "finance.credit_alert_received": {
+      "enabled": true,
+      "consentScope": "finance.credit",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "inputs.text_session_started": {
+      "enabled": true,
+      "consentScope": "inputs.text_analytics",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "inputs.text_stats": {
+      "enabled": true,
+      "consentScope": "inputs.text_analytics",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["rawText"],
+      "brainEnabled": false
+    },
+    "inputs.gesture_tap": {
+      "enabled": true,
+      "consentScope": "inputs.gesture_analytics",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "inputs.gesture_swipe": {
+      "enabled": true,
+      "consentScope": "inputs.gesture_analytics",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "nutrition.meal_logged": {
+      "enabled": true,
+      "consentScope": "nutrition.meals",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": false
+    },
+    "nutrition.photo_captured": {
+      "enabled": true,
+      "consentScope": "nutrition.meals",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "requiresBlob": true
+    },
+    "nutrition.barcode_scanned": {
+      "enabled": true,
+      "consentScope": "nutrition.meals",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "nutrition.macro_estimated": {
+      "enabled": true,
+      "consentScope": "nutrition.meals",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "sleep.session_started": {
+      "enabled": true,
+      "consentScope": "sleep.sessions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "sleep.session_ended": {
+      "enabled": true,
+      "consentScope": "sleep.sessions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "sleep.quality_rated": {
+      "enabled": true,
+      "consentScope": "sleep.sessions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "social.message_sent": {
+      "enabled": true,
+      "consentScope": "social.activity",
+      "defaultPrivacyScope": "social",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": false,
+      "graphRequired": true
+    },
+    "social.reaction_added": {
+      "enabled": true,
+      "consentScope": "social.activity",
+      "defaultPrivacyScope": "social",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "system.app_opened": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "system.app_backgrounded": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "system.location_manual_checkin": {
+      "enabled": true,
+      "consentScope": "location.foreground_coarse",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "system.location_foreground_update": {
+      "enabled": true,
+      "consentScope": "location.foreground_coarse",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["latitude", "longitude"],
+      "brainEnabled": true
+    },
+    "system.location_foreground_update_precise": {
+      "enabled": true,
+      "consentScope": "location.foreground_precise",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "system.location_background_update": {
+      "enabled": true,
+      "consentScope": "location.background_coarse",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": ["latitude", "longitude"],
+      "brainEnabled": true
+    },
+    "system.location_background_update_precise": {
+      "enabled": true,
+      "consentScope": "location.background_precise",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "system.location_significant_change": {
+      "enabled": true,
+      "consentScope": "location.visits_significant_changes",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "system.location_permission_changed": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "system.upload_started": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "system.upload_succeeded": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "system.upload_failed": {
+      "enabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "tasks.task_created": {
+      "enabled": true,
+      "consentScope": "tasks.items",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true,
+      "graphRequired": true
+    },
+    "tasks.task_updated": {
+      "enabled": true,
+      "consentScope": "tasks.items",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "tasks.task_completed": {
+      "enabled": true,
+      "consentScope": "tasks.items",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "tasks.task_deleted": {
+      "enabled": true,
+      "consentScope": "tasks.items",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": false
+    },
+    "tasks.task_generated_from_email": {
+      "enabled": true,
+      "consentScope": "tasks.automation",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "tasks.task_generated_from_calendar": {
+      "enabled": true,
+      "consentScope": "tasks.automation",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "workouts.workout_started": {
+      "enabled": true,
+      "consentScope": "workouts.sessions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "workouts.workout_ended": {
+      "enabled": true,
+      "consentScope": "workouts.sessions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": true,
+      "redactKeys": [],
+      "brainEnabled": true
+    },
+    "workouts.set_logged": {
+      "enabled": true,
+      "consentScope": "workouts.sessions",
+      "defaultPrivacyScope": "private",
+      "allowSocial": false,
+      "redactKeys": [],
+      "brainEnabled": true
+    }
+  }
+}

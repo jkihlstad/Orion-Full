@@ -11,6 +11,7 @@
 import { Env } from "../env";
 import { json } from "../utils/respond";
 import { z } from "zod";
+import { EventRow, EventDeliveryRow, SqlBindValue } from "../types/database";
 
 // ============================================================================
 // Auth Helper
@@ -102,15 +103,9 @@ export async function handleDeliveryStatus(req: Request, env: Env): Promise<Resp
     SELECT
       id, user_id, source_app, event_type, timestamp_ms, privacy_scope,
       consent_scope, consent_version, idempotency_key, received_at_ms,
-      queued_at_ms, queue_message_id, queue_attempts, queue_last_attempt_at_ms,
-      queue_consumer_id, queue_lease_expires_at_ms,
-      convex_delivery_status, convex_attempts, convex_last_attempt_at_ms,
-      delivered_to_convex_at_ms, convex_http_status, convex_delivery_error,
-      brain_delivery_status, brain_attempts, brain_last_attempt_at_ms,
-      brain_delivered_at_ms, brain_http_status, brain_delivery_error, brain_skip_reason,
-      social_delivery_status, social_attempts, social_last_attempt_at_ms,
-      social_forwarded_at_ms, social_http_status, social_delivery_error, social_skip_reason,
-      requeue_count, last_requeue_at_ms, last_requeue_reason
+      convex_delivery_status, delivered_to_convex_at_ms, convex_delivery_error,
+      brain_delivery_status, brain_delivered_at_ms, brain_delivery_error,
+      social_delivery_status, social_forwarded_at_ms, social_delivery_error
     FROM events
     WHERE id = ?
   `).bind(eventId).first();
@@ -149,44 +144,41 @@ export async function handleDeliveryStatus(req: Request, env: Env): Promise<Resp
     },
     queue: {
       name: "FANOUT_QUEUE",
-      enqueuedAtMs: (row.queued_at_ms as number | null) ?? (row.received_at_ms as number | null),
-      messageId: row.queue_message_id as string | null,
-      attempts: (row.queue_attempts as number) ?? 0,
-      lastAttemptAtMs: row.queue_last_attempt_at_ms as number | null,
-      lease: row.queue_consumer_id ? {
-        consumerId: row.queue_consumer_id as string,
-        leaseExpiresAtMs: row.queue_lease_expires_at_ms as number | null,
-      } : null,
+      enqueuedAtMs: row.received_at_ms as number | null,
+      messageId: null,
+      attempts: 0,
+      lastAttemptAtMs: null,
+      lease: null,
     },
     deliveries: {
       ingestion: {
         target: "convex",
         status: mapStatus(row.convex_delivery_status as string | null),
-        attempts: (row.convex_attempts as number) ?? 0,
-        lastAttemptAtMs: row.convex_last_attempt_at_ms as number | null,
+        attempts: 0,
+        lastAttemptAtMs: null,
         deliveredAtMs: row.delivered_to_convex_at_ms as number | null,
-        httpStatus: row.convex_http_status as number | null,
+        httpStatus: null,
         error: row.convex_delivery_error as string | null,
       },
       brain: {
         target: "brain-ingest",
         status: mapStatus(row.brain_delivery_status as string | null),
-        attempts: (row.brain_attempts as number) ?? 0,
-        lastAttemptAtMs: row.brain_last_attempt_at_ms as number | null,
+        attempts: 0,
+        lastAttemptAtMs: null,
         deliveredAtMs: row.brain_delivered_at_ms as number | null,
-        httpStatus: row.brain_http_status as number | null,
+        httpStatus: null,
         error: row.brain_delivery_error as string | null,
-        skipReason: row.brain_skip_reason as string | null,
+        skipReason: null,
       },
       social: {
         target: "social-backend",
         status: mapStatus(row.social_delivery_status as string | null),
-        attempts: (row.social_attempts as number) ?? 0,
-        lastAttemptAtMs: row.social_last_attempt_at_ms as number | null,
+        attempts: 0,
+        lastAttemptAtMs: null,
         deliveredAtMs: row.social_forwarded_at_ms as number | null,
-        httpStatus: row.social_http_status as number | null,
+        httpStatus: null,
         error: row.social_delivery_error as string | null,
-        skipReason: row.social_skip_reason as string | null,
+        skipReason: null,
       },
     },
   };
@@ -219,7 +211,7 @@ export async function handleDeliveryRecent(req: Request, env: Env): Promise<Resp
 
   // Build query
   const where: string[] = ["received_at_ms >= ?"];
-  const binds: any[] = [sinceMs];
+  const binds: SqlBindValue[] = [sinceMs];
 
   if (eventType) {
     where.push("event_type = ?");
@@ -243,7 +235,7 @@ export async function handleDeliveryRecent(req: Request, env: Env): Promise<Resp
   const rows = res.results ?? [];
 
   // Compute overall status
-  const computeOverallStatus = (row: any): DeliveryStatus => {
+  const computeOverallStatus = (row: EventDeliveryRow): DeliveryStatus => {
     const convex = row.convex_delivery_status;
     const brain = row.brain_delivery_status;
     const social = row.social_delivery_status;
@@ -275,7 +267,7 @@ export async function handleDeliveryRecent(req: Request, env: Env): Promise<Resp
     return "pending";
   };
 
-  let events = rows.map((row: any) => {
+  let events = (rows as unknown as EventDeliveryRow[]).map((row) => {
     const overallStatus = computeOverallStatus(row);
     const lastError = row.convex_delivery_error || row.brain_delivery_error || row.social_delivery_error || null;
 
@@ -296,7 +288,7 @@ export async function handleDeliveryRecent(req: Request, env: Env): Promise<Resp
 
   // Apply status filter if provided
   if (status) {
-    events = events.filter((e: any) => e.overallStatus === status);
+    events = events.filter((e) => e.overallStatus === status);
   }
 
   // Apply final limit
@@ -369,16 +361,16 @@ export async function handleDeliveryRequeue(req: Request, env: Env): Promise<Res
     "last_requeue_reason = ?",
     "queued_at_ms = ?",
   ];
-  const updateBinds: any[] = [requeueCount, now, reason, now];
+  const updateBinds: SqlBindValue[] = [requeueCount, now, reason, now];
 
   if (resetTargets.includes("ingestion")) {
-    updates.push("convex_delivery_status = 'pending'", "convex_attempts = 0", "convex_delivery_error = NULL");
+    updates.push("convex_delivery_status = 'pending'", "delivered_to_convex_at_ms = NULL", "convex_delivery_error = NULL");
   }
   if (resetTargets.includes("brain")) {
-    updates.push("brain_delivery_status = 'pending'", "brain_attempts = 0", "brain_delivery_error = NULL", "brain_skip_reason = NULL");
+    updates.push("brain_delivery_status = 'pending'", "brain_delivered_at_ms = NULL", "brain_delivery_error = NULL");
   }
   if (resetTargets.includes("social")) {
-    updates.push("social_delivery_status = 'pending'", "social_attempts = 0", "social_delivery_error = NULL", "social_skip_reason = NULL");
+    updates.push("social_delivery_status = 'pending'", "social_forwarded_at_ms = NULL", "social_delivery_error = NULL");
   }
 
   await env.DB.prepare(`UPDATE events SET ${updates.join(", ")} WHERE id = ?`)

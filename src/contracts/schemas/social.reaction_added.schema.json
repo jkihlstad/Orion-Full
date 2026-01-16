@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/social.reaction_added.schema.json",
+  "title": "Social Reaction Added Event Payload",
+  "description": "Schema for the payload of social.reaction_added events",
+  "type": "object",
+  "required": ["reactionId", "contentId", "platform", "reactionType"],
+  "properties": {
+    "reactionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the reaction"
+    },
+    "contentId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ID of the content being reacted to"
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["twitter", "facebook", "instagram", "linkedin", "tiktok", "mastodon", "threads", "bluesky", "other"],
+      "description": "Social media platform"
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["post", "comment", "story", "reel", "tweet", "message", "photo", "video", "other"],
+      "description": "Type of content reacted to"
+    },
+    "reactionType": {
+      "type": "string",
+      "enum": ["like", "love", "care", "haha", "wow", "sad", "angry", "celebrate", "support", "insightful", "curious", "bookmark", "save", "repost", "share", "emoji"],
+      "description": "Type of reaction"
+    },
+    "emoji": {
+      "type": "string",
+      "description": "Emoji if reaction is custom emoji"
+    },
+    "contentAuthorRef": {
+      "type": "string",
+      "description": "Reference to content author (hashed/anonymized)"
+    },
+    "isOwnContent": {
+      "type": "boolean",
+      "description": "Whether reacting to own content"
+    },
+    "contentAgeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Age of content when reacted to"
+    },
+    "contentVisibility": {
+      "type": "string",
+      "enum": ["public", "followers", "mutual", "private"],
+      "description": "Visibility of the content"
+    },
+    "existingReactionCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total reactions on content before this one"
+    },
+    "existingLikeCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Existing likes on content"
+    },
+    "existingCommentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Existing comments on content"
+    },
+    "existingShareCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Existing shares/reposts on content"
+    },
+    "sentimentCategory": {
+      "type": "string",
+      "enum": ["positive", "negative", "neutral"],
+      "description": "Sentiment category of the reaction"
+    },
+    "sourceContext": {
+      "type": "string",
+      "enum": ["feed", "profile", "search", "explore", "notification", "direct_link", "other"],
+      "description": "Where the content was discovered"
+    },
+    "isFirstReaction": {
+      "type": "boolean",
+      "description": "Whether this is user's first reaction to this content"
+    },
+    "previousReactionType": {
+      "type": "string",
+      "description": "Previous reaction type if changing reaction"
+    }
+  },
+  "additionalProperties": true
+}

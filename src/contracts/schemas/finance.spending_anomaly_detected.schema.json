@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.spending_anomaly_detected.schema.json",
+  "title": "Finance Spending Anomaly Detected Event Payload",
+  "description": "Schema for the payload of finance.spending_anomaly_detected events",
+  "type": "object",
+  "required": ["anomalyId", "anomalyType"],
+  "properties": {
+    "anomalyId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the anomaly"
+    },
+    "anomalyType": {
+      "type": "string",
+      "enum": [
+        "unusual_amount",
+        "unusual_merchant",
+        "unusual_category",
+        "unusual_location",
+        "unusual_frequency",
+        "unusual_time",
+        "duplicate_charge",
+        "sudden_spike",
+        "potential_fraud",
+        "other"
+      ],
+      "description": "Type of spending anomaly"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Severity level of the anomaly"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score for the detection"
+    },
+    "triggeringTransactionId": {
+      "type": "string",
+      "description": "Transaction that triggered the anomaly"
+    },
+    "transactionAmount": {
+      "type": "number",
+      "description": "Amount of the triggering transaction"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "merchant": {
+      "type": "string",
+      "description": "Merchant of the triggering transaction"
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the triggering transaction"
+    },
+    "expectedRange": {
+      "type": "object",
+      "properties": {
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "average": { "type": "number" }
+      },
+      "description": "Expected range based on historical data"
+    },
+    "deviationPercent": {
+      "type": "number",
+      "description": "Percentage deviation from expected"
+    },
+    "historicalComparison": {
+      "type": "object",
+      "properties": {
+        "previousOccurrences": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "averageAmount": { "type": "number" },
+        "maxAmount": { "type": "number" },
+        "lastOccurrence": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "description": "Comparison with historical data"
+    },
+    "relatedTransactions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of related transactions"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "city": { "type": "string" },
+        "region": { "type": "string" },
+        "country": { "type": "string" }
+      },
+      "description": "Location of the transaction"
+    },
+    "isExpectedLocation": {
+      "type": "boolean",
+      "description": "Whether the location is expected based on history"
+    },
+    "accountRef": {
+      "type": "string",
+      "description": "Reference to the financial account"
+    },
+    "userNotified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user was notified"
+    },
+    "userAction": {
+      "type": "string",
+      "enum": ["confirmed", "disputed", "dismissed", "pending"],
+      "description": "User action on the anomaly"
+    },
+    "detectionModel": {
+      "type": "string",
+      "description": "Model used for detection"
+    }
+  },
+  "additionalProperties": true
+}

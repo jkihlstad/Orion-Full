@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.budget_threshold_crossed.schema.json",
+  "title": "Finance Budget Threshold Crossed Event Payload",
+  "description": "Schema for the payload of finance.budget_threshold_crossed events",
+  "type": "object",
+  "required": ["budgetId", "thresholdPercent", "currentSpent", "budgetAmount"],
+  "properties": {
+    "budgetId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the budget"
+    },
+    "budgetName": {
+      "type": "string",
+      "description": "Budget name"
+    },
+    "thresholdPercent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Threshold percentage that was crossed"
+    },
+    "currentSpent": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Current amount spent"
+    },
+    "budgetAmount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total budget amount"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "currentPercent": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Current percentage of budget used"
+    },
+    "remainingAmount": {
+      "type": "number",
+      "description": "Remaining budget amount"
+    },
+    "daysRemaining": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Days remaining in budget period"
+    },
+    "projectedOverage": {
+      "type": "number",
+      "description": "Projected overage if trend continues"
+    },
+    "triggeringTransactionId": {
+      "type": "string",
+      "description": "Transaction that triggered the threshold"
+    },
+    "triggeringAmount": {
+      "type": "number",
+      "description": "Amount of triggering transaction"
+    },
+    "category": {
+      "type": "string",
+      "description": "Spending category of the budget"
+    },
+    "period": {
+      "type": "string",
+      "enum": ["daily", "weekly", "biweekly", "monthly", "quarterly", "yearly", "custom"],
+      "description": "Budget period"
+    },
+    "periodStartDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Start date of current period"
+    },
+    "periodEndDate": {
+      "type": "string",
+      "format": "date",
+      "description": "End date of current period"
+    },
+    "previousThreshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Previous threshold that was crossed"
+    },
+    "isFirstAlert": {
+      "type": "boolean",
+      "description": "Whether this is the first alert for this period"
+    },
+    "alertCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of alerts for this budget this period"
+    },
+    "notificationSent": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether a notification was sent"
+    },
+    "notificationType": {
+      "type": "string",
+      "enum": ["push", "email", "in_app", "none"],
+      "description": "Type of notification sent"
+    }
+  },
+  "additionalProperties": true
+}

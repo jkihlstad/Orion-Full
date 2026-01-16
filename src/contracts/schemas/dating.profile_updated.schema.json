@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/dating.profile_updated.schema.json",
+  "title": "Dating Profile Updated Event Payload",
+  "description": "Schema for the payload of dating.profile_updated events",
+  "type": "object",
+  "required": ["profileId", "updatedFields"],
+  "properties": {
+    "profileId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the dating profile"
+    },
+    "updatedFields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["photos", "bio", "prompts", "preferences", "location", "interests", "basics", "dealbreakers", "visibility"]
+      },
+      "minItems": 1,
+      "description": "List of fields that were updated"
+    },
+    "photoCountBefore": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Photo count before update"
+    },
+    "photoCountAfter": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Photo count after update"
+    },
+    "photosAdded": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of photos added"
+    },
+    "photosRemoved": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of photos removed"
+    },
+    "photosReordered": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether photos were reordered"
+    },
+    "bioLengthBefore": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Bio length before update"
+    },
+    "bioLengthAfter": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Bio length after update"
+    },
+    "promptsAnsweredBefore": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Prompts answered before update"
+    },
+    "promptsAnsweredAfter": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Prompts answered after update"
+    },
+    "searchRadiusChanged": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether search radius was changed"
+    },
+    "agePreferenceChanged": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether age preference was changed"
+    },
+    "locationChanged": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether location was changed"
+    },
+    "interestsAdded": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of interests added"
+    },
+    "interestsRemoved": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of interests removed"
+    },
+    "dealbreakersChanged": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether dealbreakers were changed"
+    },
+    "visibilityChanged": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether profile visibility was changed"
+    },
+    "profileCompletenessBefore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Profile completeness before update"
+    },
+    "profileCompletenessAfter": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Profile completeness after update"
+    },
+    "updateSource": {
+      "type": "string",
+      "enum": ["manual", "ai_suggestion", "import", "sync"],
+      "description": "Source of the update"
+    },
+    "timeSinceLastUpdateMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time since last profile update"
+    },
+    "updateCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of profile updates"
+    }
+  },
+  "additionalProperties": true
+}

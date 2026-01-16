@@ -1,48 +1,81 @@
-name = "orion-edge-gateway"
+name = "edge-gateway-worker"
 main = "src/index.ts"
-compatibility_date = "2025-12-01"
-node_compat = false
+compatibility_date = "2026-01-11"
+compatibility_flags = ["nodejs_compat"]
 
-[vars]
-ENV = "prod"
+# Production routes (default)
+routes = [
+  { pattern = "gateway.orion.app/*", zone_name = "orion.app" }
+]
 
-# Backend fanout targets (set via secrets for prod)
-CONVEX_INGEST_URL = "https://YOUR-CONVEX-DOMAIN.convex.site/internal/ingest"
-BRAIN_QUERY_URL = "https://YOUR-BRAIN-PLATFORM.convex.site/brain/query"
-SOCIAL_SIGNAL_URL = "https://YOUR-SOCIAL-BACKEND.convex.site/internal/social/signal"
-CALENDAR_API_URL = "https://YOUR-CONVEX-DOMAIN.convex.site/internal/calendar"
-
-# Clerk auth
-CLERK_ISSUER = "https://clerk.com"
-CLERK_JWKS_URL = "https://YOUR-CLERK-DOMAIN/.well-known/jwks.json"
-
-# Secrets (set via wrangler secret put):
-# - ADMIN_API_KEY
-# - REQUEST_HMAC_SECRET (optional)
-# - GATEWAY_INTERNAL_KEY (for backend-to-gateway calls)
-
+# Production D1 database
 [[d1_databases]]
 binding = "DB"
-database_name = "orion_gateway"
-database_id = "REPLACE_WITH_D1_ID"
+database_name = "edge_gateway_prod"
+database_id = "YOUR_PROD_DB_ID"
 
+# Production R2 bucket
 [[r2_buckets]]
 binding = "BLOBS"
-bucket_name = "orion-blobs"
+bucket_name = "orion-blobs-prod"
 
+# Production KV namespace
 [[kv_namespaces]]
 binding = "KV"
-id = "REPLACE_WITH_KV_ID"
+id = "YOUR_PROD_KV_ID"
 
+# Production Queue
 [[queues.producers]]
-queue = "ORION_EVENTS_FANOUT"
+queue = "events-fanout-prod"
 binding = "FANOUT_QUEUE"
 
 [[queues.consumers]]
-queue = "ORION_EVENTS_FANOUT"
-max_batch_size = 25
-max_batch_timeout = 10
+queue = "events-fanout-prod"
+max_batch_size = 50
+max_batch_timeout = 5
 
-# Local development overrides
-[env.dev]
-vars = { ENV = "dev" }
+# Environment variables (production)
+[vars]
+ENVIRONMENT = "production"
+CONTRACTS_VERSION = "2026-01-11"
+
+# Window H.9: Additional vars (set in Cloudflare Dashboard or .dev.vars for secrets)
+# - BRAIN_SERVICE_SHARED_SECRET: HMAC shared secret for gateway ↔ brain auth
+# - BRAIN_BASE_URL: Base URL for brain-platform (e.g., "https://brain-platform.your-domain.workers.dev")
+# - GATEWAY_ADMIN_TOKEN: Admin token for /admin/* endpoints
+# - CLERK_JWKS_URL: Clerk JWKS endpoint for JWT verification
+
+# ==================================
+# STAGING ENVIRONMENT
+# ==================================
+[env.staging]
+name = "edge-gateway-worker-staging"
+routes = [
+  { pattern = "gateway-staging.orion.app/*", zone_name = "orion.app" }
+]
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "edge_gateway_staging"
+database_id = "YOUR_STAGING_DB_ID"
+
+[[env.staging.r2_buckets]]
+binding = "BLOBS"
+bucket_name = "orion-blobs-staging"
+
+[[env.staging.kv_namespaces]]
+binding = "KV"
+id = "YOUR_STAGING_KV_ID"
+
+[[env.staging.queues.producers]]
+queue = "events-fanout-staging"
+binding = "FANOUT_QUEUE"
+
+[[env.staging.queues.consumers]]
+queue = "events-fanout-staging"
+max_batch_size = 50
+max_batch_timeout = 5
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+CONTRACTS_VERSION = "2026-01-11"

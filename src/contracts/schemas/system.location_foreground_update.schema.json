@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/system.location_foreground_update.schema.json",
+  "title": "System Location Foreground Update Event Payload",
+  "description": "Schema for the payload of system.location_foreground_update events (coarse location)",
+  "type": "object",
+  "required": ["geohash"],
+  "properties": {
+    "geohash": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 12,
+      "description": "Geohash of the location (precision depends on consent)"
+    },
+    "geohashPrecision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12,
+      "description": "Precision level of the geohash"
+    },
+    "city": {
+      "type": "string",
+      "description": "City name if available"
+    },
+    "region": {
+      "type": "string",
+      "description": "State/region/province"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country name"
+    },
+    "countryCode": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 country code"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone at this location"
+    },
+    "horizontalAccuracy": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Horizontal accuracy in meters"
+    },
+    "verticalAccuracy": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Vertical accuracy in meters (if altitude available)"
+    },
+    "altitude": {
+      "type": "number",
+      "description": "Altitude in meters (if available)"
+    },
+    "speed": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Speed in meters per second"
+    },
+    "course": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 360,
+      "description": "Direction of travel in degrees"
+    },
+    "locationSource": {
+      "type": "string",
+      "enum": ["gps", "wifi", "cellular", "ip", "manual", "unknown"],
+      "description": "Source of the location data"
+    },
+    "isSignificant": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a significant location change"
+    },
+    "distanceFromLastUpdateM": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Distance from last update in meters"
+    },
+    "timeSinceLastUpdateMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time since last update in milliseconds"
+    },
+    "activityType": {
+      "type": "string",
+      "enum": ["stationary", "walking", "running", "cycling", "automotive", "unknown"],
+      "description": "Detected activity type"
+    },
+    "activityConfidence": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Confidence in activity detection"
+    },
+    "isIndoors": {
+      "type": "boolean",
+      "description": "Whether the user appears to be indoors"
+    },
+    "floor": {
+      "type": "integer",
+      "description": "Floor level if available"
+    },
+    "batteryLevel": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Battery level at time of update"
+    }
+  },
+  "additionalProperties": true
+}

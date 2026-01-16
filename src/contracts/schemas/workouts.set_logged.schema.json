@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/workouts.set_logged.schema.json",
+  "title": "Workouts Set Logged Event Payload",
+  "description": "Schema for the payload of workouts.set_logged events",
+  "type": "object",
+  "required": ["setId", "workoutId", "exerciseId"],
+  "properties": {
+    "setId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this set"
+    },
+    "workoutId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ID of the parent workout session"
+    },
+    "exerciseId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ID of the exercise being performed"
+    },
+    "exerciseName": {
+      "type": "string",
+      "description": "Name of the exercise"
+    },
+    "exerciseCategory": {
+      "type": "string",
+      "enum": ["strength", "cardio", "flexibility", "balance", "plyometric", "calisthenics", "other"],
+      "description": "Category of exercise"
+    },
+    "muscleGroups": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["chest", "back", "shoulders", "biceps", "triceps", "forearms", "core", "glutes", "quads", "hamstrings", "calves", "full_body"]
+      },
+      "description": "Primary muscle groups targeted"
+    },
+    "setNumber": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Set number for this exercise"
+    },
+    "setType": {
+      "type": "string",
+      "enum": ["warmup", "working", "dropset", "superset", "rest_pause", "failure", "amrap"],
+      "default": "working",
+      "description": "Type of set"
+    },
+    "reps": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of repetitions completed"
+    },
+    "targetReps": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Target repetitions for the set"
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Weight used"
+    },
+    "weightUnit": {
+      "type": "string",
+      "enum": ["kg", "lb"],
+      "default": "kg",
+      "description": "Unit for weight measurement"
+    },
+    "targetWeight": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Target weight for the set"
+    },
+    "duration": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Duration in seconds (for timed exercises)"
+    },
+    "targetDuration": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Target duration in seconds"
+    },
+    "distance": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Distance covered (for cardio exercises)"
+    },
+    "distanceUnit": {
+      "type": "string",
+      "enum": ["m", "km", "mi", "ft"],
+      "default": "m",
+      "description": "Unit for distance measurement"
+    },
+    "rpe": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Rate of perceived exertion (1-10)"
+    },
+    "rir": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Reps in reserve"
+    },
+    "isPersonalRecord": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this set is a personal record"
+    },
+    "recordType": {
+      "type": "string",
+      "enum": ["weight", "reps", "volume", "duration"],
+      "description": "Type of personal record"
+    },
+    "previousRecordValue": {
+      "type": "number",
+      "description": "Previous record value if PR"
+    },
+    "volume": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Volume (weight x reps)"
+    },
+    "restTimeSeconds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Rest time before this set"
+    },
+    "tempo": {
+      "type": "string",
+      "pattern": "^[0-9]+-[0-9]+-[0-9]+-[0-9]+$",
+      "description": "Tempo in eccentric-pause-concentric-pause format"
+    },
+    "formRating": {
+      "type": "string",
+      "enum": ["poor", "okay", "good", "excellent"],
+      "description": "Self-assessed form quality"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes about the set"
+    },
+    "heartRate": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Heart rate during set if tracked"
+    },
+    "logMethod": {
+      "type": "string",
+      "enum": ["manual", "voice", "quick_log", "auto_detect", "template"],
+      "description": "How the set was logged"
+    }
+  },
+  "additionalProperties": true
+}

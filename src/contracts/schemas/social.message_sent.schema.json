@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/social.message_sent.schema.json",
+  "title": "Social Message Sent Event Payload",
+  "description": "Schema for the payload of social.message_sent events",
+  "type": "object",
+  "required": ["messageId", "platform"],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the message"
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["twitter", "facebook", "instagram", "linkedin", "tiktok", "mastodon", "threads", "bluesky", "other"],
+      "description": "Social media platform"
+    },
+    "conversationId": {
+      "type": "string",
+      "description": "Identifier for the conversation/thread"
+    },
+    "recipientRef": {
+      "type": "string",
+      "description": "Reference to the recipient (hashed/anonymized)"
+    },
+    "recipientType": {
+      "type": "string",
+      "enum": ["user", "group", "page", "channel"],
+      "description": "Type of recipient"
+    },
+    "messageType": {
+      "type": "string",
+      "enum": ["text", "image", "video", "voice", "sticker", "gif", "link", "story_reply", "poll"],
+      "description": "Type of message content"
+    },
+    "textLength": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of text content in characters"
+    },
+    "textHash": {
+      "type": "string",
+      "description": "SHA-256 hash of message text"
+    },
+    "hasMedia": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether message contains media"
+    },
+    "mediaCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of media items"
+    },
+    "mediaTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Types of media attached"
+    },
+    "isReply": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a reply"
+    },
+    "replyToMessageId": {
+      "type": "string",
+      "description": "ID of message being replied to"
+    },
+    "isForward": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a forwarded message"
+    },
+    "hasLink": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether message contains a link"
+    },
+    "hasMention": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether message contains mentions"
+    },
+    "mentionCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of mentions in the message"
+    },
+    "hasHashtag": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether message contains hashtags"
+    },
+    "hashtagCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of hashtags"
+    },
+    "isGroupMessage": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether sent to a group"
+    },
+    "groupSize": {
+      "type": "integer",
+      "minimum": 2,
+      "description": "Size of group if group message"
+    },
+    "composeDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time spent composing in milliseconds"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["public", "followers", "mutual", "private"],
+      "description": "Message visibility setting"
+    },
+    "scheduledTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled send time if applicable"
+    }
+  },
+  "additionalProperties": true
+}

@@ -4,6 +4,9 @@
  */
 
 import { Env } from "../env";
+import { createLogger } from "../utils/logger";
+
+const logger = createLogger({ module: "twilio/voice" });
 
 // Base URL for recording status callback
 const GATEWAY_BASE_URL = "https://gateway.orionsuite.app";
@@ -47,7 +50,7 @@ export async function handleVoiceOutbound(
   const callSid = form.get("CallSid") || "";
   const userId = form.get("userId") || "";
 
-  console.log("Voice outbound request:", {
+  logger.info("Voice outbound request received", {
     to,
     from,
     callSid,
@@ -84,7 +87,7 @@ export async function handleVoiceFallback(
   req: Request,
   env: Env
 ): Promise<Response> {
-  console.error("Voice fallback triggered - main voice URL failed");
+  logger.error("Voice fallback triggered - main voice URL failed", null);
 
   return twiml(`<Response>
   <Say>We're sorry, an error occurred. Please try again later.</Say>
@@ -113,7 +116,7 @@ export async function handleVoiceStatus(
   const direction = form.get("Direction") || "";
   const timestamp = form.get("Timestamp") || new Date().toISOString();
 
-  console.log("Voice status event:", {
+  logger.info("Voice status event received", {
     callSid,
     callStatus,
     duration,
@@ -155,7 +158,7 @@ export async function handleRecordingStatus(
   const callSid = form.get("CallSid") || "";
   const recordingStatus = form.get("RecordingStatus") || "";
 
-  console.log("Recording status event:", {
+  logger.info("Recording status event received", {
     recordingSid,
     recordingUrl,
     recordingDuration,
@@ -189,7 +192,7 @@ export async function handleVoiceInbound(
   const to = form.get("To") || "";
   const callSid = form.get("CallSid") || "";
 
-  console.log("Voice inbound request:", {
+  logger.info("Voice inbound request received", {
     from,
     to,
     callSid,
@@ -204,7 +207,7 @@ export async function handleVoiceInbound(
   const userId = form.get("userId") || "";
 
   if (!userId) {
-    console.error("No userId found for inbound call to:", to);
+    logger.error("No userId found for inbound call", null, { to });
     return twiml(`<Response>
   <Say>We're sorry, this number is not configured. Please try again later.</Say>
   <Hangup/>

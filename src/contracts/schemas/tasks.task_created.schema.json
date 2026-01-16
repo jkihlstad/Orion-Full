@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/tasks.task_created.schema.json",
+  "title": "Task Created Event Payload",
+  "description": "Schema for the payload of tasks.task_created events",
+  "type": "object",
+  "required": ["taskId", "title"],
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the task"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "description": "Task title/name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed task description"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "urgent"],
+      "default": "none",
+      "description": "Task priority level"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Task due date in ISO 8601 format"
+    },
+    "dueTime": {
+      "type": "string",
+      "format": "time",
+      "description": "Task due time in ISO 8601 format"
+    },
+    "dueDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Combined due date and time in ISO 8601 format"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Scheduled start date"
+    },
+    "project": {
+      "type": "string",
+      "description": "Project or list the task belongs to"
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Unique identifier for the project"
+    },
+    "parentTaskId": {
+      "type": "string",
+      "description": "Parent task ID for subtasks"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of tag labels"
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "color": { "type": "string" }
+        }
+      },
+      "description": "Structured labels with metadata"
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated time to complete in minutes"
+    },
+    "estimatedPomodoros": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated number of pomodoro sessions"
+    },
+    "assigneeRef": {
+      "type": "string",
+      "description": "Reference to assigned user (hashed/anonymized)"
+    },
+    "isRecurring": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a recurring task"
+    },
+    "recurrenceRule": {
+      "type": "string",
+      "description": "Recurrence pattern (e.g., daily, weekly)"
+    },
+    "reminder": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "dateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "relativeMins": { "type": "integer" }
+      },
+      "description": "Reminder settings"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "in_progress", "completed", "cancelled", "deferred"],
+      "default": "pending",
+      "description": "Current task status"
+    },
+    "energy": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Energy level required for the task"
+    },
+    "context": {
+      "type": "string",
+      "description": "Context or location where the task should be done (e.g., @home, @work)"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["manual", "email", "calendar", "voice", "import", "api"],
+      "default": "manual",
+      "description": "How the task was created"
+    },
+    "sourceRef": {
+      "type": "string",
+      "description": "Reference to the source (email ID, calendar event ID, etc.)"
+    }
+  },
+  "additionalProperties": true
+}

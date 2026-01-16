@@ -1,0 +1,526 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Window 51: Event requirements for consent, graph processing, and privacy - gateway auto-enforcement layer",
+  "version": "2026-01-11",
+  "defaults": {
+    "graphRequired": false,
+    "piiRisk": "medium",
+    "requiredScopes": []
+  },
+  "eventTypes": {
+    "system.smoke_test": {
+      "requiredScopes": [],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Pipeline verification event, no PII"
+    },
+    "system.permission_status_changed": {
+      "requiredScopes": [],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "System permission status changes"
+    },
+    "consent.updated": {
+      "requiredScopes": [],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "User consent preference changes - always allowed"
+    },
+    "consent.scope_enabled": {
+      "requiredScopes": [],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Consent scope enabled"
+    },
+    "consent.scope_disabled": {
+      "requiredScopes": [],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Consent scope disabled"
+    },
+    "browser.page_visited": {
+      "requiredScopes": ["consent.browser.history"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["payload.url.queryParams", "payload.url.fragment"],
+      "notes": "Creates PageVisit nodes in Neo4j"
+    },
+    "browser.page_viewed": {
+      "requiredScopes": ["consent.browser.history"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["fullUrl", "query", "fragment", "pageHtml", "domText"],
+      "notes": "Stores host and path hash only"
+    },
+    "browser.dwell_time": {
+      "requiredScopes": ["consent.browser.interactions"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["fullUrl", "query", "fragment"],
+      "notes": "Engagement tracking"
+    },
+    "browser.link_clicked": {
+      "requiredScopes": ["consent.browser.interactions"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["fullUrl", "query", "fragment", "linkText", "domText"],
+      "notes": "Stores host and selector hash only"
+    },
+    "browser.session_started": {
+      "requiredScopes": ["consent.browser.history"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Session tracking only"
+    },
+    "browser.screenshot_uploaded": {
+      "requiredScopes": ["consent.browser.screenshots"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["imageBytes"],
+      "notes": "Screenshot blob reference only"
+    },
+    "browser.tab_opened": {
+      "requiredScopes": ["consent.browser.history"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["fullUrl", "query", "fragment"],
+      "notes": "Tab management tracking"
+    },
+    "browser.tab_closed": {
+      "requiredScopes": ["consent.browser.history"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": ["fullUrl", "query", "fragment"],
+      "notes": "Tab lifecycle"
+    },
+    "browser.search_performed": {
+      "requiredScopes": ["consent.browser.history"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["rawQuery"],
+      "notes": "Search query hash stored, raw query redacted"
+    },
+    "browser.scroll_depth": {
+      "requiredScopes": ["consent.browser.interactions"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": ["fullUrl", "query", "fragment"],
+      "notes": "Content engagement metrics"
+    },
+    "tasks.task_created": {
+      "requiredScopes": ["consent.tasks"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": ["notes"],
+      "notes": "Task node in graph"
+    },
+    "tasks.task_updated": {
+      "requiredScopes": ["consent.tasks"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": ["notes"],
+      "notes": "Task update tracking"
+    },
+    "tasks.task_completed": {
+      "requiredScopes": ["consent.tasks"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Task completion edge"
+    },
+    "tasks.task_deleted": {
+      "requiredScopes": ["consent.tasks"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Task deletion tombstone"
+    },
+    "tasks.task_generated_from_calendar": {
+      "requiredScopes": ["consent.tasks", "consent.calendar.events"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "AI-generated task from calendar event"
+    },
+    "tasks.task_generated_from_email": {
+      "requiredScopes": ["consent.tasks", "consent.email.metadata"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "AI-generated task from email"
+    },
+    "calendar.event_created": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["attendeeEmails", "notes", "locationPrecise"],
+      "notes": "Calendar event node"
+    },
+    "calendar.event_updated": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["attendeeEmails", "notes", "locationPrecise"],
+      "notes": "Calendar event update"
+    },
+    "calendar.event_deleted": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Calendar event deletion"
+    },
+    "calendar.event_imported": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["attendeeEmails", "notes", "locationPrecise"],
+      "notes": "External calendar import"
+    },
+    "calendar.permission_granted": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Calendar permission granted"
+    },
+    "calendar.sync_completed": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Calendar sync status"
+    },
+    "calendar.event_change_requested": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["attendeeEmails"],
+      "notes": "Calendar change request"
+    },
+    "calendar.event_change_approved": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["attendeeEmails"],
+      "notes": "Calendar change approval"
+    },
+    "calendar.event_change_denied": {
+      "requiredScopes": ["consent.calendar.events"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": ["attendeeEmails"],
+      "notes": "Calendar change denial"
+    },
+    "finance.plaid_item_linked": {
+      "requiredScopes": ["consent.finance.accounts"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["accessToken", "publicToken", "institutionId", "accountNumbers"],
+      "notes": "Links financial institution"
+    },
+    "finance.plaid_link_started": {
+      "requiredScopes": ["consent.finance.accounts"],
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redaction": ["publicToken", "accessToken"],
+      "notes": "Plaid link flow started"
+    },
+    "finance.transaction_created": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["accountNumber", "routingNumber", "cardNumber", "pan", "rawDescription"],
+      "notes": "Creates Transaction nodes in Neo4j"
+    },
+    "finance.transaction_updated": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["accountNumber", "routingNumber", "cardNumber", "pan", "rawDescription"],
+      "notes": "Transaction update"
+    },
+    "finance.transaction_deleted": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Transaction tombstone"
+    },
+    "finance.account_synced": {
+      "requiredScopes": ["consent.finance.accounts"],
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redaction": ["accountNumbers", "routingNumber"],
+      "notes": "Account sync status"
+    },
+    "finance.subscription_detected": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["rawDescription"],
+      "notes": "Recurring payment detection"
+    },
+    "finance.subscription_updated": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["rawDescription"],
+      "notes": "Subscription update"
+    },
+    "finance.subscription_canceled_confirmed": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Subscription cancellation"
+    },
+    "finance.receipt_captured": {
+      "requiredScopes": ["consent.finance.receipts"],
+      "graphRequired": true,
+      "piiRisk": "very_high",
+      "redaction": ["imageBytes", "fullText", "cardNumber"],
+      "notes": "Receipt image and extracted data - high PII risk"
+    },
+    "finance.receipt_ocr_completed": {
+      "requiredScopes": ["consent.finance.receipts"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["fullText"],
+      "notes": "OCR processing completed"
+    },
+    "finance.receipt_line_items_extracted": {
+      "requiredScopes": ["consent.finance.receipts"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": [],
+      "notes": "Line item extraction"
+    },
+    "finance.receipt_matched_to_transaction": {
+      "requiredScopes": ["consent.finance.receipts", "consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": [],
+      "notes": "Receipt-transaction matching"
+    },
+    "finance.budget_created": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Budget creation"
+    },
+    "finance.budget_threshold_crossed": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Budget alert"
+    },
+    "finance.spending_anomaly_detected": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": [],
+      "notes": "Anomaly detection insight"
+    },
+    "finance.insight_generated": {
+      "requiredScopes": ["consent.finance.transactions"],
+      "graphRequired": true,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Financial insight"
+    },
+    "finance.credit_score_refreshed": {
+      "requiredScopes": ["consent.finance.credit"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["ssn"],
+      "notes": "Credit score update"
+    },
+    "finance.credit_report_refreshed": {
+      "requiredScopes": ["consent.finance.credit"],
+      "graphRequired": true,
+      "piiRisk": "very_high",
+      "redaction": ["ssn", "fullReportPdf", "disputeDetails"],
+      "notes": "Credit report data"
+    },
+    "finance.credit_alert_received": {
+      "requiredScopes": ["consent.finance.credit"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["ssn"],
+      "notes": "Credit monitoring alert"
+    },
+    "email.account_connected": {
+      "requiredScopes": ["consent.email.metadata"],
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redaction": ["accessToken", "refreshToken"],
+      "notes": "Email account connection"
+    },
+    "email.message_sent": {
+      "requiredScopes": ["consent.email.metadata"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["body", "rawHeaders", "to", "cc", "bcc"],
+      "notes": "Sent email metadata only"
+    },
+    "email.message_received": {
+      "requiredScopes": ["consent.email.metadata"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": ["body", "rawHeaders", "to", "cc", "bcc"],
+      "notes": "Received email metadata only"
+    },
+    "email.sync_completed": {
+      "requiredScopes": ["consent.email.metadata"],
+      "graphRequired": false,
+      "piiRisk": "low",
+      "redaction": [],
+      "notes": "Email sync status"
+    },
+    "email.thread_opened": {
+      "requiredScopes": ["consent.email.metadata"],
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redaction": ["body", "rawHeaders"],
+      "notes": "Email engagement tracking"
+    },
+    "email.body_indexed": {
+      "requiredScopes": ["consent.email.content"],
+      "graphRequired": true,
+      "piiRisk": "very_high",
+      "redaction": ["pii", "secrets"],
+      "notes": "Email content indexing - requires explicit consent"
+    },
+    "email.attachment_added": {
+      "requiredScopes": ["consent.email.content"],
+      "graphRequired": true,
+      "piiRisk": "high",
+      "redaction": [],
+      "notes": "Email attachment"
+    },
+    "communication.message_sent": {
+      "requiredScopes": ["consent.communication.messages"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["content.text", "content.rawText", "toE164", "fromE164"],
+      "notes": "SMS/messaging sent"
+    },
+    "communication.message_received": {
+      "requiredScopes": ["consent.communication.messages"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["content.text", "content.rawText", "toE164", "fromE164"],
+      "notes": "SMS/messaging received"
+    },
+    "communication.call_started": {
+      "requiredScopes": ["consent.communication.calls"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["to.e164", "from.e164", "toE164", "fromE164", "phoneNumber"],
+      "notes": "Call initiation"
+    },
+    "communication.call_ended": {
+      "requiredScopes": ["consent.communication.calls"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["to.e164", "from.e164", "toE164", "fromE164", "phoneNumber"],
+      "notes": "Call completion"
+    },
+    "communication.thread_created": {
+      "requiredScopes": ["consent.communication.messages"],
+      "graphRequired": true,
+      "piiRisk": "medium",
+      "redaction": ["participants.e164", "participants.email", "participants.phoneNumber"],
+      "notes": "Conversation thread"
+    }
+  },
+  "scopes": {
+    "consent.browser.history": {
+      "description": "Access to browsing history (URLs, titles)",
+      "uiLabel": "Browsing History",
+      "defaultEnabled": false,
+      "piiLevel": "medium"
+    },
+    "consent.browser.interactions": {
+      "description": "Browser interactions (clicks, scrolls, dwell time)",
+      "uiLabel": "Browser Interactions",
+      "defaultEnabled": false,
+      "piiLevel": "low"
+    },
+    "consent.browser.screenshots": {
+      "description": "Page screenshot capture",
+      "uiLabel": "Page Screenshots",
+      "defaultEnabled": false,
+      "piiLevel": "high"
+    },
+    "consent.tasks": {
+      "description": "Access to tasks and to-do lists",
+      "uiLabel": "Tasks",
+      "defaultEnabled": false,
+      "piiLevel": "low"
+    },
+    "consent.calendar.events": {
+      "description": "Access to calendar events",
+      "uiLabel": "Calendar Events",
+      "defaultEnabled": false,
+      "piiLevel": "medium"
+    },
+    "consent.finance.accounts": {
+      "description": "Link financial accounts via Plaid",
+      "uiLabel": "Bank Accounts",
+      "defaultEnabled": false,
+      "piiLevel": "high"
+    },
+    "consent.finance.transactions": {
+      "description": "Access to financial transactions",
+      "uiLabel": "Transactions",
+      "defaultEnabled": false,
+      "piiLevel": "high"
+    },
+    "consent.finance.receipts": {
+      "description": "Capture and process receipts",
+      "uiLabel": "Receipt Capture",
+      "defaultEnabled": false,
+      "piiLevel": "high"
+    },
+    "consent.finance.credit": {
+      "description": "Credit score and monitoring",
+      "uiLabel": "Credit Monitoring",
+      "defaultEnabled": false,
+      "piiLevel": "very_high"
+    },
+    "consent.email.metadata": {
+      "description": "Email thread metadata (subjects, senders, timestamps)",
+      "uiLabel": "Email Metadata",
+      "defaultEnabled": false,
+      "piiLevel": "medium"
+    },
+    "consent.email.content": {
+      "description": "Full email body content",
+      "uiLabel": "Email Content",
+      "defaultEnabled": false,
+      "piiLevel": "very_high"
+    },
+    "consent.communication.messages": {
+      "description": "SMS and messaging activity",
+      "uiLabel": "Messages",
+      "defaultEnabled": false,
+      "piiLevel": "medium"
+    },
+    "consent.communication.calls": {
+      "description": "Phone call activity",
+      "uiLabel": "Calls",
+      "defaultEnabled": false,
+      "piiLevel": "medium"
+    }
+  }
+}

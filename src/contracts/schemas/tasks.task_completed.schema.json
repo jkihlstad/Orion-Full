@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/tasks.task_completed.schema.json",
+  "title": "Task Completed Event Payload",
+  "description": "Schema for the payload of tasks.task_completed events",
+  "type": "object",
+  "required": ["taskId"],
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the completed task"
+    },
+    "title": {
+      "type": "string",
+      "description": "Task title"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the task was marked complete"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Original due date of the task"
+    },
+    "dueDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Original due date and time"
+    },
+    "completedOnTime": {
+      "type": "boolean",
+      "description": "Whether the task was completed by its due date"
+    },
+    "daysEarlyOrLate": {
+      "type": "integer",
+      "description": "Days early (positive) or late (negative)"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "urgent"],
+      "description": "Task priority level"
+    },
+    "project": {
+      "type": "string",
+      "description": "Project the task belongs to"
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Project identifier"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags applied to the task"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the task was created"
+    },
+    "taskAgeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Age of the task from creation to completion"
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Originally estimated time in minutes"
+    },
+    "actualMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Actual time spent on task"
+    },
+    "estimateAccuracy": {
+      "type": "number",
+      "description": "Ratio of actual to estimated time"
+    },
+    "pomodorosCompleted": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of pomodoro sessions completed"
+    },
+    "completionMethod": {
+      "type": "string",
+      "enum": ["manual", "checkbox", "swipe", "voice", "shortcut", "api"],
+      "description": "How the task was marked complete"
+    },
+    "wasRescheduled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the task was rescheduled before completion"
+    },
+    "rescheduleCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of times the task was rescheduled"
+    },
+    "subtaskCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of subtasks"
+    },
+    "subtasksCompleted": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of subtasks completed"
+    },
+    "isRecurring": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a recurring task"
+    },
+    "recurrenceIndex": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Which occurrence of recurring task"
+    },
+    "nextOccurrenceDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Next occurrence date if recurring"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["manual", "email", "calendar", "voice", "import", "api"],
+      "description": "Original source of the task"
+    },
+    "sourceRef": {
+      "type": "string",
+      "description": "Reference to the source"
+    },
+    "streakCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Current completion streak if recurring"
+    }
+  },
+  "additionalProperties": true
+}

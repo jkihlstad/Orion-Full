@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/dating.message_sent.schema.json",
+  "title": "Dating Message Sent Event Payload",
+  "description": "Schema for the payload of dating.message_sent events",
+  "type": "object",
+  "required": ["messageId", "matchId"],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the message"
+    },
+    "matchId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ID of the match this message belongs to"
+    },
+    "recipientRef": {
+      "type": "string",
+      "description": "Reference to the recipient (hashed)"
+    },
+    "textLength": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of message text"
+    },
+    "textHash": {
+      "type": "string",
+      "description": "Hash of the message text"
+    },
+    "wordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Word count of message"
+    },
+    "messageType": {
+      "type": "string",
+      "enum": ["text", "gif", "photo", "voice", "video", "reaction", "icebreaker"],
+      "default": "text",
+      "description": "Type of message"
+    },
+    "isFirstMessage": {
+      "type": "boolean",
+      "description": "Whether this is the first message in the match"
+    },
+    "isOpener": {
+      "type": "boolean",
+      "description": "Whether user sent the opening message"
+    },
+    "isReply": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a reply"
+    },
+    "replyToMessageId": {
+      "type": "string",
+      "description": "ID of message being replied to"
+    },
+    "conversationMessageCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total messages in conversation"
+    },
+    "userMessageCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "User's messages in conversation"
+    },
+    "timeSinceLastMessageMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time since last message in conversation"
+    },
+    "timeSinceMatchMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time since match was created"
+    },
+    "responseTimeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to respond to last message"
+    },
+    "composeDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time spent composing message"
+    },
+    "hasEmoji": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether message contains emoji"
+    },
+    "hasQuestion": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether message contains a question"
+    },
+    "usedSuggestion": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether an AI suggestion was used"
+    },
+    "suggestionType": {
+      "type": "string",
+      "enum": ["icebreaker", "reply_suggestion", "topic_suggestion"],
+      "description": "Type of suggestion used"
+    },
+    "suggestionModified": {
+      "type": "boolean",
+      "description": "Whether the suggestion was modified"
+    },
+    "hasMedia": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether message has media"
+    },
+    "mediaType": {
+      "type": "string",
+      "enum": ["gif", "photo", "voice", "video"],
+      "description": "Type of media if present"
+    },
+    "sentimentEstimate": {
+      "type": "string",
+      "enum": ["positive", "neutral", "flirty", "humorous"],
+      "description": "Estimated message sentiment"
+    }
+  },
+  "additionalProperties": true
+}

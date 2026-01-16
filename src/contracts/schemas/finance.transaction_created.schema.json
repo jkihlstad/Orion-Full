@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.transaction_created.schema.json",
+  "title": "Finance Transaction Created Event Payload",
+  "description": "Schema for the payload of finance.transaction_created events",
+  "type": "object",
+  "required": ["transactionId", "amount", "currency"],
+  "properties": {
+    "transactionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the transaction"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction amount (positive for credits, negative for debits)"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code (e.g., USD, EUR)"
+    },
+    "merchant": {
+      "type": "string",
+      "description": "Merchant name as provided by the financial institution"
+    },
+    "merchantNormalized": {
+      "type": "string",
+      "description": "Normalized/cleaned merchant name for consistent categorization"
+    },
+    "category": {
+      "type": "string",
+      "description": "Primary spending category (e.g., Food & Dining, Shopping)"
+    },
+    "subcategory": {
+      "type": "string",
+      "description": "Subcategory for more granular classification"
+    },
+    "accountRef": {
+      "type": "string",
+      "description": "Reference to the linked financial account"
+    },
+    "pending": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the transaction is still pending"
+    },
+    "transactionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the transaction occurred (ISO 8601 date)"
+    },
+    "authorizedDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the transaction was authorized"
+    },
+    "transactionType": {
+      "type": "string",
+      "enum": ["debit", "credit", "transfer", "payment", "refund", "fee", "interest", "adjustment"],
+      "description": "Type of transaction"
+    },
+    "paymentChannel": {
+      "type": "string",
+      "enum": ["online", "in_store", "atm", "other"],
+      "description": "Payment channel used"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "city": { "type": "string" },
+        "region": { "type": "string" },
+        "country": { "type": "string" },
+        "postalCode": { "type": "string" }
+      },
+      "description": "Transaction location if available"
+    },
+    "iso_currency_code": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "Official ISO currency code from the institution"
+    },
+    "unofficial_currency_code": {
+      "type": "string",
+      "description": "Unofficial currency code for cryptocurrencies or other non-ISO currencies"
+    }
+  },
+  "additionalProperties": true
+}

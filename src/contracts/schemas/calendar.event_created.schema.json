@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/calendar.event_created.schema.json",
+  "title": "Calendar Event Created Payload",
+  "description": "Schema for the payload of calendar.event_created events",
+  "type": "object",
+  "required": ["eventId", "title", "startTime", "endTime"],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the calendar event"
+    },
+    "calendarId": {
+      "type": "string",
+      "description": "Identifier for the calendar containing this event"
+    },
+    "calendarName": {
+      "type": "string",
+      "description": "Display name of the calendar"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Event title/subject"
+    },
+    "description": {
+      "type": "string",
+      "description": "Event description or notes"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event start time in ISO 8601 format"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event end time in ISO 8601 format"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone identifier (e.g., America/New_York)"
+    },
+    "isAllDay": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is an all-day event"
+    },
+    "location": {
+      "type": "string",
+      "description": "Event location (coarse, e.g., city or venue name)"
+    },
+    "conferenceLink": {
+      "type": "string",
+      "format": "uri",
+      "description": "Video conference link (Zoom, Meet, etc.)"
+    },
+    "conferenceProvider": {
+      "type": "string",
+      "enum": ["zoom", "google_meet", "teams", "webex", "other"],
+      "description": "Video conference provider"
+    },
+    "isRecurring": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this event is part of a recurring series"
+    },
+    "recurrenceRule": {
+      "type": "string",
+      "description": "iCalendar RRULE for recurring events"
+    },
+    "recurrenceId": {
+      "type": "string",
+      "description": "Identifier linking all instances of a recurring event"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["confirmed", "tentative", "cancelled"],
+      "default": "confirmed",
+      "description": "Event status"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["default", "public", "private", "confidential"],
+      "description": "Event visibility setting"
+    },
+    "attendeeCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attendees (without exposing email addresses)"
+    },
+    "organizerRef": {
+      "type": "string",
+      "description": "Reference to the event organizer (hashed or anonymized)"
+    },
+    "isOrganizer": {
+      "type": "boolean",
+      "description": "Whether the current user is the event organizer"
+    },
+    "responseStatus": {
+      "type": "string",
+      "enum": ["needsAction", "declined", "tentative", "accepted"],
+      "description": "User's response status to the event"
+    },
+    "reminders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": ["email", "popup", "sms"]
+          },
+          "minutesBefore": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "description": "Reminder settings for the event"
+    },
+    "colorId": {
+      "type": "string",
+      "description": "Color identifier for the event"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["google", "outlook", "apple", "other"],
+      "description": "Calendar provider source"
+    }
+  },
+  "additionalProperties": true
+}

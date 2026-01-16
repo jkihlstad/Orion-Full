@@ -11,7 +11,7 @@ async function proxyToSocial(
   userId: string,
   path: string,
   method: string,
-  body?: any
+  body?: unknown
 ): Promise<Response> {
   if (!env.SOCIAL_SIGNAL_URL) {
     return json({ ok: false, error: "social_backend_not_configured" }, 503);

@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/communication.call_ended.schema.json",
+  "title": "Communication Call Ended Event Payload",
+  "description": "Schema for the payload of communication.call_ended events",
+  "type": "object",
+  "required": ["callId", "durationSeconds"],
+  "properties": {
+    "callId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the call"
+    },
+    "threadId": {
+      "type": "string",
+      "description": "Thread/conversation ID associated with the call"
+    },
+    "contactRef": {
+      "type": "string",
+      "description": "Reference to the contact (hashed/anonymized)"
+    },
+    "contactLast4": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Last 4 digits of the phone number"
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["inbound", "outbound"],
+      "description": "Call direction"
+    },
+    "durationSeconds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Call duration in seconds"
+    },
+    "ringDurationSeconds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time the phone rang before connection"
+    },
+    "endReason": {
+      "type": "string",
+      "enum": ["completed", "missed", "declined", "busy", "failed", "voicemail", "cancelled", "no_answer", "network_error"],
+      "description": "Reason the call ended"
+    },
+    "wasAnswered": {
+      "type": "boolean",
+      "description": "Whether the call was answered"
+    },
+    "hadVoicemail": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a voicemail was left"
+    },
+    "voicemailDurationSeconds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Duration of voicemail if left"
+    },
+    "wasRecorded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the call was recorded"
+    },
+    "recordingId": {
+      "type": "string",
+      "description": "Reference to the call recording if recorded"
+    },
+    "holdTimeSeconds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total time spent on hold"
+    },
+    "holdCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of times put on hold"
+    },
+    "callQuality": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "Call quality score"
+        },
+        "packetLossPercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "jitterMs": { "type": "integer", "minimum": 0 },
+        "latencyMs": { "type": "integer", "minimum": 0 }
+      },
+      "description": "Call quality metrics"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["pstn", "voip", "wifi_calling", "cellular"],
+      "description": "Call channel type"
+    },
+    "provider": {
+      "type": "string",
+      "description": "Telephony provider used"
+    },
+    "numberRef": {
+      "type": "string",
+      "description": "Reference to the Orion number used"
+    }
+  },
+  "additionalProperties": true
+}

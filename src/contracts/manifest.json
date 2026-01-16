@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-01-11T09:23:00Z",
+  "schemas": [
+    { "name": "browser.page_viewed.schema.json", "checksum": "sha256:939d75da237cbd24a9e5633281adce72c021d0ee83d7a50926cc17d2c8ab509b" },
+    { "name": "calendar.event_created.schema.json", "checksum": "sha256:eb9328a95dc01d4e1cdb634af52eaf19c435a70e05550e320926b2840b04365c" },
+    { "name": "email.message_sent.schema.json", "checksum": "sha256:9f606183b8a0b6d927f0b1dba3c5d205de5dc8fc421365dad7f105301a553d15" },
+    { "name": "finance.transaction_created.schema.json", "checksum": "sha256:1a5e87cca65c39038950e0814d691457708fbd9cff73322a98bb2838ecb54dd1" },
+    { "name": "tasks.task_created.schema.json", "checksum": "sha256:fafb7d031f772f101d6230a4a902657070f0864fd103b47999d3a980690d182e" }
+  ],
+  "mappings": [
+    { "name": "browser.page_viewed.mapping.ts", "checksum": "sha256:6b8af907bb45a107fbb9414c45974e1973a5a9b414ddfa4d878f18457e8d2ba9" },
+    { "name": "calendar.event_created.mapping.ts", "checksum": "sha256:fad91c396e93d4c52d4f98627dc277412b8fa2795f9ba4f4a75711ba866b6b60" },
+    { "name": "email.message_sent.mapping.ts", "checksum": "sha256:0004dc5256f6122360116b0ca342cab8d19103899023bb0d47bdd51061422095" },
+    { "name": "finance.transaction_created.mapping.ts", "checksum": "sha256:98de5620b220838a9c90739d2ddfb9b8b2d2e0e5428286fa393b2e6ab4efa480" },
+    { "name": "tasks.task_created.mapping.ts", "checksum": "sha256:60d2c4813d66e2566923ebf04533eef6c9bb30d5ab016c699f7f749a04a9c6de" },
+    { "name": "test.mapping.ts", "checksum": "sha256:a72c01415ffcf33fcdbf5d99ad889eefaaa45cba6f2bf3442d80ca3c322223cd" }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/sleep.session_ended.schema.json",
+  "title": "Sleep Session Ended Event Payload",
+  "description": "Schema for the payload of sleep.session_ended events",
+  "type": "object",
+  "required": ["sessionId", "startTime", "endTime"],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the sleep session"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When sleep tracking started"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When sleep tracking ended"
+    },
+    "totalDurationMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total duration in minutes"
+    },
+    "actualSleepMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Actual sleep time excluding awake periods"
+    },
+    "sleepEfficiency": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Sleep efficiency percentage"
+    },
+    "timeToSleepMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to fall asleep in minutes"
+    },
+    "wakeUpCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of times woken during session"
+    },
+    "totalAwakeMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total time awake during session"
+    },
+    "sleepStages": {
+      "type": "object",
+      "properties": {
+        "deepSleepMins": { "type": "integer", "minimum": 0 },
+        "lightSleepMins": { "type": "integer", "minimum": 0 },
+        "remSleepMins": { "type": "integer", "minimum": 0 },
+        "awakeMins": { "type": "integer", "minimum": 0 }
+      },
+      "description": "Time in each sleep stage"
+    },
+    "sleepStagePercents": {
+      "type": "object",
+      "properties": {
+        "deep": { "type": "number", "minimum": 0, "maximum": 100 },
+        "light": { "type": "number", "minimum": 0, "maximum": 100 },
+        "rem": { "type": "number", "minimum": 0, "maximum": 100 },
+        "awake": { "type": "number", "minimum": 0, "maximum": 100 }
+      },
+      "description": "Percentage in each sleep stage"
+    },
+    "sleepScore": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall sleep quality score"
+    },
+    "heartRateAvg": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Average heart rate during sleep"
+    },
+    "heartRateMin": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minimum heart rate during sleep"
+    },
+    "heartRateVariability": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Heart rate variability (HRV) in ms"
+    },
+    "respirationRateAvg": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Average breaths per minute"
+    },
+    "snoreMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minutes of detected snoring"
+    },
+    "snoringEpisodes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of snoring episodes"
+    },
+    "alarmUsed": {
+      "type": "boolean",
+      "description": "Whether an alarm was used to wake"
+    },
+    "alarmTime": {
+      "type": "string",
+      "format": "time",
+      "description": "Alarm time if used"
+    },
+    "smartAlarmWindow": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Smart alarm window in minutes"
+    },
+    "wokeBeforeAlarm": {
+      "type": "boolean",
+      "description": "Whether user woke before alarm"
+    },
+    "trackingSource": {
+      "type": "string",
+      "enum": ["phone", "watch", "band", "ring", "mattress", "manual"],
+      "description": "Device used for tracking"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone identifier"
+    }
+  },
+  "additionalProperties": true
+}

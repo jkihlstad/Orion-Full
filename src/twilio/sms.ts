@@ -4,6 +4,9 @@
  */
 
 import { Env } from "../env";
+import { createLogger } from "../utils/logger";
+
+const logger = createLogger({ module: "twilio/sms" });
 
 /**
  * Parsed inbound SMS message from Twilio webhook
@@ -130,7 +133,7 @@ export async function handleSmsInbound(
     const message = parseInboundSms(params);
 
     // Log the inbound message for debugging
-    console.log("Inbound SMS received:", {
+    logger.info("Inbound SMS received", {
       messageSid: message.messageSid,
       from: message.from,
       to: message.to,
@@ -146,8 +149,8 @@ export async function handleSmsInbound(
 
     // Return empty TwiML to acknowledge receipt without auto-reply
     return twiml();
-  } catch (err: any) {
-    console.error("Error processing inbound SMS:", err);
+  } catch (err: unknown) {
+    logger.error("Error processing inbound SMS", err instanceof Error ? err : null);
     // Still return 200 with empty TwiML to prevent Twilio retries
     return twiml();
   }
@@ -171,7 +174,7 @@ export async function handleSmsStatus(
     const status = parseSmsStatus(params);
 
     // Log the status update
-    console.log("SMS status update:", {
+    logger.info("SMS status update received", {
       messageSid: status.messageSid,
       status: status.messageStatus,
       to: status.to,
@@ -181,7 +184,7 @@ export async function handleSmsStatus(
 
     // Handle failed messages
     if (status.messageStatus === "failed" || status.messageStatus === "undelivered") {
-      console.error("SMS delivery failed:", {
+      logger.error("SMS delivery failed", null, {
         messageSid: status.messageSid,
         to: status.to,
         errorCode: status.errorCode,
@@ -205,8 +208,8 @@ export async function handleSmsStatus(
         "Content-Type": "text/plain",
       },
     });
-  } catch (err: any) {
-    console.error("Error processing SMS status:", err);
+  } catch (err: unknown) {
+    logger.error("Error processing SMS status", err instanceof Error ? err : null);
     // Still return 200 to prevent Twilio retries
     return new Response("OK", {
       status: 200,

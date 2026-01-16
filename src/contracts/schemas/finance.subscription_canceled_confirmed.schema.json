@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.subscription_canceled_confirmed.schema.json",
+  "title": "Finance Subscription Canceled Confirmed Event Payload",
+  "description": "Schema for the payload of finance.subscription_canceled_confirmed events",
+  "type": "object",
+  "required": ["subscriptionId"],
+  "properties": {
+    "subscriptionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the subscription"
+    },
+    "serviceName": {
+      "type": "string",
+      "description": "Name of the subscription service"
+    },
+    "serviceCategory": {
+      "type": "string",
+      "enum": ["streaming", "software", "news", "fitness", "food", "storage", "gaming", "productivity", "other"],
+      "description": "Category of the subscription"
+    },
+    "monthlyAmount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Monthly subscription amount"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "billingFrequency": {
+      "type": "string",
+      "enum": ["weekly", "monthly", "quarterly", "yearly"],
+      "description": "Billing frequency"
+    },
+    "cancellationDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date cancellation was confirmed"
+    },
+    "effectiveEndDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date subscription actually ends"
+    },
+    "subscriptionStartDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Original subscription start date"
+    },
+    "totalPaid": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total amount paid over subscription lifetime"
+    },
+    "paymentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of payments made"
+    },
+    "cancellationMethod": {
+      "type": "string",
+      "enum": ["in_app", "website", "phone", "email", "assisted"],
+      "description": "How the cancellation was made"
+    },
+    "cancellationReason": {
+      "type": "string",
+      "enum": ["too_expensive", "not_using", "found_alternative", "quality_issues", "temporary", "other"],
+      "description": "Reason for cancellation"
+    },
+    "refundAmount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Refund amount if applicable"
+    },
+    "refundStatus": {
+      "type": "string",
+      "enum": ["none", "pending", "processed", "denied"],
+      "description": "Status of refund if applicable"
+    },
+    "futureChargesPrevented": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated future charges prevented"
+    },
+    "annualSavings": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Annual savings from cancellation"
+    },
+    "confirmationNumber": {
+      "type": "string",
+      "description": "Cancellation confirmation number"
+    },
+    "assistedBy": {
+      "type": "string",
+      "enum": ["user", "ai_assistant", "support"],
+      "description": "Who assisted with cancellation"
+    },
+    "accountRef": {
+      "type": "string",
+      "description": "Reference to the payment account"
+    }
+  },
+  "additionalProperties": true
+}

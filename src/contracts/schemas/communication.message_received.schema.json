@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/communication.message_received.schema.json",
+  "title": "Communication Message Received Event Payload",
+  "description": "Schema for the payload of communication.message_received events",
+  "type": "object",
+  "required": ["messageId", "threadId"],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the message"
+    },
+    "threadId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Thread/conversation ID"
+    },
+    "senderRef": {
+      "type": "string",
+      "description": "Reference to the sender (hashed/anonymized)"
+    },
+    "senderLast4": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Last 4 digits of sender's phone number"
+    },
+    "textHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the message text"
+    },
+    "textLength": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of the message text in characters"
+    },
+    "wordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of words in the message"
+    },
+    "hasMedia": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the message contains media attachments"
+    },
+    "mediaCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of media attachments"
+    },
+    "mediaTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "MIME types of attachments"
+    },
+    "hasLinks": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the message contains links"
+    },
+    "linkCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of links in the message"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["sms", "mms", "imessage", "rcs", "whatsapp", "telegram", "other"],
+      "description": "Communication channel"
+    },
+    "isGroupMessage": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a group message"
+    },
+    "groupSize": {
+      "type": "integer",
+      "minimum": 2,
+      "description": "Number of participants if group message"
+    },
+    "isReply": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a reply to another message"
+    },
+    "replyToMessageId": {
+      "type": "string",
+      "description": "ID of the message being replied to"
+    },
+    "deliveryLatencyMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time from send to receive in milliseconds"
+    },
+    "receivedVia": {
+      "type": "string",
+      "enum": ["push", "fetch", "webhook"],
+      "description": "How the message was received"
+    },
+    "numberRef": {
+      "type": "string",
+      "description": "Reference to the Orion number that received the message"
+    },
+    "isSpam": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the message was flagged as spam"
+    },
+    "spamScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Spam likelihood score"
+    }
+  },
+  "additionalProperties": true
+}

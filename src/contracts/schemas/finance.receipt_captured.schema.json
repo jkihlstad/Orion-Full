@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.receipt_captured.schema.json",
+  "title": "Finance Receipt Captured Event Payload",
+  "description": "Schema for the payload of finance.receipt_captured events",
+  "type": "object",
+  "required": ["receiptId"],
+  "properties": {
+    "receiptId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the receipt"
+    },
+    "blobRef": {
+      "type": "string",
+      "description": "Reference to the image in R2 storage"
+    },
+    "r2Key": {
+      "type": "string",
+      "description": "R2 storage key for the receipt image"
+    },
+    "captureMethod": {
+      "type": "string",
+      "enum": ["camera", "gallery", "email", "import", "scan"],
+      "description": "How the receipt was captured"
+    },
+    "imageFormat": {
+      "type": "string",
+      "enum": ["jpeg", "png", "heic", "pdf"],
+      "description": "Image format"
+    },
+    "imageSizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Size of the image in bytes"
+    },
+    "imageWidth": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Image width in pixels"
+    },
+    "imageHeight": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Image height in pixels"
+    },
+    "merchantName": {
+      "type": "string",
+      "description": "Merchant name if detected"
+    },
+    "totalAmount": {
+      "type": "number",
+      "description": "Total amount if detected"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "receiptDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date on the receipt if detected"
+    },
+    "category": {
+      "type": "string",
+      "description": "Spending category if detected"
+    },
+    "ocrScheduled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether OCR processing was scheduled"
+    },
+    "qualityScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Image quality score"
+    },
+    "isBlurry": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the image is detected as blurry"
+    },
+    "isTruncated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the receipt appears truncated"
+    },
+    "captureDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time from start to capture in milliseconds"
+    },
+    "retakeCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of retakes before successful capture"
+    },
+    "deviceType": {
+      "type": "string",
+      "enum": ["mobile", "tablet", "desktop"],
+      "description": "Device type used for capture"
+    },
+    "linkedTransactionId": {
+      "type": "string",
+      "description": "Transaction ID if already linked"
+    }
+  },
+  "additionalProperties": true
+}

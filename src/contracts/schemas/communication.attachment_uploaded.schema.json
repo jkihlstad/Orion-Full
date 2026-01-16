@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/communication.attachment_uploaded.schema.json",
+  "title": "Communication Attachment Uploaded Event Payload",
+  "description": "Schema for the payload of communication.attachment_uploaded events",
+  "type": "object",
+  "required": ["attachmentId", "threadId", "contentType"],
+  "properties": {
+    "attachmentId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the attachment"
+    },
+    "threadId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Thread/conversation ID the attachment belongs to"
+    },
+    "messageId": {
+      "type": "string",
+      "description": "Message ID the attachment is associated with"
+    },
+    "blobRef": {
+      "type": "string",
+      "description": "Reference to the blob in R2 storage"
+    },
+    "r2Key": {
+      "type": "string",
+      "description": "R2 storage key for the attachment"
+    },
+    "contentType": {
+      "type": "string",
+      "minLength": 1,
+      "description": "MIME type of the attachment"
+    },
+    "filename": {
+      "type": "string",
+      "description": "Original filename of the attachment"
+    },
+    "filenameHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the filename for privacy"
+    },
+    "sizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Size of the attachment in bytes"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["image", "video", "audio", "document", "archive", "other"],
+      "description": "Category of the attachment"
+    },
+    "isInline": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the attachment is inline in the message"
+    },
+    "thumbnailGenerated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a thumbnail was generated"
+    },
+    "thumbnailRef": {
+      "type": "string",
+      "description": "Reference to the thumbnail in storage"
+    },
+    "uploadDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time taken to upload in milliseconds"
+    },
+    "compressionApplied": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether compression was applied during upload"
+    },
+    "originalSizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Original size before compression"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["sms", "mms", "imessage", "rcs", "whatsapp", "telegram", "other"],
+      "description": "Communication channel"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "width": { "type": "integer", "description": "Image/video width in pixels" },
+        "height": { "type": "integer", "description": "Image/video height in pixels" },
+        "duration": { "type": "number", "description": "Audio/video duration in seconds" },
+        "pageCount": { "type": "integer", "description": "Number of pages for documents" }
+      },
+      "description": "Media-specific metadata"
+    }
+  },
+  "additionalProperties": true
+}

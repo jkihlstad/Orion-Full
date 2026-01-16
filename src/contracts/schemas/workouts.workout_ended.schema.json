@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/workouts.workout_ended.schema.json",
+  "title": "Workouts Workout Ended Event Payload",
+  "description": "Schema for the payload of workouts.workout_ended events",
+  "type": "object",
+  "required": ["workoutId", "startTime", "endTime"],
+  "properties": {
+    "workoutId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the workout"
+    },
+    "workoutName": {
+      "type": "string",
+      "description": "Name of the workout"
+    },
+    "workoutType": {
+      "type": "string",
+      "enum": ["strength", "cardio", "hiit", "yoga", "stretching", "sports", "mixed", "other"],
+      "description": "Type of workout"
+    },
+    "templateId": {
+      "type": "string",
+      "description": "Template ID if following a program"
+    },
+    "programId": {
+      "type": "string",
+      "description": "Program ID if part of a training program"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Workout start time"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Workout end time"
+    },
+    "durationMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total workout duration in minutes"
+    },
+    "activeDurationMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Active workout time excluding rest"
+    },
+    "restDurationMins": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total rest time in minutes"
+    },
+    "exerciseCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of unique exercises performed"
+    },
+    "setCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of sets completed"
+    },
+    "totalReps": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total repetitions performed"
+    },
+    "totalVolume": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total volume (sum of weight x reps)"
+    },
+    "volumeUnit": {
+      "type": "string",
+      "enum": ["kg", "lb"],
+      "default": "kg",
+      "description": "Unit for volume measurement"
+    },
+    "muscleGroupsWorked": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Muscle groups targeted"
+    },
+    "personalRecordsSet": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of personal records set"
+    },
+    "averageRpe": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Average RPE across working sets"
+    },
+    "caloriesBurned": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated calories burned"
+    },
+    "averageHeartRate": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Average heart rate during workout"
+    },
+    "maxHeartRate": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum heart rate during workout"
+    },
+    "heartRateZones": {
+      "type": "object",
+      "properties": {
+        "zone1Mins": { "type": "integer", "minimum": 0 },
+        "zone2Mins": { "type": "integer", "minimum": 0 },
+        "zone3Mins": { "type": "integer", "minimum": 0 },
+        "zone4Mins": { "type": "integer", "minimum": 0 },
+        "zone5Mins": { "type": "integer", "minimum": 0 }
+      },
+      "description": "Time in each heart rate zone"
+    },
+    "completionPercent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage of planned workout completed"
+    },
+    "endReason": {
+      "type": "string",
+      "enum": ["completed", "early_finish", "time_limit", "fatigue", "injury", "other"],
+      "description": "Reason for ending the workout"
+    },
+    "rating": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "User rating of the workout"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["too_easy", "easy", "moderate", "hard", "too_hard"],
+      "description": "Perceived workout difficulty"
+    },
+    "mood": {
+      "type": "string",
+      "enum": ["great", "good", "okay", "tired", "exhausted"],
+      "description": "Mood after workout"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Workout notes"
+    },
+    "location": {
+      "type": "string",
+      "enum": ["gym", "home", "outdoor", "studio", "other"],
+      "description": "Where the workout took place"
+    },
+    "equipmentUsed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Equipment used during workout"
+    },
+    "streakDays": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Current workout streak in days"
+    },
+    "weeklyWorkoutNumber": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Workout number for the week"
+    }
+  },
+  "additionalProperties": true
+}

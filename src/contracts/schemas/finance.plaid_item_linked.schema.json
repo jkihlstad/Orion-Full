@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.plaid_item_linked.schema.json",
+  "title": "Finance Plaid Item Linked Event Payload",
+  "description": "Schema for the payload of finance.plaid_item_linked events",
+  "type": "object",
+  "required": ["itemId", "institutionName"],
+  "properties": {
+    "itemId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Plaid item identifier"
+    },
+    "institutionName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the financial institution"
+    },
+    "institutionType": {
+      "type": "string",
+      "enum": ["bank", "credit_union", "brokerage", "investment", "other"],
+      "description": "Type of institution"
+    },
+    "accountCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of accounts linked"
+    },
+    "accountTypes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["checking", "savings", "credit", "loan", "investment", "brokerage", "mortgage", "other"]
+      },
+      "description": "Types of accounts linked"
+    },
+    "accountRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "accountRef": {
+            "type": "string",
+            "description": "Reference to the account"
+          },
+          "accountType": {
+            "type": "string"
+          },
+          "last4": {
+            "type": "string",
+            "pattern": "^[0-9]{4}$"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "References to linked accounts"
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["transactions", "auth", "identity", "balance", "investments", "liabilities"]
+      },
+      "description": "Plaid products enabled"
+    },
+    "linkSessionId": {
+      "type": "string",
+      "description": "Plaid Link session identifier"
+    },
+    "linkDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to complete linking in milliseconds"
+    },
+    "isRelink": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a re-link of an existing item"
+    },
+    "previousItemId": {
+      "type": "string",
+      "description": "Previous item ID if re-linking"
+    },
+    "mfaRequired": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether MFA was required"
+    },
+    "mfaType": {
+      "type": "string",
+      "enum": ["questions", "device", "code", "other"],
+      "description": "Type of MFA used"
+    },
+    "consentGranted": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether consent was granted"
+    },
+    "consentScopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Consent scopes granted"
+    },
+    "webhookEnabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether webhooks are enabled for this item"
+    },
+    "initialSyncScheduled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether initial sync was scheduled"
+    }
+  },
+  "additionalProperties": true
+}

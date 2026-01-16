@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.receipt_line_items_extracted.schema.json",
+  "title": "Finance Receipt Line Items Extracted Event Payload",
+  "description": "Schema for the payload of finance.receipt_line_items_extracted events",
+  "type": "object",
+  "required": ["receiptId", "lineItemCount"],
+  "properties": {
+    "receiptId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the receipt"
+    },
+    "lineItemCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of line items extracted"
+    },
+    "lineItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "lineNumber": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "description": {
+            "type": "string",
+            "description": "Item description"
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0
+          },
+          "unitPrice": {
+            "type": "number"
+          },
+          "totalPrice": {
+            "type": "number"
+          },
+          "category": {
+            "type": "string",
+            "description": "Item category"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Extraction confidence"
+          }
+        }
+      },
+      "description": "Extracted line items"
+    },
+    "subtotal": {
+      "type": "number",
+      "description": "Subtotal before tax/discounts"
+    },
+    "taxAmount": {
+      "type": "number",
+      "description": "Tax amount"
+    },
+    "taxRate": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Tax rate percentage"
+    },
+    "discountAmount": {
+      "type": "number",
+      "description": "Discount amount"
+    },
+    "tipAmount": {
+      "type": "number",
+      "description": "Tip amount if applicable"
+    },
+    "totalAmount": {
+      "type": "number",
+      "description": "Total amount"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "merchantName": {
+      "type": "string",
+      "description": "Extracted merchant name"
+    },
+    "merchantAddress": {
+      "type": "string",
+      "description": "Extracted merchant address"
+    },
+    "receiptDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Extracted receipt date"
+    },
+    "receiptTime": {
+      "type": "string",
+      "format": "time",
+      "description": "Extracted receipt time"
+    },
+    "paymentMethod": {
+      "type": "string",
+      "enum": ["cash", "credit", "debit", "mobile", "other"],
+      "description": "Detected payment method"
+    },
+    "cardLast4": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Last 4 digits of card used"
+    },
+    "extractionConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Overall extraction confidence"
+    },
+    "processingTimeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to process in milliseconds"
+    },
+    "extractionModel": {
+      "type": "string",
+      "description": "Model used for extraction"
+    },
+    "manualCorrections": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of manual corrections made"
+    }
+  },
+  "additionalProperties": true
+}

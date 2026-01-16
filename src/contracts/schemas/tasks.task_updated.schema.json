@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/tasks.task_updated.schema.json",
+  "title": "Task Updated Event Payload",
+  "description": "Schema for the payload of tasks.task_updated events",
+  "type": "object",
+  "required": ["taskId", "updatedFields"],
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the task"
+    },
+    "updatedFields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["title", "description", "dueDate", "dueTime", "priority", "project", "tags", "status", "reminder", "estimate", "assignee", "recurrence"]
+      },
+      "minItems": 1,
+      "description": "List of fields that were updated"
+    },
+    "title": {
+      "type": "string",
+      "description": "Updated task title"
+    },
+    "previousTitle": {
+      "type": "string",
+      "description": "Previous task title"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "urgent"],
+      "description": "Updated priority"
+    },
+    "previousPriority": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "urgent"],
+      "description": "Previous priority"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Updated due date"
+    },
+    "previousDueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Previous due date"
+    },
+    "dueTime": {
+      "type": "string",
+      "format": "time",
+      "description": "Updated due time"
+    },
+    "previousDueTime": {
+      "type": "string",
+      "format": "time",
+      "description": "Previous due time"
+    },
+    "project": {
+      "type": "string",
+      "description": "Updated project"
+    },
+    "previousProject": {
+      "type": "string",
+      "description": "Previous project"
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Updated project ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "in_progress", "completed", "cancelled", "deferred"],
+      "description": "Updated status"
+    },
+    "previousStatus": {
+      "type": "string",
+      "enum": ["pending", "in_progress", "completed", "cancelled", "deferred"],
+      "description": "Previous status"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Updated tags"
+    },
+    "tagsAdded": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags that were added"
+    },
+    "tagsRemoved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags that were removed"
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Updated time estimate"
+    },
+    "previousEstimatedMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Previous time estimate"
+    },
+    "isRescheduled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the update was a reschedule"
+    },
+    "rescheduleDays": {
+      "type": "integer",
+      "description": "Days rescheduled (positive = postponed)"
+    },
+    "updateSource": {
+      "type": "string",
+      "enum": ["manual", "drag_drop", "quick_edit", "detail_view", "voice", "api", "sync", "ai_suggestion"],
+      "description": "How the update was made"
+    },
+    "updateMethod": {
+      "type": "string",
+      "enum": ["direct_edit", "bulk_edit", "natural_language", "template"],
+      "description": "Method used to update"
+    },
+    "isRecurring": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a recurring task"
+    },
+    "recurrenceUpdateScope": {
+      "type": "string",
+      "enum": ["this_task", "this_and_future", "all"],
+      "description": "Scope of update for recurring tasks"
+    },
+    "taskCreatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the task was originally created"
+    },
+    "timeSinceCreationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time since task creation in milliseconds"
+    },
+    "updateCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of updates to this task"
+    }
+  },
+  "additionalProperties": true
+}

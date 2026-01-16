@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.credit_alert_received.schema.json",
+  "title": "Finance Credit Alert Received Event Payload",
+  "description": "Schema for the payload of finance.credit_alert_received events",
+  "type": "object",
+  "required": ["alertId", "alertType"],
+  "properties": {
+    "alertId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the alert"
+    },
+    "alertType": {
+      "type": "string",
+      "enum": [
+        "new_account",
+        "credit_inquiry",
+        "delinquency",
+        "address_change",
+        "name_change",
+        "fraud_alert",
+        "credit_limit_change",
+        "balance_change",
+        "public_record",
+        "score_change",
+        "identity_theft",
+        "other"
+      ],
+      "description": "Type of credit alert"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["info", "warning", "critical"],
+      "description": "Alert severity level"
+    },
+    "bureau": {
+      "type": "string",
+      "enum": ["experian", "equifax", "transunion", "all"],
+      "description": "Credit bureau that issued the alert"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable alert description"
+    },
+    "detectedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the alert was detected"
+    },
+    "affectedAccountType": {
+      "type": "string",
+      "enum": ["credit_card", "loan", "mortgage", "auto", "student", "other"],
+      "description": "Type of account affected"
+    },
+    "inquiryType": {
+      "type": "string",
+      "enum": ["hard", "soft"],
+      "description": "Type of credit inquiry if applicable"
+    },
+    "inquirerName": {
+      "type": "string",
+      "description": "Name of the entity that made the inquiry"
+    },
+    "previousValue": {
+      "type": "string",
+      "description": "Previous value for change alerts"
+    },
+    "newValue": {
+      "type": "string",
+      "description": "New value for change alerts"
+    },
+    "scoreImpact": {
+      "type": "integer",
+      "description": "Estimated impact on credit score"
+    },
+    "recommendedActions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Recommended actions for the user"
+    },
+    "isDisputed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the alert has been disputed"
+    },
+    "disputeId": {
+      "type": "string",
+      "description": "Dispute ID if disputed"
+    },
+    "isResolved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the alert has been resolved"
+    },
+    "userAcknowledged": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user has acknowledged the alert"
+    },
+    "acknowledgedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the user acknowledged the alert"
+    },
+    "monitoringProvider": {
+      "type": "string",
+      "description": "Credit monitoring service provider"
+    }
+  },
+  "additionalProperties": true
+}

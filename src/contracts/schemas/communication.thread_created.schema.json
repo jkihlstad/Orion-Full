@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/communication.thread_created.schema.json",
+  "title": "Communication Thread Created Event Payload",
+  "description": "Schema for the payload of communication.thread_created events",
+  "type": "object",
+  "required": ["threadId"],
+  "properties": {
+    "threadId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the thread/conversation"
+    },
+    "threadType": {
+      "type": "string",
+      "enum": ["direct", "group"],
+      "description": "Type of thread"
+    },
+    "participantCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of participants in the thread"
+    },
+    "participantRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "References to participants (hashed/anonymized)"
+    },
+    "primaryContactRef": {
+      "type": "string",
+      "description": "Reference to the primary contact for direct threads"
+    },
+    "primaryContactLast4": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Last 4 digits of primary contact's phone number"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["sms", "mms", "imessage", "rcs", "whatsapp", "telegram", "other"],
+      "description": "Communication channel"
+    },
+    "initiatedBy": {
+      "type": "string",
+      "enum": ["user", "contact", "system"],
+      "description": "Who initiated the thread"
+    },
+    "firstMessageDirection": {
+      "type": "string",
+      "enum": ["inbound", "outbound"],
+      "description": "Direction of the first message"
+    },
+    "numberRef": {
+      "type": "string",
+      "description": "Reference to the Orion number associated with the thread"
+    },
+    "numberLast4": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Last 4 digits of the Orion number"
+    },
+    "isArchived": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the thread started as archived"
+    },
+    "isMuted": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the thread is muted"
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Labels applied to the thread"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["incoming", "compose", "import", "sync"],
+      "description": "How the thread was created"
+    },
+    "linkedContactId": {
+      "type": "string",
+      "description": "Reference to linked contact in address book"
+    }
+  },
+  "additionalProperties": true
+}

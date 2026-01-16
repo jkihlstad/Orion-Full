@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/browser.dwell_time.schema.json",
+  "title": "Browser Dwell Time Event Payload",
+  "description": "Schema for the payload of browser.dwell_time events tracking time spent on a webpage",
+  "type": "object",
+  "required": ["host", "dwellTimeMs"],
+  "properties": {
+    "host": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The hostname of the page (e.g., www.example.com)"
+    },
+    "pathHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the URL path for privacy-preserving tracking"
+    },
+    "dwellTimeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total time spent on the page in milliseconds"
+    },
+    "activeTimeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time the page was actively in focus in milliseconds"
+    },
+    "idleTimeMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time the page was idle or unfocused in milliseconds"
+    },
+    "tabId": {
+      "type": "string",
+      "description": "Identifier for the browser tab"
+    },
+    "windowId": {
+      "type": "string",
+      "description": "Identifier for the browser window"
+    },
+    "scrollEvents": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of scroll events during the dwell"
+    },
+    "clickEvents": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of click events during the dwell"
+    },
+    "keyEvents": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of keyboard events during the dwell"
+    },
+    "maxScrollDepthPercent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Maximum scroll depth reached as a percentage of page height"
+    },
+    "visibilityChanges": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of times page visibility changed"
+    },
+    "exitReason": {
+      "type": "string",
+      "enum": ["navigation", "tab_close", "window_close", "timeout", "unknown"],
+      "description": "Reason for ending the dwell tracking"
+    },
+    "titleHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the page title"
+    },
+    "contentType": {
+      "type": "string",
+      "description": "MIME type of the page content"
+    },
+    "incognito": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the page was viewed in incognito/private mode"
+    }
+  },
+  "additionalProperties": true
+}

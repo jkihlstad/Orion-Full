@@ -5,6 +5,9 @@
 
 import { Env } from "../env";
 import { json } from "../utils/respond";
+import { createLogger } from "../utils/logger";
+
+const logger = createLogger({ module: "twilio/token" });
 
 interface TokenRequest {
   capabilities: ("chat" | "voice")[];
@@ -42,8 +45,13 @@ async function generateAccessToken(
   const now = Math.floor(Date.now() / 1000);
   const exp = now + ttlSeconds;
 
-  // Build grants object
-  const grantsPayload: Record<string, any> = {
+  // Build grants object - Twilio-specific JWT grant structure
+  interface TwilioGrant {
+    identity: string;
+    chat?: { service_sid: string };
+    voice?: { incoming: { allow: boolean }; outgoing: { application_sid: string } };
+  }
+  const grantsPayload: TwilioGrant = {
     identity,
   };
 
@@ -157,8 +165,9 @@ export async function handleTwilioToken(
     }
 
     return json(response, 200);
-  } catch (err: any) {
-    console.error("Twilio token generation error:", err);
-    return json({ ok: false, error: "token_generation_failed", message: err?.message }, 500);
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    logger.error("Twilio token generation failed", err instanceof Error ? err : null, { userId: identity });
+    return json({ ok: false, error: "token_generation_failed", message: errorMsg }, 500);
   }
 }

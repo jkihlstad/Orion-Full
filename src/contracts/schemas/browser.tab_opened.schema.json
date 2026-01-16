@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/browser.tab_opened.schema.json",
+  "title": "Browser Tab Opened Event Payload",
+  "description": "Schema for the payload of browser.tab_opened events tracking new tab creation",
+  "type": "object",
+  "required": ["tabId"],
+  "properties": {
+    "tabId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the new tab"
+    },
+    "windowId": {
+      "type": "string",
+      "description": "Identifier for the browser window containing the tab"
+    },
+    "host": {
+      "type": "string",
+      "description": "Hostname of the initial page loaded in the tab"
+    },
+    "pathHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the URL path for privacy-preserving tracking"
+    },
+    "openerTabId": {
+      "type": "string",
+      "description": "ID of the tab that opened this tab (if applicable)"
+    },
+    "openerHost": {
+      "type": "string",
+      "description": "Hostname of the page that triggered the new tab"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Position of the tab in the tab strip"
+    },
+    "openReason": {
+      "type": "string",
+      "enum": ["user_action", "link_click", "bookmark", "new_tab_page", "restored", "programmatic", "context_menu", "keyboard_shortcut", "other"],
+      "description": "Reason the tab was opened"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the tab is active/focused"
+    },
+    "isPinned": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the tab is pinned"
+    },
+    "isNewTabPage": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a new tab page"
+    },
+    "windowTabCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of tabs in the window after opening"
+    },
+    "groupId": {
+      "type": "string",
+      "description": "Tab group ID if the tab belongs to a group"
+    },
+    "incognito": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the tab was opened in incognito/private mode"
+    },
+    "mutedInfo": {
+      "type": "object",
+      "properties": {
+        "muted": { "type": "boolean" },
+        "reason": {
+          "type": "string",
+          "enum": ["user", "capture", "extension"]
+        }
+      },
+      "description": "Tab mute state information"
+    }
+  },
+  "additionalProperties": true
+}

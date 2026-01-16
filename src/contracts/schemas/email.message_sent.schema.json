@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/email.message_sent.schema.json",
+  "title": "Email Message Sent Event Payload",
+  "description": "Schema for the payload of email.message_sent events",
+  "type": "object",
+  "required": ["messageId"],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the email message"
+    },
+    "threadId": {
+      "type": "string",
+      "description": "Identifier for the email thread/conversation"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Email subject line (may be redacted based on consent)"
+    },
+    "subjectHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the subject for privacy-preserving tracking"
+    },
+    "fromDomain": {
+      "type": "string",
+      "description": "Domain of the sender's email address"
+    },
+    "toDomains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Domains of recipient email addresses"
+    },
+    "recipientCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of recipients (to + cc + bcc)"
+    },
+    "toCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of 'To' recipients"
+    },
+    "ccCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of 'CC' recipients"
+    },
+    "bccCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of 'BCC' recipients"
+    },
+    "hasAttachments": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email has attachments"
+    },
+    "attachmentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attachments"
+    },
+    "totalAttachmentSizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Combined size of all attachments in bytes"
+    },
+    "attachmentTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "MIME types of attachments"
+    },
+    "bodyLength": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of the email body in characters"
+    },
+    "bodyWordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Word count of the email body"
+    },
+    "isReply": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a reply to another email"
+    },
+    "isForward": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a forwarded email"
+    },
+    "inReplyToId": {
+      "type": "string",
+      "description": "Message ID of the email being replied to"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Message IDs in the email thread"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "normal", "high"],
+      "default": "normal",
+      "description": "Email priority level"
+    },
+    "isEncrypted": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email is encrypted"
+    },
+    "isSigned": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the email is digitally signed"
+    },
+    "hasReadReceipt": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a read receipt was requested"
+    },
+    "scheduledSendTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled send time if the email was scheduled"
+    },
+    "draftDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time spent composing the email in milliseconds"
+    },
+    "accountId": {
+      "type": "string",
+      "description": "Identifier for the email account used to send"
+    },
+    "provider": {
+      "type": "string",
+      "enum": ["gmail", "outlook", "apple", "yahoo", "other"],
+      "description": "Email provider"
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Email labels or folders applied"
+    }
+  },
+  "additionalProperties": true
+}

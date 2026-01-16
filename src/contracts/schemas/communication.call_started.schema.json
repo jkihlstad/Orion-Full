@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/communication.call_started.schema.json",
+  "title": "Communication Call Started Event Payload",
+  "description": "Schema for the payload of communication.call_started events",
+  "type": "object",
+  "required": ["callId", "direction"],
+  "properties": {
+    "callId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the call"
+    },
+    "threadId": {
+      "type": "string",
+      "description": "Thread/conversation ID associated with the call"
+    },
+    "contactRef": {
+      "type": "string",
+      "description": "Reference to the contact (hashed/anonymized)"
+    },
+    "contactLast4": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Last 4 digits of the phone number"
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["inbound", "outbound"],
+      "description": "Call direction"
+    },
+    "callType": {
+      "type": "string",
+      "enum": ["voice", "video", "conference"],
+      "default": "voice",
+      "description": "Type of call"
+    },
+    "recordingEnabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether call recording is enabled"
+    },
+    "recordingAnnouncementPlayed": {
+      "type": "boolean",
+      "description": "Whether the recording announcement was played"
+    },
+    "callerIdPresented": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether caller ID was presented"
+    },
+    "isEmergency": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is an emergency call"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["pstn", "voip", "wifi_calling", "cellular"],
+      "description": "Call channel type"
+    },
+    "provider": {
+      "type": "string",
+      "description": "Telephony provider used"
+    },
+    "numberRef": {
+      "type": "string",
+      "description": "Reference to the Orion number used"
+    },
+    "numberLast4": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Last 4 digits of the Orion number"
+    },
+    "countryCode": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 country code"
+    },
+    "networkType": {
+      "type": "string",
+      "enum": ["wifi", "cellular_5g", "cellular_4g", "cellular_3g", "unknown"],
+      "description": "Network type at call initiation"
+    },
+    "deviceType": {
+      "type": "string",
+      "enum": ["mobile", "desktop", "tablet", "other"],
+      "description": "Device type initiating/receiving the call"
+    }
+  },
+  "additionalProperties": true
+}

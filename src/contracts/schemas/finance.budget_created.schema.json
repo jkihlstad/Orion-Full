@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.budget_created.schema.json",
+  "title": "Finance Budget Created Event Payload",
+  "description": "Schema for the payload of finance.budget_created events",
+  "type": "object",
+  "required": ["budgetId", "name", "amount", "currency"],
+  "properties": {
+    "budgetId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the budget"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Budget name"
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Budget amount limit"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "period": {
+      "type": "string",
+      "enum": ["daily", "weekly", "biweekly", "monthly", "quarterly", "yearly", "custom"],
+      "description": "Budget period"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Budget start date"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Budget end date (for custom periods)"
+    },
+    "category": {
+      "type": "string",
+      "description": "Spending category the budget applies to"
+    },
+    "subcategories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific subcategories included"
+    },
+    "accountRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Account references this budget applies to"
+    },
+    "allAccounts": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether budget applies to all accounts"
+    },
+    "alertThresholds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "percent": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "notificationType": {
+            "type": "string",
+            "enum": ["push", "email", "in_app"]
+          }
+        }
+      },
+      "description": "Alert threshold configurations"
+    },
+    "isRecurring": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether budget automatically renews"
+    },
+    "rolloverEnabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether unused budget rolls over"
+    },
+    "rolloverLimit": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Maximum rollover amount"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["manual", "suggested", "imported", "template"],
+      "default": "manual",
+      "description": "How the budget was created"
+    },
+    "templateId": {
+      "type": "string",
+      "description": "Template ID if created from template"
+    },
+    "color": {
+      "type": "string",
+      "description": "Display color for the budget"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon identifier for the budget"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.credit_score_refreshed.schema.json",
+  "title": "Finance Credit Score Refreshed Event Payload",
+  "description": "Schema for the payload of finance.credit_score_refreshed events",
+  "type": "object",
+  "required": ["score", "scoreModel"],
+  "properties": {
+    "score": {
+      "type": "integer",
+      "minimum": 300,
+      "maximum": 850,
+      "description": "Credit score value"
+    },
+    "scoreModel": {
+      "type": "string",
+      "enum": ["fico_8", "fico_9", "vantage_3", "vantage_4", "other"],
+      "description": "Credit score model used"
+    },
+    "bureau": {
+      "type": "string",
+      "enum": ["experian", "equifax", "transunion"],
+      "description": "Credit bureau providing the score"
+    },
+    "previousScore": {
+      "type": "integer",
+      "minimum": 300,
+      "maximum": 850,
+      "description": "Previous credit score"
+    },
+    "scoreDelta": {
+      "type": "integer",
+      "description": "Change from previous score"
+    },
+    "scoreRange": {
+      "type": "string",
+      "enum": ["poor", "fair", "good", "very_good", "excellent"],
+      "description": "Score range category"
+    },
+    "refreshDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the score was refreshed"
+    },
+    "previousRefreshDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of previous refresh"
+    },
+    "factors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "factor": {
+            "type": "string",
+            "description": "Factor affecting score"
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["positive", "negative", "neutral"]
+          },
+          "weight": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          }
+        }
+      },
+      "description": "Key factors affecting the score"
+    },
+    "utilizationPercent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Credit utilization percentage"
+    },
+    "totalAccounts": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of credit accounts"
+    },
+    "openAccounts": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of open accounts"
+    },
+    "delinquentAccounts": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of delinquent accounts"
+    },
+    "hardInquiries": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of hard inquiries in past 2 years"
+    },
+    "oldestAccountAge": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Age of oldest account in months"
+    },
+    "averageAccountAge": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Average account age in months"
+    },
+    "refreshTrigger": {
+      "type": "string",
+      "enum": ["scheduled", "manual", "alert", "new_account"],
+      "description": "What triggered the refresh"
+    },
+    "monitoringProvider": {
+      "type": "string",
+      "description": "Credit monitoring service provider"
+    }
+  },
+  "additionalProperties": true
+}

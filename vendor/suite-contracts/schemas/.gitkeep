@@ -1,0 +1,3 @@
+# Placeholder directory for JSON schemas
+# Synced from suite-contracts via scripts/sync_contracts.sh
+# Schemas are optional and used for payload validation

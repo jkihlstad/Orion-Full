@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/system.location_manual_checkin.schema.json",
+  "title": "System Location Manual Check-in Event Payload",
+  "description": "Schema for the payload of system.location_manual_checkin events",
+  "type": "object",
+  "required": ["checkinId"],
+  "properties": {
+    "checkinId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this check-in"
+    },
+    "geohash": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 12,
+      "description": "Geohash of the check-in location"
+    },
+    "geohashPrecision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12,
+      "description": "Precision level of the geohash"
+    },
+    "placeName": {
+      "type": "string",
+      "description": "Name of the place (user-selected or detected)"
+    },
+    "placeCategory": {
+      "type": "string",
+      "enum": ["home", "work", "gym", "restaurant", "cafe", "store", "transit", "outdoor", "entertainment", "healthcare", "education", "other"],
+      "description": "Category of the place"
+    },
+    "placeId": {
+      "type": "string",
+      "description": "Place identifier from maps provider"
+    },
+    "city": {
+      "type": "string",
+      "description": "City name"
+    },
+    "region": {
+      "type": "string",
+      "description": "State/region/province"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country name"
+    },
+    "countryCode": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 country code"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone at check-in location"
+    },
+    "checkinSource": {
+      "type": "string",
+      "enum": ["manual", "suggestion", "reminder", "shortcut", "widget"],
+      "description": "How the check-in was initiated"
+    },
+    "checkinMethod": {
+      "type": "string",
+      "enum": ["current_location", "search", "recent", "favorite", "map_tap"],
+      "description": "Method used to select location"
+    },
+    "isFavorite": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a favorite location"
+    },
+    "isFirstVisit": {
+      "type": "boolean",
+      "description": "Whether this is the first check-in at this place"
+    },
+    "visitCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of times checked in at this place"
+    },
+    "lastVisitDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of last check-in at this place"
+    },
+    "daysSinceLastVisit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Days since last check-in at this place"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional user note with check-in"
+    },
+    "mood": {
+      "type": "string",
+      "enum": ["great", "good", "okay", "tired", "stressed"],
+      "description": "User mood at check-in"
+    },
+    "companions": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of companions if shared"
+    },
+    "photos": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of photos attached"
+    },
+    "horizontalAccuracy": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Horizontal accuracy of location in meters"
+    },
+    "arrivalTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated arrival time if different from check-in time"
+    }
+  },
+  "additionalProperties": true
+}

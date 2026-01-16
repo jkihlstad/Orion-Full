@@ -1,9 +1,10 @@
 import { Env } from "../env";
+import { QueueEventEnvelope, SocialSignal } from "../types/queue";
 
 /**
  * Reduce event to minimal social signal (never send raw amounts, receipts, etc)
  */
-export function reduceToSocialSignal(envelope: any) {
+export function reduceToSocialSignal(envelope: QueueEventEnvelope): SocialSignal {
   const { userId, eventType, timestamp, privacyScope } = envelope;
 
   return {
@@ -12,14 +13,14 @@ export function reduceToSocialSignal(envelope: any) {
     timestamp,
     privacyScope,
     // Only include coarse category if present
-    category: envelope?.payload?.category ?? null,
+    category: (envelope.payload?.category as string) ?? null,
   };
 }
 
 /**
  * Forward reduced signal to social-backend (opt-in only)
  */
-export async function sendToSocial(env: Env, signal: any) {
+export async function sendToSocial(env: Env, signal: SocialSignal): Promise<void> {
   if (!env.SOCIAL_SIGNAL_URL) throw new Error("Missing SOCIAL_SIGNAL_URL");
 
   const resp = await fetch(env.SOCIAL_SIGNAL_URL, {

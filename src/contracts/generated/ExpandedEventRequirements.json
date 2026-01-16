@@ -1,0 +1,2644 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "eventCount": 111,
+  "events": [
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Gateway diagnostic event indicating an event was accepted for processing.",
+      "enabled": true,
+      "eventType": "audit.event_accepted",
+      "graphMapping": null,
+      "graphRequired": false,
+      "notes": "Gateway-only diagnostic event; should not include full payload.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "payload"
+      ],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Gateway diagnostic event indicating a duplicate event was detected and deduplicated.",
+      "enabled": true,
+      "eventType": "audit.event_deduped",
+      "graphMapping": null,
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "payload"
+      ],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Gateway diagnostic event indicating event fanout to downstream services failed.",
+      "enabled": true,
+      "eventType": "audit.event_fanout_failed",
+      "graphMapping": null,
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "payload",
+        "errorStack"
+      ],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Gateway diagnostic event indicating event fanout to downstream services succeeded.",
+      "enabled": true,
+      "eventType": "audit.event_fanout_succeeded",
+      "graphMapping": null,
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "payload"
+      ],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.dwell_time",
+      "graphRequired": true,
+      "notes": "Engagement tracking",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "fullUrl",
+        "query",
+        "fragment"
+      ],
+      "requiredScopes": [
+        "consent.browser.interactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "browser.form_capture",
+      "defaultPrivacyScope": "private",
+      "description": "Captures when a user begins filling out a web form. High-risk due to potential PII capture.",
+      "enabled": false,
+      "eventType": "browser.form_started",
+      "graphMapping": "graph/mappings/browser.json",
+      "graphRequired": false,
+      "notes": "High-risk. Keep disabled unless you implement strict allowlists + safe-field policy.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "fieldValue",
+        "rawText",
+        "password",
+        "cardNumber",
+        "ssn"
+      ],
+      "requiredScopes": [
+        "browser.form_capture"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "browser"
+      ],
+      "scopeTier": "T3",
+      "sensitivity": "high",
+      "tier": "T3"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "browser.form_capture",
+      "defaultPrivacyScope": "private",
+      "description": "Captures when a user submits a web form. High-risk due to potential PII capture.",
+      "enabled": false,
+      "eventType": "browser.form_submitted",
+      "graphMapping": "graph/mappings/browser.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "fieldValue",
+        "rawText",
+        "password",
+        "cardNumber",
+        "ssn"
+      ],
+      "requiredScopes": [
+        "browser.form_capture"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "browser"
+      ],
+      "scopeTier": "T3",
+      "sensitivity": "high",
+      "tier": "T3"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.link_clicked",
+      "graphRequired": true,
+      "notes": "Stores host and selector hash only",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "fullUrl",
+        "query",
+        "fragment",
+        "linkText",
+        "domText"
+      ],
+      "requiredScopes": [
+        "consent.browser.interactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.page_viewed",
+      "graphRequired": true,
+      "notes": "Stores host and path hash only",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "fullUrl",
+        "query",
+        "fragment",
+        "pageHtml",
+        "domText"
+      ],
+      "requiredScopes": [
+        "consent.browser.history"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.page_visited",
+      "graphRequired": true,
+      "notes": "Creates PageVisit nodes in Neo4j",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "payload.url.queryParams",
+        "payload.url.fragment"
+      ],
+      "requiredScopes": [
+        "consent.browser.history"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.screenshot_uploaded",
+      "graphRequired": true,
+      "notes": "Screenshot blob reference only",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "imageBytes"
+      ],
+      "requiredScopes": [
+        "consent.browser.screenshots"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.scroll_depth",
+      "graphRequired": false,
+      "notes": "Content engagement metrics",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [
+        "fullUrl",
+        "query",
+        "fragment"
+      ],
+      "requiredScopes": [
+        "consent.browser.interactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.search_performed",
+      "graphRequired": true,
+      "notes": "Search query hash stored, raw query redacted",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "rawQuery"
+      ],
+      "requiredScopes": [
+        "consent.browser.history"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.session_started",
+      "graphRequired": false,
+      "notes": "Session tracking only",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.browser.history"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.tab_closed",
+      "graphRequired": false,
+      "notes": "Tab lifecycle",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [
+        "fullUrl",
+        "query",
+        "fragment"
+      ],
+      "requiredScopes": [
+        "consent.browser.history"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "browser.tab_opened",
+      "graphRequired": true,
+      "notes": "Tab management tracking",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "fullUrl",
+        "query",
+        "fragment"
+      ],
+      "requiredScopes": [
+        "consent.browser.history"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.event_change_approved",
+      "graphRequired": true,
+      "notes": "Calendar change approval",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "attendeeEmails"
+      ],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.event_change_denied",
+      "graphRequired": false,
+      "notes": "Calendar change denial",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [
+        "attendeeEmails"
+      ],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.event_change_requested",
+      "graphRequired": true,
+      "notes": "Calendar change request",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "attendeeEmails"
+      ],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.event_created",
+      "graphRequired": true,
+      "notes": "Calendar event node",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "attendeeEmails",
+        "notes",
+        "locationPrecise"
+      ],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.event_deleted",
+      "graphRequired": false,
+      "notes": "Calendar event deletion",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.event_imported",
+      "graphRequired": true,
+      "notes": "External calendar import",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "attendeeEmails",
+        "notes",
+        "locationPrecise"
+      ],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "calendar.automation",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a calendar event is locked to prevent automated changes.",
+      "enabled": true,
+      "eventType": "calendar.event_locked",
+      "graphMapping": "graph/mappings/calendar.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "calendar.automation"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "calendar"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.event_updated",
+      "graphRequired": true,
+      "notes": "Calendar event update",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "attendeeEmails",
+        "notes",
+        "locationPrecise"
+      ],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.permission_granted",
+      "graphRequired": false,
+      "notes": "Calendar permission granted",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "calendar.sync_completed",
+      "graphRequired": false,
+      "notes": "Calendar sync status",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records A2P (Application-to-Person) messaging status transitions for UI updates.",
+      "enabled": true,
+      "eventType": "communication.a2p_status_changed",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Status transitions for UI. Keep details minimal.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "notes",
+        "rejectionReasonsDetailed"
+      ],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records A2P compliance submission metadata without storing full KYC payload.",
+      "enabled": true,
+      "eventType": "communication.a2p_submitted",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Compliance submission metadata only. Do not store full KYC payload in events.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "business.ein",
+        "business.taxId",
+        "business.address.line1",
+        "business.address.line2",
+        "contact.email",
+        "contact.phone",
+        "sampleMessages"
+      ],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records when an attachment is uploaded to a message. Attachment stored in R2 blob storage.",
+      "enabled": true,
+      "eventType": "communication.attachment_uploaded",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Attachment bytes never in payload; use R2 blobRef only.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "attachment.inlineBytes",
+        "attachment.downloadUrl",
+        "attachment.localFilePath"
+      ],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": true,
+      "retentionDays": 365,
+      "schema": "schemas/communication.attachment_uploaded.schema.json",
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "high",
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "communication.call_ended",
+      "graphRequired": true,
+      "notes": "Call completion",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "to.e164",
+        "from.e164",
+        "toE164",
+        "fromE164",
+        "phoneNumber"
+      ],
+      "requiredScopes": [
+        "consent.communication.calls"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "communication.call_recording",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a call recording is archived to R2 blob storage. High-risk, requires explicit opt-in.",
+      "enabled": false,
+      "eventType": "communication.call_recording_archived",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Recording stored in R2; event references blob r2Key. Enable only with explicit opt-in.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "recordingUrl",
+        "providerRecordingUrl",
+        "signedUrl"
+      ],
+      "requiredScopes": [
+        "communication.call_recording"
+      ],
+      "requiresBlob": true,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T3",
+      "sensitivity": "high",
+      "tier": "T3"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": false
+      },
+      "brainEnabled": true,
+      "consentScope": "communication.call_recording",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a call recording becomes available for download. High-risk, requires explicit opt-in.",
+      "enabled": false,
+      "eventType": "communication.call_recording_available",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Enable only if user opted into call recording. Store only IDs/metadata.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "recordingUrl",
+        "providerRecordingUrl",
+        "signedUrl"
+      ],
+      "requiredScopes": [
+        "communication.call_recording"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T3",
+      "sensitivity": "high",
+      "tier": "T3"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "communication.call_started",
+      "graphRequired": true,
+      "notes": "Call initiation",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "to.e164",
+        "from.e164",
+        "toE164",
+        "fromE164",
+        "phoneNumber"
+      ],
+      "requiredScopes": [
+        "consent.communication.calls"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "communication.call_recording",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a call transcript is created. High-risk, requires explicit recording consent.",
+      "enabled": false,
+      "eventType": "communication.call_transcript_created",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Enable only with explicit recording + participant notice; store structured summary by default.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "rawTranscript"
+      ],
+      "requiredScopes": [
+        "communication.call_recording"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T3",
+      "sensitivity": "high",
+      "tier": "T3"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a reaction is added to a message. Good sentiment signal without exposing content.",
+      "enabled": true,
+      "eventType": "communication.message_reaction_added",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Emoji reactions. Good sentiment signal without message content.",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/communication.message_reaction_added.schema.json",
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "communication.message_received",
+      "graphRequired": true,
+      "notes": "SMS/messaging received",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "content.text",
+        "content.rawText",
+        "toE164",
+        "fromE164"
+      ],
+      "requiredScopes": [
+        "consent.communication.messages"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "communication.message_sent",
+      "graphRequired": true,
+      "notes": "SMS/messaging sent",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "content.text",
+        "content.rawText",
+        "toE164",
+        "fromE164"
+      ],
+      "requiredScopes": [
+        "consent.communication.messages"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records message status transitions (delivered, read, failed) for UX updates.",
+      "enabled": true,
+      "eventType": "communication.message_status_changed",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Delivered/read/failed transitions; useful for UX but low brain value.",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records when the default outbound phone number is changed.",
+      "enabled": true,
+      "eventType": "communication.number_default_set",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Default outbound number updated.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "e164",
+        "phoneNumber"
+      ],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a phone number is purchased. Stores last4 digits only.",
+      "enabled": true,
+      "eventType": "communication.number_purchased",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "Store last4 only + numberId.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "e164",
+        "phoneNumber"
+      ],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "communication.thread_created",
+      "graphRequired": true,
+      "notes": "Conversation thread",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "participants.e164",
+        "participants.email",
+        "participants.phoneNumber"
+      ],
+      "requiredScopes": [
+        "consent.communication.messages"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a user joins or rehydrates an existing conversation thread.",
+      "enabled": true,
+      "eventType": "communication.thread_joined",
+      "graphMapping": "graph/mappings/communication.json",
+      "graphRequired": false,
+      "notes": "User joined/rehydrated a thread.",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "communication.messages",
+      "defaultPrivacyScope": "private",
+      "description": "Records typing indicator events for real-time messaging UX.",
+      "enabled": true,
+      "eventType": "communication.typing_indicator",
+      "graphMapping": null,
+      "graphRequired": false,
+      "notes": "Optional analytics. Consider sampling to reduce noise.",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "communication.messages"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "consent.scope_disabled",
+      "graphRequired": false,
+      "notes": "Consent scope disabled",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "consent.scope_enabled",
+      "graphRequired": false,
+      "notes": "Consent scope enabled",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "consent.updated",
+      "graphRequired": false,
+      "notes": "User consent preference changes - always allowed",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "consent.management",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a user accepts a new version of the consent agreement.",
+      "enabled": true,
+      "eventType": "consent.version_accepted",
+      "graphMapping": null,
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "consent.management"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "dashboard.usage",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a query is submitted to the dashboard. Stores query hash by default.",
+      "enabled": true,
+      "eventType": "dashboard.query_submitted",
+      "graphMapping": null,
+      "graphRequired": false,
+      "notes": "Store queryHash by default; raw query only under explicit scope.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "rawQuery"
+      ],
+      "requiredScopes": [
+        "dashboard.usage"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "email.account_connected",
+      "graphRequired": false,
+      "notes": "Email account connection",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "accessToken",
+        "refreshToken"
+      ],
+      "requiredScopes": [
+        "consent.email.metadata"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "email.attachment_added",
+      "graphRequired": true,
+      "notes": "Email attachment",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.email.content"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "email.body_indexed",
+      "graphRequired": true,
+      "notes": "Email content indexing - requires explicit consent",
+      "piiRisk": "very_high",
+      "redactKeys": [],
+      "redaction": [
+        "pii",
+        "secrets"
+      ],
+      "requiredScopes": [
+        "consent.email.content"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "email.message_received",
+      "graphRequired": true,
+      "notes": "Received email metadata only",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "body",
+        "rawHeaders",
+        "to",
+        "cc",
+        "bcc"
+      ],
+      "requiredScopes": [
+        "consent.email.metadata"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "email.message_sent",
+      "graphRequired": true,
+      "notes": "Sent email metadata only",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "body",
+        "rawHeaders",
+        "to",
+        "cc",
+        "bcc"
+      ],
+      "requiredScopes": [
+        "consent.email.metadata"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "email.sync_completed",
+      "graphRequired": false,
+      "notes": "Email sync status",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.email.metadata"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "email.thread_opened",
+      "graphRequired": false,
+      "notes": "Email engagement tracking",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "body",
+        "rawHeaders"
+      ],
+      "requiredScopes": [
+        "consent.email.metadata"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.account_synced",
+      "graphRequired": false,
+      "notes": "Account sync status",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "accountNumbers",
+        "routingNumber"
+      ],
+      "requiredScopes": [
+        "consent.finance.accounts"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.budget_created",
+      "graphRequired": true,
+      "notes": "Budget creation",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.budget_threshold_crossed",
+      "graphRequired": true,
+      "notes": "Budget alert",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.credit_alert_received",
+      "graphRequired": true,
+      "notes": "Credit monitoring alert",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "ssn"
+      ],
+      "requiredScopes": [
+        "consent.finance.credit"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.credit_report_refreshed",
+      "graphRequired": true,
+      "notes": "Credit report data",
+      "piiRisk": "very_high",
+      "redactKeys": [],
+      "redaction": [
+        "ssn",
+        "fullReportPdf",
+        "disputeDetails"
+      ],
+      "requiredScopes": [
+        "consent.finance.credit"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.credit_score_refreshed",
+      "graphRequired": true,
+      "notes": "Credit score update",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "ssn"
+      ],
+      "requiredScopes": [
+        "consent.finance.credit"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.insight_generated",
+      "graphRequired": true,
+      "notes": "Financial insight",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.plaid_item_linked",
+      "graphRequired": true,
+      "notes": "Links financial institution",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "accessToken",
+        "publicToken",
+        "institutionId",
+        "accountNumbers"
+      ],
+      "requiredScopes": [
+        "consent.finance.accounts"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.plaid_link_started",
+      "graphRequired": false,
+      "notes": "Plaid link flow started",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "publicToken",
+        "accessToken"
+      ],
+      "requiredScopes": [
+        "consent.finance.accounts"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.receipt_captured",
+      "graphRequired": true,
+      "notes": "Receipt image and extracted data - high PII risk",
+      "piiRisk": "very_high",
+      "redactKeys": [],
+      "redaction": [
+        "imageBytes",
+        "fullText",
+        "cardNumber"
+      ],
+      "requiredScopes": [
+        "consent.finance.receipts"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.receipt_line_items_extracted",
+      "graphRequired": true,
+      "notes": "Line item extraction",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.finance.receipts"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.receipt_matched_to_transaction",
+      "graphRequired": true,
+      "notes": "Receipt-transaction matching",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.finance.receipts",
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.receipt_ocr_completed",
+      "graphRequired": true,
+      "notes": "OCR processing completed",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "fullText"
+      ],
+      "requiredScopes": [
+        "consent.finance.receipts"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.spending_anomaly_detected",
+      "graphRequired": true,
+      "notes": "Anomaly detection insight",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.subscription_canceled_confirmed",
+      "graphRequired": true,
+      "notes": "Subscription cancellation",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.subscription_detected",
+      "graphRequired": true,
+      "notes": "Recurring payment detection",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "rawDescription"
+      ],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.subscription_updated",
+      "graphRequired": true,
+      "notes": "Subscription update",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "redaction": [
+        "rawDescription"
+      ],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.transaction_created",
+      "graphRequired": true,
+      "notes": "Creates Transaction nodes in Neo4j",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "accountNumber",
+        "routingNumber",
+        "cardNumber",
+        "pan",
+        "rawDescription"
+      ],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.transaction_deleted",
+      "graphRequired": false,
+      "notes": "Transaction tombstone",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "finance.transaction_updated",
+      "graphRequired": true,
+      "notes": "Transaction update",
+      "piiRisk": "high",
+      "redactKeys": [],
+      "redaction": [
+        "accountNumber",
+        "routingNumber",
+        "cardNumber",
+        "pan",
+        "rawDescription"
+      ],
+      "requiredScopes": [
+        "consent.finance.transactions"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "inputs.gesture_analytics",
+      "defaultPrivacyScope": "private",
+      "description": "Records swipe gesture events for UX analytics.",
+      "enabled": true,
+      "eventType": "inputs.gesture_swipe",
+      "graphMapping": "graph/mappings/inputs.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "preciseLocation"
+      ],
+      "requiredScopes": [
+        "inputs.gesture_analytics"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "inputs.gesture_analytics",
+      "defaultPrivacyScope": "private",
+      "description": "Records tap gesture events for UX analytics.",
+      "enabled": true,
+      "eventType": "inputs.gesture_tap",
+      "graphMapping": "graph/mappings/inputs.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "preciseLocation"
+      ],
+      "requiredScopes": [
+        "inputs.gesture_analytics"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "inputs.text_analytics",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a text input session starts. Stores counts and timings, not raw text.",
+      "enabled": true,
+      "eventType": "inputs.text_session_started",
+      "graphMapping": "graph/mappings/inputs.json",
+      "graphRequired": false,
+      "notes": "Use for in-app typing analytics only (counts/timings), not raw text by default.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "rawText"
+      ],
+      "requiredScopes": [
+        "inputs.text_analytics"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": false
+      },
+      "brainEnabled": true,
+      "consentScope": "inputs.text_analytics",
+      "defaultPrivacyScope": "private",
+      "description": "Records text input statistics like character count, backspaces, and typing speed.",
+      "enabled": true,
+      "eventType": "inputs.text_stats",
+      "graphMapping": "graph/mappings/inputs.json",
+      "graphRequired": false,
+      "notes": "Allowed fields: charCount, backspaceCount, wpmEstimate, pauseDurations.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "rawText",
+        "characters"
+      ],
+      "requiredScopes": [
+        "inputs.text_analytics"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/inputs.text_stats.schema.json",
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "nutrition.meals",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a food product barcode is scanned for nutritional lookup.",
+      "enabled": true,
+      "eventType": "nutrition.barcode_scanned",
+      "graphMapping": "graph/mappings/nutrition.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "nutrition.meals"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/nutrition.barcode_scanned.schema.json",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "nutrition.meals",
+      "defaultPrivacyScope": "private",
+      "description": "Records when macronutrients are estimated from a food photo or description.",
+      "enabled": true,
+      "eventType": "nutrition.macro_estimated",
+      "graphMapping": "graph/mappings/nutrition.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "nutrition.meals"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/nutrition.macro_estimated.schema.json",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "nutrition.meals",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a meal is logged with nutritional information.",
+      "enabled": true,
+      "eventType": "nutrition.meal_logged",
+      "graphMapping": "graph/mappings/nutrition.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "nutrition.meals"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/nutrition.meal_logged.schema.json",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "nutrition.meals",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a food photo is captured for macro estimation. Image stored in blob storage.",
+      "enabled": true,
+      "eventType": "nutrition.photo_captured",
+      "graphMapping": "graph/mappings/nutrition.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "imageBytes"
+      ],
+      "requiredScopes": [
+        "nutrition.meals"
+      ],
+      "requiresBlob": true,
+      "retentionDays": 365,
+      "schema": null,
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "sleep.sessions",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a user rates their sleep quality after waking.",
+      "enabled": true,
+      "eventType": "sleep.quality_rated",
+      "graphMapping": "graph/mappings/sleep.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "sleep.sessions"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/sleep.quality_rated.schema.json",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "sleep.sessions",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a sleep session ends with duration and quality metrics.",
+      "enabled": true,
+      "eventType": "sleep.session_ended",
+      "graphMapping": "graph/mappings/sleep.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "sleep.sessions"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/sleep.session_ended.schema.json",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "sleep.sessions",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a sleep session starts for sleep tracking.",
+      "enabled": true,
+      "eventType": "sleep.session_started",
+      "graphMapping": "graph/mappings/sleep.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "sleep.sessions"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "social.activity",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a social message is sent. Content kept private by default.",
+      "enabled": true,
+      "eventType": "social.message_sent",
+      "graphMapping": "graph/mappings/social.json",
+      "graphRequired": false,
+      "notes": "If this is a social-networking app, keep content private by default; allowSocial=false unless explicitly opted in.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "messageText",
+        "attachments"
+      ],
+      "requiredScopes": [
+        "social.activity"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/social.message_sent.schema.json",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "social.activity",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a reaction is added to social content.",
+      "enabled": true,
+      "eventType": "social.reaction_added",
+      "graphMapping": "graph/mappings/social.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "social.activity"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/social.reaction_added.schema.json",
+      "sensitivity": "med",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Records when the app is moved to the background.",
+      "enabled": true,
+      "eventType": "system.app_backgrounded",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Records when the app is opened. Minimal lifecycle signal.",
+      "enabled": true,
+      "eventType": "system.app_opened",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "notes": "Minimal lifecycle signal.",
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/system.app_opened.schema.json",
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "location.background_coarse",
+      "defaultPrivacyScope": "private",
+      "description": "Records background location updates. High-risk, disabled by default.",
+      "enabled": false,
+      "eventType": "system.location_background_update",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "notes": "Background location is high-risk; keep disabled by default.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "latitude",
+        "longitude",
+        "exact_address"
+      ],
+      "requiredScopes": [
+        "location.background_coarse"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T2",
+      "sensitivity": "high",
+      "tier": "T2"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "location.background_precise",
+      "defaultPrivacyScope": "private",
+      "description": "Records precise background location updates. Highest-risk, disabled by default.",
+      "enabled": false,
+      "eventType": "system.location_background_update_precise",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "notes": "Background + precise is highest-risk; keep disabled by default.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "exact_address"
+      ],
+      "requiredScopes": [
+        "location.background_precise"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T3",
+      "sensitivity": "high",
+      "tier": "T3"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "location.foreground_coarse",
+      "defaultPrivacyScope": "private",
+      "description": "Records foreground location updates. Coarse location (geohash/city) by default.",
+      "enabled": true,
+      "eventType": "system.location_foreground_update",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "notes": "Coarse by default (geohash/city). Only include lat/lon if precise scope enabled.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "latitude",
+        "longitude",
+        "exact_address"
+      ],
+      "requiredScopes": [
+        "location.foreground_coarse"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/system.location_foreground_update.schema.json",
+      "scopeApps": [
+        "dashboard",
+        "calendar",
+        "finance"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "location.foreground_precise",
+      "defaultPrivacyScope": "private",
+      "description": "Records precise foreground location updates. High-risk, disabled by default.",
+      "enabled": false,
+      "eventType": "system.location_foreground_update_precise",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "notes": "Precise location is high-risk; keep disabled unless explicitly enabled.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "exact_address"
+      ],
+      "requiredScopes": [
+        "location.foreground_precise"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "calendar",
+        "finance"
+      ],
+      "scopeTier": "T2",
+      "sensitivity": "high",
+      "tier": "T2"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "location.foreground_coarse",
+      "defaultPrivacyScope": "private",
+      "description": "Records user-initiated location check-ins. Higher trust, less frequent.",
+      "enabled": true,
+      "eventType": "system.location_manual_checkin",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "notes": "User-initiated check-in; can be higher trust and less frequent.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "latitude",
+        "longitude",
+        "exact_address"
+      ],
+      "requiredScopes": [
+        "location.foreground_coarse"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/system.location_manual_checkin.schema.json",
+      "scopeApps": [
+        "dashboard",
+        "calendar",
+        "finance"
+      ],
+      "scopeTier": "T1",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Records when the user changes location permission settings.",
+      "enabled": true,
+      "eventType": "system.location_permission_changed",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "notes": "Record when user changes location permission for transparency.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "authorizationStatusRaw"
+      ],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "location.visits_significant_changes",
+      "defaultPrivacyScope": "private",
+      "description": "Records significant location changes using iOS-style significant change monitoring.",
+      "enabled": false,
+      "eventType": "system.location_significant_change",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "notes": "Use iOS 'significant location change' style events when opted in.",
+      "piiRisk": "medium",
+      "redactKeys": [
+        "latitude",
+        "longitude",
+        "exact_address"
+      ],
+      "requiredScopes": [
+        "location.visits_significant_changes"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard"
+      ],
+      "scopeTier": "T2",
+      "sensitivity": "high",
+      "tier": "T2"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "system.permission_status_changed",
+      "graphRequired": false,
+      "notes": "System permission status changes",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "system.smoke_test",
+      "graphRequired": false,
+      "notes": "Pipeline verification event, no PII",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Records when an event upload fails for diagnostic purposes.",
+      "enabled": true,
+      "eventType": "system.upload_failed",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "errorStack",
+        "authorization",
+        "token"
+      ],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Records when an event upload batch starts.",
+      "enabled": true,
+      "eventType": "system.upload_started",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [
+        "authorization",
+        "token"
+      ],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "system.telemetry_basic",
+      "defaultPrivacyScope": "private",
+      "description": "Records when an event upload batch succeeds.",
+      "enabled": true,
+      "eventType": "system.upload_succeeded",
+      "graphMapping": "graph/mappings/system.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "system.telemetry_basic"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "scopeApps": [
+        "dashboard",
+        "browser",
+        "tasks",
+        "calendar",
+        "finance",
+        "email"
+      ],
+      "scopeTier": "T0",
+      "sensitivity": "low",
+      "tier": "T0"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "tasks.task_completed",
+      "graphRequired": true,
+      "notes": "Task completion edge",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.tasks"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "tasks.task_created",
+      "graphRequired": true,
+      "notes": "Task node in graph",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [
+        "notes"
+      ],
+      "requiredScopes": [
+        "consent.tasks"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "tasks.task_deleted",
+      "graphRequired": false,
+      "notes": "Task deletion tombstone",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.tasks"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "tasks.task_generated_from_calendar",
+      "graphRequired": true,
+      "notes": "AI-generated task from calendar event",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.tasks",
+        "consent.calendar.events"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "tasks.task_generated_from_email",
+      "graphRequired": true,
+      "notes": "AI-generated task from email",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [],
+      "requiredScopes": [
+        "consent.tasks",
+        "consent.email.metadata"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "brainEnabled": false,
+      "enabled": true,
+      "eventType": "tasks.task_updated",
+      "graphRequired": true,
+      "notes": "Task update tracking",
+      "piiRisk": "low",
+      "redactKeys": [],
+      "redaction": [
+        "notes"
+      ],
+      "requiredScopes": [
+        "consent.tasks"
+      ],
+      "retentionDays": 365,
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "workouts.sessions",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a workout set is logged with reps, weight, and exercise details.",
+      "enabled": true,
+      "eventType": "workouts.set_logged",
+      "graphMapping": "graph/mappings/workouts.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "workouts.sessions"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/workouts.set_logged.schema.json",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": true,
+        "graphRequired": true
+      },
+      "brainEnabled": true,
+      "consentScope": "workouts.sessions",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a workout session ends with duration and exercise summary.",
+      "enabled": true,
+      "eventType": "workouts.workout_ended",
+      "graphMapping": "graph/mappings/workouts.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "workouts.sessions"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": "schemas/workouts.workout_ended.schema.json",
+      "sensitivity": "low",
+      "tier": "T1"
+    },
+    {
+      "allowSocial": false,
+      "brain": {
+        "enabled": false,
+        "graphRequired": false
+      },
+      "brainEnabled": false,
+      "consentScope": "workouts.sessions",
+      "defaultPrivacyScope": "private",
+      "description": "Records when a workout session starts.",
+      "enabled": true,
+      "eventType": "workouts.workout_started",
+      "graphMapping": "graph/mappings/workouts.json",
+      "graphRequired": false,
+      "piiRisk": "medium",
+      "redactKeys": [],
+      "requiredScopes": [
+        "workouts.sessions"
+      ],
+      "requiresBlob": false,
+      "retentionDays": 365,
+      "schema": null,
+      "sensitivity": "low",
+      "tier": "T1"
+    }
+  ],
+  "generatedAt": "2026-01-11T13:54:51.924101Z",
+  "tierSummary": {
+    "T0": 14,
+    "T1": 88,
+    "T2": 3,
+    "T3": 6
+  },
+  "version": "2026-01-11"
+}

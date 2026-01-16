@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/browser.search_performed.schema.json",
+  "title": "Browser Search Performed Event Payload",
+  "description": "Schema for the payload of browser.search_performed events tracking search queries",
+  "type": "object",
+  "required": ["searchEngine"],
+  "properties": {
+    "searchEngine": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Search engine used (e.g., google, bing, duckduckgo)"
+    },
+    "queryHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the search query for privacy-preserving tracking"
+    },
+    "queryWordCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of words in the search query"
+    },
+    "queryCharCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of characters in the search query"
+    },
+    "isVoiceSearch": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the search was initiated via voice"
+    },
+    "searchType": {
+      "type": "string",
+      "enum": ["web", "images", "videos", "news", "shopping", "maps", "other"],
+      "default": "web",
+      "description": "Type of search performed"
+    },
+    "hasQuotes": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the query contained quoted phrases"
+    },
+    "hasOperators": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the query contained search operators (site:, -term, etc.)"
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": ["address_bar", "search_box", "new_tab", "context_menu", "other"],
+      "description": "Where the search was initiated from"
+    },
+    "tabId": {
+      "type": "string",
+      "description": "Identifier for the browser tab"
+    },
+    "windowId": {
+      "type": "string",
+      "description": "Identifier for the browser window"
+    },
+    "resultCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of results shown (if available)"
+    },
+    "searchDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time to display results in milliseconds"
+    },
+    "refinement": {
+      "type": "object",
+      "properties": {
+        "isRefinement": {
+          "type": "boolean",
+          "description": "Whether this search refines a previous one"
+        },
+        "previousQueryHash": {
+          "type": "string",
+          "description": "Hash of the previous query if this is a refinement"
+        }
+      },
+      "description": "Search refinement information"
+    },
+    "safeSearchEnabled": {
+      "type": "boolean",
+      "description": "Whether safe search was enabled"
+    },
+    "incognito": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the search was performed in incognito/private mode"
+    }
+  },
+  "additionalProperties": true
+}

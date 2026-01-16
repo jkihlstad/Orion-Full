@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion.suite/schemas/finance.receipt_matched_to_transaction.schema.json",
+  "title": "Finance Receipt Matched to Transaction Event Payload",
+  "description": "Schema for the payload of finance.receipt_matched_to_transaction events",
+  "type": "object",
+  "required": ["receiptId", "transactionId"],
+  "properties": {
+    "receiptId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the receipt"
+    },
+    "transactionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the matched transaction"
+    },
+    "matchMethod": {
+      "type": "string",
+      "enum": ["automatic", "manual", "suggested"],
+      "description": "How the match was made"
+    },
+    "matchConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score of the match"
+    },
+    "matchFactors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "factor": {
+            "type": "string",
+            "enum": ["amount", "date", "merchant", "location", "card_last4"]
+          },
+          "receiptValue": {
+            "type": "string"
+          },
+          "transactionValue": {
+            "type": "string"
+          },
+          "match": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "Factors used for matching"
+    },
+    "receiptAmount": {
+      "type": "number",
+      "description": "Amount from the receipt"
+    },
+    "transactionAmount": {
+      "type": "number",
+      "description": "Amount from the transaction"
+    },
+    "amountDifference": {
+      "type": "number",
+      "description": "Difference between receipt and transaction amounts"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "receiptDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date from the receipt"
+    },
+    "transactionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date from the transaction"
+    },
+    "daysDifference": {
+      "type": "integer",
+      "description": "Days between receipt and transaction dates"
+    },
+    "receiptMerchant": {
+      "type": "string",
+      "description": "Merchant name from receipt"
+    },
+    "transactionMerchant": {
+      "type": "string",
+      "description": "Merchant name from transaction"
+    },
+    "merchantMatchScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Similarity score for merchant names"
+    },
+    "accountRef": {
+      "type": "string",
+      "description": "Reference to the financial account"
+    },
+    "previousMatchAttempts": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of previous match attempts"
+    },
+    "rejectedMatchCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of suggested matches user rejected"
+    },
+    "timeToMatchMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time from receipt capture to match in milliseconds"
+    }
+  },
+  "additionalProperties": true
+}
